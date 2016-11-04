@@ -1,0 +1,52 @@
+﻿@using HKSJ.WBVV.Common.Http
+
+@{
+    int uid = ViewBag.Uid;
+
+}
+<script>
+    $(function(){
+        document.title= '@ViewBag.Title'+'-'+companyTitle;
+    });
+</script>
+
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/play.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/playease.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/person_com.css" />
+}
+
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/videoplayer/flash/swfobject.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/videoplayer/javascript/common.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/videoplayer/javascript/video.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/videoplayer/javascript/videoPlayerInit.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/common.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/player.js" type="text/javascript"></script>
+}
+<script type="text/javascript">
+    videoData=@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+    vId=@ViewBag.VideoId;
+    watchTime=@ViewBag.WatchTime;
+</script>
+<div class="wrap" style="clear: both" id="topcontainer">
+
+    @* <div class="play_title" id="divTitle"><p data-bind="text:title"></p></div>*@
+
+    <!-- 播放  -->
+    @Html.Partial("PlayLeft")
+    <!-- 精彩评论  -->
+    @Html.Partial("PlayRight")
+    <div class="clear"></div>
+
+
+    <!-- 评论内容 -->
+    <a name="cmt"></a>
+    @Html.Partial("PlayComment")
+    <!-- 分享  -->
+</div>
+
+<input type="hidden" id="uid" value="@uid" />

@@ -1,0 +1,37 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<div class="row-fluid">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <td style="width: 8px;">
+                    <input type="checkbox" onclick="checkAll(this)" /></td>
+                <th>@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_th_SeqNo")</th>
+                <th>@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_th_SendType")</th>
+                <th>@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_th_ReceiveUser")</th>
+                <th>@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_th_MessContent")</th>
+                <th data-sort="CreateTime" data-desc="true" class="sorting" onclick="checkSort(this)">@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_th_CreateTime")</th>
+                <th>@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_th_Creator")</th>
+                <th>@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_th_Operation")</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:data">
+        
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked:ischeck" /></td>
+                <td data-bind="text:index"></td>
+                <td data-bind="text:model.UserByType==1?'@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_td_Appointeduser")':'@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_td_Alluser")'"></td>
+                <td data-bind="text:splitStr(model.UserBy.join(';')),attr:{title:model.UserBy.join(';')}"></td>
+                <td data-bind="text:splitStr(model.MessageDesc),attr:{title:model.MessageDesc}"></td>
+                <td data-bind="text:model.CreateTime"></td>
+                <td data-bind="text:model.LoginName"></td>
+                <td>
+                    <a class="btn mini green" data-bind="click:function(){seeSystemMessage(model.Id);}"><i class="icon-search"></i>@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_List_a_View")</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

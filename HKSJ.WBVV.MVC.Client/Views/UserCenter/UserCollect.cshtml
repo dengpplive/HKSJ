@@ -1,0 +1,105 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/login.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/account.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/playease.css" />
+<script type="text/javascript">
+    document.title = '@GlobalMemberInfo.NickName' + "-" + Translate("web_Client_Views_UserCenter_UserCollect_Title") + " " + companyTitle;
+    var userId = "@GlobalMemberInfo.UserId";
+    var menuId = 7;
+</script>
+<div class="wrap view">
+    <div style="margin-right:48px;" align="left" height="740px" width="250px">
+        @Html.Partial("_UserMenu")
+    </div>
+    <div class="view_right" id="collect">
+        <div class="v_r_title"><span class="v_r_ti_cur">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserCollect_MyCollectTitle")</span></div>
+        <div class="v_r_tu" loading="collect">
+            <p class="c_r_num" data-bind="html:$root.showTotalHtml()"></p>
+            <div class="c_r_sp">
+                <ul data-bind="foreach:collects">
+                    <li>
+                        <a data-bind="attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank">
+                            <div class="play_img" wth="176" hht="132">
+                                <i></i>
+                                <img data-bind="attr:{src:$data.SmallPicturePath,title:$data.Title}">
+                            </div>
+                        </a>
+                        <div class="c_r_jianjie">
+                            <h4><a class="c_r_01" title="" data-bind="text:$data.Title,attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank"></a></h4>
+                            <p>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserCollect_CollectIn")<span data-bind="text:$data.CreateTime"></span></p>
+                            <a class="c_r_02" href="javascript:void(0);" data-bind="click:function(){globalPromptBox.showPromptMessage('@LanguageUtil.Translate("web_Client_Views_UserCenter_UserCollect_Tip")','@LanguageUtil.Translate("web_Client_Views_UserCenter_UserCollect_ConfirmCancelCollect")', $root.unCollect,$data,false);}">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserCollect_CancelCollect")</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!-- 分页 begin-->
+        <div class="v_fun_wz02 v_funney_wz" id="page">
+
+        </div>
+        <!-- 分页 end -->
+    </div>
+    <div class="clear"></div>
+</div>
+<script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+<script>
+    var totalCount = 1, page = 1, totalPages = 1, pageSize = 40;
+    function vm_collects() {
+        var self = this;
+        self.userId = userId;
+        self.collects = ko.observableArray();
+
+        self.showTotalHtml = ko.computed(function () {
+            var patString = '共<span>{0}</span>条收藏';
+            return patString.Format(self.collects().length);
+        }, self);
+
+        self.unCollect = function (collect) {
+            var url = api + 'UserCollect/UnCollectVideo';
+            var submitData = { id: collect.Id, uid: collect.UserId, vid: collect.VideoId };
+            $.post(url, submitData,
+                function (d) {
+                    //console.log(d);
+                    if (d.Success && d.Data) {
+                        self.collects.remove(collect);
+                        self.loadCollectsData(page);
+                        globalPromptBox.showGeneralMassage(0, Translate("web_Client_Views_UserCenter_UserCollect_CancelSuccess"), 1000, false);
+                    }
+                }, 'json');
+        }
+        self.loadCollectsData = function (page) {
+            addMask($("div[loading='collect']"), 1);
+            $(".c_r_num").hide();
+            var url = api + 'UserCollect/GetUserCollectList?uid=' + self.userId + '&page=' + page + '&size=' + pageSize + '&v=' + Math.random();
+            $.getJSON(url, function (d) {
+                try {
+                    if (d.Success && d.Data.TotalCount > 0) {
+                        self.collects(d.Data.UserCollectViews);
+                        totalCount = d.Data.TotalCount;
+                    }
+
+                    var pagecount = (totalCount % pageSize) > 0 ? parseInt(totalCount / pageSize) + 1 : parseInt(totalCount / pageSize);
+                    $("#page").pager({
+                        pagenumber: page, pagecount: pagecount, totalcount: totalCount, buttonClickCallback: function (pageclickednumber) {
+                            //单击加载
+                            self.loadCollectsData(pageclickednumber);
+                        }
+                    });
+
+                } finally {
+                    removeMask($("div[loading='collect']"));
+                    $(".c_r_num").show();
+                }
+            });
+        }
+        self.getPlayUrl = function (vid) {
+            return '@ServerHelper.RootPath' + '/Play/Index?videoId=' + vid;
+        }
+    };
+    var vm = new vm_collects();
+    vm.loadCollectsData(page);
+    ko.applyBindings(vm, document.getElementById('collect'));
+</script>

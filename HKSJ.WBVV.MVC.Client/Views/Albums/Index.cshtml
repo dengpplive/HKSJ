@@ -1,0 +1,91 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@*@{
+        ViewBag.Title = "专辑-我播";
+    }*@
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/Album.css" />
+    <link href="@ServerHelper.RootPath/Content/css/playease.css" rel="stylesheet" />
+
+}
+<script>
+    document.title = @LanguageUtil.Translate("web_View_Albums_Index_title")+"-" + companyTitle;
+</script>
+@Html.Partial("_Menu")
+
+<!-- album 开始  -->
+<div class="album wrap">
+
+    <div class="wrap_alb_bt_h3">@LanguageUtil.Translate("web_View_Albums_Index_tuijianalbum")</div>
+    <div class="wrap_alb_bt_nav"><a class="alb_mine" href="@ServerHelper.RootPath/UserCenter/UserAlbums" target="_blank">@LanguageUtil.Translate("web_View_Albums_Index_createalbum")</a> </div>
+    <div class="clear"></div>
+
+</div>
+<!-- album 结束  -->
+<!-- 推荐alb_pet 开始  -->
+<div class="alb_pet wrap" id="divRecommendAlbums" data-bind="foreach:{data:SpecialVideoList,as:'sl'}">
+    <div class="alb_pet_top">
+        <div class="wrap_biaoti">
+            <div class="wrap_bt_h3"><h3><a target="_blank"  data-bind="text:Title,attr:{href:$root.GoAlbumDetail(sl.Id)}"></a></h3></div>
+            <div class="wrap_x_title_more"><a target="_blank" data-bind="attr:{href:$root.GoAlbumDetail(sl.Id)}">@LanguageUtil.Translate("web_View_Albums_Index_more")</a></div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="alb_pet_tup">
+            <ul data-bind="foreach:{data:sl.SpecialVideoList,as:'svl'}">
+                <li class="alb_p_img play_img">
+                    <a target="_blank"  data-bind="attr:{href:$root.GoPlay(svl.Id)}">
+                        <i data-bind="attr:{title:svl.Title}"></i>
+                        <img data-bind="attr:{src:svl.SmallPicturePath}">
+                    </a>
+                    <div class="alb_pet_i_wz wrap_l_tu_bg">
+                        <a target="_blank" data-bind="attr:{title:svl.Title,href:$root.GoPlay(svl.Id)},text:svl.Title"></a>
+                    </div>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+
+
+</div>
+<!-- 推荐alb_pet 结束  -->
+<!-- 热门album 开始  -->
+<div class="album2 wrap">
+
+    <div class="album_news">
+
+        <div class="wrap_alb_bt2_h3">@LanguageUtil.Translate("web_View_Albums_Index_musthotalbum")</div>
+        @*<div class="wrap_alb_bt2_nav"><a href="javascript:void(0);">更多</a></div>*@
+
+        <div class="clear"></div>
+
+    </div>
+
+    <div class="alb_pet_tup" id="divHotAlbums">
+        <ul data-bind="foreach:{data:SpecialVideoList,as:'sl'}">
+            <li class="alb_p_img">
+                <a  data-bind="attr:{href:$root.GoAlbumDetail(sl.Id),title:sl.Title}">
+                    <div wth="224" hht="160">
+                        <i></i>
+                        <img data-bind="attr:{src:sl.Thumbnail}">
+                    </div>
+                </a>
+                <div class="alb_pet_i_wz wrap_l_tu_bg">
+                    <h6><a data-bind="text:sl.Title,attr:{title:sl.Title,href:$root.GoAlbumDetail(sl.Id)}"></a></h6>
+                    <a href="javascript:void(0);" data-bind="text:sl.Remark"></a>
+                </div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+
+</div>
+<!-- 热门album 结束  -->
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/Albums.js" type="text/javascript"></script>
+}

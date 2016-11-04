@@ -1,0 +1,67 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@*@{
+        ViewBag.Title = "专辑详情-我播";
+    }*@
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/header.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/search.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/login.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/paging.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/playease.css" />
+}
+<script>
+    document.title = @LanguageUtil.Translate("web_View_Albums_AlbumVideos_title")+"-" + companyTitle;
+</script>
+@Html.Partial("_Menu")
+
+
+<div class="wrap">
+    <div class="search_center album" id="divAlbumVideos">
+        <div class="album_title">
+            <p class="album_t_h" data-bind="text:Title"></p>
+            <div class="album_jianjie"><p>@LanguageUtil.Translate("web_View_Albums_AlbumVideos_jianjie")：<!--ko text:Remark--><!--/ko--></p></div>
+            <span>@LanguageUtil.Translate("web_View_Albums_AlbumVideos_paixu")</span>
+            <span data-bind="click:function(){doCheck('Y');}">
+                <input type="checkbox" name="cbxHot" id="cbxHot"><span>@LanguageUtil.Translate("web_View_Albums_AlbumVideos_cbxhot")</span>
+            </span>
+            <span data-bind="click:function(){doCheck('N');}">
+                <input type="checkbox" name="cbxTime" id="cbxTime"><span>@LanguageUtil.Translate("web_View_Albums_AlbumVideos_cbxTime")</span>
+            </span>
+        </div>
+        <div class="search_c_list al_list">
+            <ul>
+                <!--ko foreach:SpecialVideoList-->
+                <li>
+                    <div class="play_img">
+                        <a href="javascript:void(0);" data-bind="click:function(){$root.goPlay(Id);}">
+                            <i data-bind="attr:{title:Title}"></i>
+                            <img data-bind="attr:{src:SmallPicturePath}">
+                        </a>
+                    </div>
+                    <div>
+                        <h6><a class="search_c_ti" href="javascript:void(0);" data-bind="text:Title,attr:{title:Title},click:function(){$root.goPlay(Id);}"></a></h6>
+                        <p>@LanguageUtil.Translate("web_View_Albums_AlbumVideos_fabu")：<!--ko text:ShowTimeSpan--><!--/ko--></p>
+                        <p>@LanguageUtil.Translate("web_View_Albums_AlbumVideos_bofang")：<!--ko text:FormatPlayCount--><!--/ko--></p>
+                    </div>
+                </li>
+
+                <!--/ko-->
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <!-- 分页 begin -->
+        <div class="v_fun_wz02 v_funney_wz" id="page">
+            <div class="clear"></div>
+        </div>
+
+        <!-- 分页 end -->
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/AlbumVideos.js" type="text/javascript"></script>
+}

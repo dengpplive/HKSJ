@@ -1,0 +1,531 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Extender.LinqExtender
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/webtags/infotag.css" rel="stylesheet" />
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+    <script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+    <script src="~/Content/videoplayer/flash/swfobject.js"></script>
+    <script src="~/Content/videoplayer/javascript/common.js"></script>
+    <script src="~/Content/videoplayer/javascript/video.js"></script>
+    <script src="~/Content/videoplayer/javascript/videoPlayerInit.js"></script>
+    <script src="~/Content/webtags/infotag.js"></script>
+</head>
+<body class="page-header-fixed" style="background-color: #FFF !important;">
+    <!--begin 导航-->
+    <div class="no-bottom-space">
+        <ul class="breadcrumb">
+            <li>
+                <span><strong>@LanguageUtil.Translate("admin_Views_Video_Index_Span_manage")</strong></span>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="@Url.Content("~/Video")">@LanguageUtil.Translate("admin_Views_Video_Index_a_manageVideo")</a></li>
+        </ul>
+    </div>
+    <!--end 导航-->
+    <!--begin搜索条件-->
+    <div class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Index_label_VideoTitle")</label>
+            <div class="controls">
+                <input type="text" placeholder="@LanguageUtil.Translate("admin_Views_Video_Index_inputTips_VideoTitle")" class="m-wrap medium" id="titlesearch">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Index_label_UploaderID")</label>
+            <div class="controls">
+                <input type="text" placeholder="@LanguageUtil.Translate("admin_Views_Video_Index_inputTips_UploaderID")" class="m-wrap small" id="updateManageId" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Index_label_UploadeTime")</label>
+            <input id="datastr" value="@ViewBag.dataformat" type="hidden" />
+            <div class="controls">
+                <select name="" id="selectDay" onchange="selectDate(this.value)" class="form-control">
+                    <option value="1">@LanguageUtil.Translate("admin_Views_Video_Index_option_UploadeTime_ThisWeek")</option>
+                    <option value="2">@LanguageUtil.Translate("admin_Views_Video_Index_option_UploadeTime_LastWeek")</option>
+                    <option value="3">@LanguageUtil.Translate("admin_Views_Video_Index_option_UploadeTime_ThisMonth")</option>
+                    <option value="4">@LanguageUtil.Translate("admin_Views_Video_Index_option_UploadeTime_LastMonth")</option>
+                    <option value="5">@LanguageUtil.Translate("admin_Views_Video_Index_option_UploadeTime_ThisYear")</option>
+                    <option value="0" selected="selected">@LanguageUtil.Translate("admin_Views_Video_Index_option_UploadeTime_All")</option>
+                </select>
+                <input type="text" value="" id="beginTime" name="beginTime" onclick="WdatePicker({maxDate:'@DateTime.Now.ToString("yyyy-MM-dd") '});" class="inp-t ml30" style=" width:118px"><i class="mlr20">@LanguageUtil.Translate("admin_Views_Video_Index_i_UploadeTimeTo")</i>
+                <input type="text" value="" id="endTime" name="endTime" onclick="WdatePicker({maxDate:'@DateTime.Now.ToString("yyyy-MM-dd") '});" class="inp-t" style=" width:118px">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Index_label_VideoClass")</label>
+            <div class="controls">
+                <select class="per_a_add_nr_l_sort" style="float: left" id="category">
+                    <option value="-1">@LanguageUtil.Translate("admin_Views_Video_Index_option_AllClass")</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Index_label_AuditStatus")</label>
+            <div class="controls">
+                <select class="per_a_add_nr_l_sort" style="float: left" id="videoState">
+                    <option value="-1">@LanguageUtil.Translate("admin_Views_Video_Index_videoState_All")</option>
+                    <option value="2">@LanguageUtil.Translate("admin_Views_Video_Index_videoState_Auditing")</option>
+                    <option value="3">@LanguageUtil.Translate("admin_Views_Video_Index_videoState_AuditPass")</option>
+                    <option value="4">@LanguageUtil.Translate("admin_Views_Video_Index_videoState_AuditNotPass")</option>
+                    <option value="0">@LanguageUtil.Translate("admin_Views_Video_Index_videoState_Transcoding")</option>
+                    <option value="1">@LanguageUtil.Translate("admin_Views_Video_Index_videoState_TranscodeFail")</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Index_label_VideoResource")</label>
+            <div class="controls">
+                <select class="per_a_add_nr_l_sort" style="float: left;" id="videoSource">
+                    <option value="-1">@LanguageUtil.Translate("admin_Views_Video_Index_VideoResource_All")</option>
+                    <option value="0">@LanguageUtil.Translate("admin_Views_Video_Index_VideoResource_BackGround")</option>
+                    <option value="1">@LanguageUtil.Translate("admin_Views_Video_Index_VideoResource_ForeGround")</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="btn blue" onclick="javascript: SearchData();">@LanguageUtil.Translate("admin_Views_Video_Index_button_Search")</button>
+        </div>
+
+    </div>
+    <!--end搜索条件-->
+    <div class="responsive" data-tablet="fix-offset" id="content">
+        <div class="container-fluid">
+
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-table">@LanguageUtil.Translate("admin_Views_Video_Index_i_list")</i>
+                    </div>
+                </div>
+                <div class="portlet-body">
+
+                    @Html.Partial("_List")
+                    @Html.Partial("_Page")
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<input type="hidden" id="videoPath" />
+<script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="@Url.Content("~/Content/bootstrap/js/excanvas.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/respond.min.js")" type="text/javascript"></script>
+    <![endif]-->
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.uniform.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.blockui.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/knockout-2.2.0.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/pageCommon.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    viewModel.userId = "@WebContext.Manage.Id";
+    viewModel.listUrl = api + "Video/GetVideosPageResult";
+    viewModel.editUrl = api + "Video/GetAVideoById";
+
+
+    // viewModel.init();
+</script>
+@Html.Partial("_Alert")
+@Html.Partial("_Confirm")
+@Html.Partial("_Edit")
+@*@Html.Partial("_Approve")*@
+
+<script>
+    var adviceData = [{ "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_life")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_familybonds")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_love")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_Classic")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_youth")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_dubbing")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_nostalgia")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_nostalgia_Originality")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_nostalgia_comedy")" }, { "content": "@LanguageUtil.Translate("admin_Views_Video_Index_js_advicetags_nostalgia_school")" }];
+    var oldData;
+    var SaveTags;
+    var OldCid;
+    $(function () {
+        LoadCategoryList();
+
+        $("#categoryedit").on("change", function () {
+            if (OldCid != $('#categoryedit :selected').parent().attr('value'))
+            {
+                getPropertyData(0, "");
+                OldCid = $('#categoryedit :selected').parent().attr('value');
+            }
+        });
+    });
+
+    //搜索
+    function SearchData() {
+        var title = $("#titlesearch").val();
+        var updateManageId = $("#updateManageId").val();
+        var beginTime = $("#beginTime").val();
+        var endTime = $("#endTime").val();
+        var categoryId = $("#category").val();
+        var videoState = $("#videoState").val();
+        var videoSource = $("#videoSource").val();
+        var conditions = [];
+        conditions.push({
+            FiledName: "Title",
+            FiledValue: "",
+            ExpressionType: 2,
+            ExpressionLogic: 2
+        });
+        if (title != "") {
+            conditions.push({
+                FiledName: "Title",
+                FiledValue: title,
+                ExpressionType: 9,
+                ExpressionLogic: 2
+            });
+        }
+        if (updateManageId != "" && updateManageId > 0) {
+            conditions.push({
+                FiledName: "CreateManageId",
+                FiledValue: updateManageId,
+                ExpressionType: 1,
+                ExpressionLogic: 2
+            });
+        }
+        if (beginTime != "") {
+            conditions.push({
+                FiledName: "CreateTime",
+                FiledValue: beginTime,
+                ExpressionType: 4,
+                ExpressionLogic: 2
+            });
+        }
+        if (endTime != "") {
+            conditions.push({
+                FiledName: "CreateTime",
+                FiledValue: endTime,
+                ExpressionType: 6,
+                ExpressionLogic: 2
+            });
+        }
+        if (categoryId > 0) {
+            conditions.push({
+                FiledName: "CategoryId",
+                FiledValue: categoryId,
+                ExpressionType: 1,
+                ExpressionLogic: 2
+            });
+        }
+        if (videoState > -1) {
+            conditions.push({
+                FiledName: "VideoState",
+                FiledValue: videoState,
+                ExpressionType: 1,
+                ExpressionLogic: 2
+            });
+        }
+        if (videoSource > -1) {
+            conditions.push({
+                FiledName: "VideoSource",
+                FiledValue: videoSource == 0 ? "false" : "true",
+                ExpressionType: 1,
+                ExpressionLogic: 2
+            });
+        }
+        var ordercondtions = [];
+        ordercondtions.push({
+            FiledName: "CreateTime",
+            IsDesc: "true"
+        });
+        viewModel.ordercondtions(ordercondtions);
+        viewModel.condtions(conditions);
+        viewModel.initData();
+    }
+    ;
+
+    //选择日期
+    function selectDate(obj) {
+        var j = (parseInt(obj) * 2) - 2;
+        var i = (parseInt(obj) * 2) - 1;
+        if (obj == 0) {
+            $("#beginTime").val("");
+            $("#endTime").val("");
+            return;
+        } else {
+            var datastr = $("#datastr").val();
+
+            if (typeof (datastr) != "undefined") {
+                var array = datastr.split(',');
+            }
+            $("#beginTime").val(array[j]);
+            $("#endTime").val(array[i]);
+        }
+    }
+
+    function LoadCategoryList() {
+        $.getJSON(api + "Category/GetMenuViewList", function (data) {
+            // $("#category").html("");
+            for (var i = 0; i < data.length; i++) {
+                addSelectOption($("#category"), data[i]);
+                addeditSelectOption($("#categoryedit"), data[i]);
+            }
+        });
+    }
+
+    ;
+
+    function addSelectOption($selector, obj) {
+        if (obj.ChildCategorys.length != 0) {
+            $selector.append("<optgroup value = \"" + obj.ParentCategory.Id + "\" label=\"" + obj.ParentCategory.Name + "\"> </optgroup>");
+            for (var i = 0; i < obj.ChildCategorys.length; i++) {
+
+                addSelectOption($("#category [value='" + obj.ParentCategory.Id + "']"), obj.ChildCategorys[i]);
+            }
+        } else {
+            $selector.append("<option value = \'" + obj.ParentCategory.Id + "\' >" + obj.ParentCategory.Name + "</option>");
+        }
+    }
+
+    function addeditSelectOption($selector, obj) {
+        if (obj.ChildCategorys.length != 0) {
+            $selector.append("<optgroup value = \"" + obj.ParentCategory.Id + "\" label=\"" + obj.ParentCategory.Name + "\"> </optgroup>");
+            for (var i = 0; i < obj.ChildCategorys.length; i++) {
+
+                addeditSelectOption($("#categoryedit [value='" + obj.ParentCategory.Id + "']"), obj.ChildCategorys[i]);
+            }
+        } else {
+            $selector.append("<option value = \'" + obj.ParentCategory.Id + "\' >" + obj.ParentCategory.Name + "</option>");
+        }
+    }
+
+    var propertyData;
+    function getData() {
+        var val = '';
+        if (propertyData && propertyData.length > 0) {
+            var $selectArr = $('#p_div select[name="pname"]');
+            $selectArr.each(function () {
+                if ($(this).val().indexOf('|') > 0) {
+                    var valArr = $(this).val().split('|');
+                    val += valArr[0] + 'c' + valArr[1] + 'r';
+                }
+            });
+        }
+        return val;
+    }
+
+    function SelCategoryItem(filterString) {
+        var arr = filterString.split('r');
+        for (var i in arr) {
+            if (arr[i] != "") {
+                var index = arr[i].toString().indexOf('c');
+                var id = arr[i].toString().substring(0, index);
+                var selval = arr[i].toString().replace(/c/, '|');
+                $("#category_" + id).val(selval);
+            }
+        }
+    }
+
+    function getPropertyData(cid, filterString) {
+        if (cid == 0) {
+            cid = $('#categoryedit :selected').parent().attr('value');
+            SaveTags = new Infotag({
+                id: "info-box",
+                adviceData: "",
+                oldData: oldData,
+                minChar: 2,
+                maxChar: 6,
+                AllTag: 10,
+                isHasTitle: false,
+                url: api + "Tags/GetTagsOfWebByCategoryId?id=" + cid
+            });
+
+        }
+        if (cid && cid > 0) {
+            var $div = $('#propertyId'), url = api + 'Dictionary/GetDictionaryAndItemViewList?cid=' + cid;
+            $('#p_div').remove();
+            $.getJSON(url, function (data) {
+                if (data && data.length > 0) {
+                    propertyData = data;
+                    var selectHtml = '<div id="p_div">';
+                    for (var i = 0; i < data.length; i++) {
+                        var dic = data[i], dicItem = data[i].DictionaryItems;
+                        selectHtml += '<div class="row-fluid margin-bottom-10">' +
+                                        //'<div class="controls"><span class="p_a_a_n_l_lia">&nbsp</span>&nbsp&nbsp&nbsp&nbsp</div>' +
+                                         '<label class="control-label"> </label>' +
+                                        '<div class="controls">' +
+                                            '<select  name="pname" style="float: left" id="category_' + dic.Id + '"></select>' +
+                                        '</div>' +
+                                      '</div>';
+                        $div.append(selectHtml);
+                        selectHtml = '';
+                        $div = $('#p_div');
+                        var $pSelector = $('#category_' + dic.Id);
+                        $pSelector.append('<option value="-1">'+@LanguageUtil.Translate("admin_Views_Video_Index_js_pSelector_pleaseSelect") + dic.Key + '</option>');
+                        for (var j = 0; j < dicItem.length; j++) {
+                            $pSelector.append('<option value="' + dic.Id + '|' + dicItem[j].Id + '">' + dicItem[j].Name + '</option>');
+                        }
+                        $div.append('</div>');
+                    }
+                    if (filterString != "" && filterString != undefined) {
+                        SelCategoryItem(filterString);
+                    }
+                }
+            });
+        }
+
+    }
+
+
+    //打开编辑
+
+    function openedit(obj) {
+        $("#iframe").modal({ backdrop: 'static' }).css({
+            top: 50,
+            width: 920,
+            'margin-left': function () {
+                return -($(this).width() / 2 + 125);
+            },
+            height: 400,
+        });
+        //initAdviceData();
+        var id = $(obj).attr("data_id");
+        $("#vid").val(id);
+        $.getJSON(api + "Video/GetVideoById?id=" + id + "&v=" + Math.random(), function (data) {
+            if (data.Success) {
+                if (data.Data != null) {
+                    $("#title").val(data.Data.Title);
+                    $("#about").val(data.Data.About);
+                    oldData = data.Data.Tags;
+                    $("#categoryedit").val(data.Data.CategoryId);
+                    var  cid = $('#categoryedit :selected').parent().attr('value');
+                    SaveTags = new Infotag({
+                        id: "info-box",
+                        adviceData: "",
+                        oldData: oldData,
+                        minChar: 2,
+                        maxChar: 6,
+                        AllTag: 10,
+                        isHasTitle: false,
+                        url: api + "Tags/GetTagsOfWebByCategoryId?id=" + cid
+                    });
+                    $("#copyright").val(data.Data.Copyright);
+                    $("#isPublic").val(data.Data.IsPublic == true ? 1 : 0);
+                    $("#isOfficial").val(data.Data.IsOfficial == true ? 1 : 0);
+                    var filter = data.Data.Filter;
+                    if (data.Data.CategoryId > 0) {
+                        $.getJSON(api + "Category/GetParentId?cid=" + data.Data.CategoryId, function (data) {
+                            if (data.Success) {
+                                if (data.Data != null) {
+                                    var pid = data.Data;
+                                    getPropertyData(pid, filter);
+                                }
+                            }
+                        });
+                    } else {
+                        $('#p_div').remove();
+                    }
+                }
+            }
+        });
+    }
+
+    //编辑保存
+    function SaveData() {
+        var id = $("#vid").val();
+        var categoryId = $("#categoryedit").val();
+        if (categoryId == -1) {
+            alert(Translate("admin_Views_Video_Index_js_SaveData_alert_pleaseSelectCategory"));
+            return;
+        }
+        var title = $("#title").val();
+        if (title.length > 25) {
+            alert(Translate("admin_Views_Video_Index_js_SaveData_alert_titleLength").Format(25));
+            return;
+        }
+        var tags = SaveTags.returnString();
+        var filter = getData();
+        var dataPara = {
+            Id: id,
+            Title: title,
+            About: $("#about").val(),
+            Copyright: $("#copyright").val(),
+            IsPublic: parseInt($("#isPublic").val()),
+            CategoryId: categoryId,
+            IsOfficial: parseInt($("#isOfficial").val()),
+            Tags: tags,
+            Filter: filter
+        };
+        var url = rootPath + '/Video/UpdateAVideo';
+        $.ajax({
+            type: "post",
+            url: url,
+            data: { dataModel: dataPara },
+            dataType: "json",
+            success: function (data) {
+                if (data.Success) {
+                    SaveTags.allTagContent = "";
+                    $('#iframe').modal('hide');
+                    viewModel.initData();
+                }
+            }
+        });
+    }
+
+    //删除
+
+    function delvideo(vid) {
+        var url = rootPath + '/Video/DeleteAVideo';
+        $.ajax(url, {
+            type: "post",
+            dataType: "json",
+            data: { vid: vid },
+            success: function (data) {
+                if (data.Success) {
+                    alert(Translate("admin_Views_Video_Index_js_delvideo_DeleteSuccess"));
+                    viewModel.initData();
+                }
+            },
+            error: function (data) {
+                // alert(data.Success);
+            }
+        });
+    }
+
+
+    //打开审核
+    function ApproveOpen(vid, videoState) {
+        window.open('@ServerHelper.RootPath' + '/Video/Approve?vid=' + vid + '&videoState=' + videoState, @LanguageUtil.Translate("admin_Views_Video_Index_js_ApproveOpen_text_AuditVideo"), 'height=800,width=950,top=100,left=400');
+    }
+
+
+    //---------------------------------------------begin 调用播放器--------------------------------//
+    //页面数据初始化完毕会加载该函数
+    function playVedio(videoDetailData) {
+        var videoInfo = function () {
+            self = this;
+            self.id = "divFlashPlayer";
+            self.videoPathInfo = "0" + "," + "0" + "," + "" + "," + videoDetailData.VideoPath;
+            //self.advertPathInfo = "http://7xliow.com2.z0.glb.qiniucdn.com/1441172688325_600x480.mp4" + "," + "10" + "," + "http://1.178pb.com" + "#";
+            self.advertPathInfo = "" + "," + "10" + "," + "http://1.178pb.com" + "#";
+        };
+        doInit(new videoInfo());
+    }
+    //---------------------------------------------end 调用播放器--------------------------------//
+</script>

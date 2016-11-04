@@ -1,0 +1,27 @@
+﻿@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<div class="header navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                <img src="@Url.Content("~/Content/bootstrap/image/menu-toggler.png")" alt="" />
+            </a>
+            <ul class="nav pull-right">
+                <li class="dropdown user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img alt="" src="@Url.Content("~/Content/bootstrap/image/avatar1_small.jpg")" />
+                        <span class="username">@WebContext.LoginName</span>
+                        <i class="icon-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void()" id="changePwd"><i class=" icon-pencil"></i>@LanguageUtil.Translate("admin_Views_Shared_Header_a_ChangePwd")</a></li>
+                        <li><a href="@Url.Content("~/Login/LoginOut")"><i class="icon-key"></i>@LanguageUtil.Translate("admin_Views_Shared_Header_a_exit")</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

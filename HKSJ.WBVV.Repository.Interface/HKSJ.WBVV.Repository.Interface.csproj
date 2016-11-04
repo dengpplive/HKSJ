@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1A6D040C-FD3E-4658-A47E-1F2523E63797}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HKSJ.WBVV.Repository.Interface</RootNamespace>
+    <AssemblyName>HKSJ.WBVV.Repository.Interface</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ICommentsRepository.cs" />
+    <Compile Include="ILanguageRepository.cs" />
+    <Compile Include="ISysMessageRepository.cs" />
+    <Compile Include="IUserBindRepository.cs" />
+    <Compile Include="IKeyWordsRepository.cs" />
+    <Compile Include="IMessageReadRepository.cs" />
+    <Compile Include="IQiniuFopLogRepository.cs" />
+    <Compile Include="ITagsRepository.cs" />
+    <Compile Include="IUserLevelRepository.cs" />
+    <Compile Include="IUserReportRepository.cs" />
+    <Compile Include="IUserScoreRepository.cs" />
+    <Compile Include="IUserScoreRuleRepository.cs" />
+    <Compile Include="IUserSkinRepository.cs" />
+    <Compile Include="IVideoPlayRecordRepository.cs" />
+    <Compile Include="IAccusationRepository.cs" />
+    <Compile Include="IBannerVideoRepository.cs" />
+    <Compile Include="ICategoryRepository.cs" />
+    <Compile Include="IDictionaryItemRepository.cs" />
+    <Compile Include="IDictionaryRepository.cs" />
+    <Compile Include="IBase\IBaseRepository.cs" />
+    <Compile Include="ILevelRepository.cs" />
+    <Compile Include="IManageLogRepository.cs" />
+    <Compile Include="IManageMenuRepository.cs" />
+    <Compile Include="IManageRepository.cs" />
+    <Compile Include="IPermissionRepository.cs" />
+    <Compile Include="IPlateRepository.cs" />
+    <Compile Include="IPlateVideoRepository.cs" />
+    <Compile Include="IPraisesRepository.cs" />
+    <Compile Include="IRoleMenuRepository.cs" />
+    <Compile Include="ISmsRecordRepository.cs" />
+    <Compile Include="IUserAttentionRepository.cs" />
+    <Compile Include="IUserCollectRepository.cs" />
+    <Compile Include="IUserFansRepository.cs" />
+    <Compile Include="IUserHistoryRepository.cs" />
+    <Compile Include="IUserLogRepository.cs" />
+    <Compile Include="IUserRecommendRepository.cs" />
+    <Compile Include="IUserRoomChooseRepository.cs" />
+    <Compile Include="IUserRepository.cs" />
+    <Compile Include="IUserShareRepository.cs" />
+    <Compile Include="IUserSpecialRepository.cs" />
+    <Compile Include="IUserSpecialSonRepository.cs" />
+    <Compile Include="IUserUploadVedioLogRepository.cs" />
+    <Compile Include="IUserVisitLogRepository.cs" />
+    <Compile Include="IVideoApproveRepository.cs" />
+    <Compile Include="IAuthKeysRepository.cs" />
+    <Compile Include="IVideoPrereviewRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IVideoRepository.cs" />
+    <Compile Include="Role.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HKSJ.WBVV.Common\HKSJ.WBVV.Common.csproj">
+      <Project>{e615a07f-9e1b-4dc8-9156-4753537e6ce4}</Project>
+      <Name>HKSJ.WBVV.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Entity\HKSJ.WBVV.Entity.csproj">
+      <Project>{a1173f2f-1e49-4d67-b65c-ae8a116310e8}</Project>
+      <Name>HKSJ.WBVV.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Model\HKSJ.WBVV.Model.csproj">
+      <Project>{5171fc5b-78c9-4776-abd3-28c2d46d8cf5}</Project>
+      <Name>HKSJ.WBVV.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

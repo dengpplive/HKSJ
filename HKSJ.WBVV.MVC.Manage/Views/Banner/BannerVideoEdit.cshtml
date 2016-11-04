@@ -1,0 +1,413 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Common;
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PlateAdd</title>
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/select2_metro.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" />
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/tree/css/zTreeStyle/zTreeStyle.css")" />
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.core-3.5.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.excheck-3.5.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.exedit-3.5.js")" type="text/javascript"></script>
+    <script src="~/Content/tree/js/jquery.bootstrap.teninedialog.js"></script>
+
+    <script src="~/Scripts/plupload/plupload.full.min.js"></script>
+    <script src="~/Scripts/qiniu.js"></script>
+    <script src="~/Content/tree/js/jquery.bootstrap.teninedialog.js"></script>
+
+    <script src="~/Scripts/jBox/jquery.jBox-2.3.min.js"></script>
+    <script src="~/Scripts/jBox/i18n/jquery.jBox-zh-CN.js"></script>
+    <link href="~/Scripts/jBox/Skins/Green/jbox.css" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/ajax.js")" type="text/javascript"></script>
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+    <script>
+        var model =  @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+        var api = model.api;
+        var single=1;
+
+        $(function(){
+            loadCategory();
+            loadData();
+            $(".xClass").live("click",function(){
+                deleteLi(this);
+            });
+        });
+
+        //加载一级分类列表
+        function loadCategory() {
+            var url=api+"Category/GetOneCategoryViewList?v="+Math.random();
+            var obj = { url: url, data: {}, async: false, type: "get", dataType: "json" };
+            var result = getAjax(obj);
+            var option="<option value='-1'>--"+Translate("admin_views_banner_bannerVideoEdit_select")+"--</option>";
+            if (result!=null) {
+                $(result).each(function(i,o){
+                    option+="<option value='"+o.id+"'>"+o.name+"</option>";
+                });
+            }
+            $("#selCategory").empty().html(option);
+            $("#selVideo").empty().html("<option value='-1'>--"+Translate("admin_views_banner_bannerVideoEdit_select")+"--</option>");
+        }
+
+        //保存
+        function save() {
+            var data={id:pId,cid:$("#selCategory").val(),imgPath:$("#imgKey").val(),simgPath:$("#imgSmallKey").val(),sNum:$.trim($("#sortNum").val())||0,vid:getVideoId()};
+            if (!check(data)) { return; }
+            var url=rootPath+"/Banner/UpdateBannerVideo?v="+Math.random();
+            var obj = { url: url, data: data, async: false, type: "post", dataType: "json" };
+            var result = getAjax(obj);
+            if (result.Success) {
+                alert(Translate("admin_views_banner_bannerVideoEdit_editSuccess"));
+                window.location.href="@Url.Content("~/Banner/BannerVideoManage")";
+            }else {
+                alert(result.ExceptionMessage);
+            }
+        }
+
+        var pId;
+        //数据加载
+        function loadData() {
+            var url=location.href.split("/");
+            var id=pId=url[url.length-1];
+            url=api+"BannerVideo/GetBannerVideo?id="+id+"&v="+Math.random();
+            var result = getAjax({ url: url, data: {}, async: false, type: "post", dataType: "json" });
+            if (result!=null) {
+                $(result).each(function(i,o){
+                    $("#selCategory").val(o.CategoryId);
+                    add(getVideoSrc(o.VideoId),o.VideoId);
+                    $("#sortNum").val(o.SortNum);
+                    $("#imgUpload").attr("src",HeaderBase.GetImgUrlPath(o.BannerImagePath));
+                    $("#imgSmallKey").val(o.BannerSmallImagePath);
+                    $("#imgKey").val(o.BannerImagePath);
+                    $("#imgSmallKey").val(o.BannerSmallImagePath);
+                });
+            }
+        }
+
+        //验证非空数据
+        function check(obj){
+            var isTrue=false;
+            if(obj.CategoryId==-1){
+                alert(Translate("admin_views_banner_bannerVideoEdit_selectPrimaryClassify"));
+            }
+            else if (obj.VideoId==-1) {
+                alert(Translate("admin_views_banner_bannerVideoEdit_selectVideo"));
+            }
+            else if(obj.BannerImagePath==""){
+                alert(Translate("admin_views_banner_bannerVideoEdit_pleaseUploadPicture"));
+            }
+            else {
+                isTrue=true;
+            }
+            return isTrue;
+        }
+
+        //获取视频缩略图地址
+        function getVideoSrc(id){
+            var src=0;
+            var url=api+"Video/GetVideoDetailView?videoId="+id+"&v="+Math.random();
+            var obj = { url: url, data: {}, async: false, type: "get", dataType: "json" };
+            var result = getAjax(obj);
+            if (result!=null) {
+                $(result).each(function(i,o){
+                    src=o.SmallPicturePath;
+                    imgTitle=o.Title;
+                });
+            }
+            return src;
+        }
+
+        function openVideoDialog(){
+            if ($("#selCategory").val()==-1) {
+                alert(Translate("admin_views_banner_bannerVideoEdit_selectPrimaryClassify"));
+                return;
+            }
+            var url="@Url.Content("~/PlateVideo/VideoList")";
+            $.jBox("iframe:"+url, {
+                title:Translate("admin_views_banner_bannerVideoEdit_videoList"),
+                top:100,
+                width: 700,
+                height: 500,
+                buttons: {@LanguageUtil.Translate("admin_Views_Banner_bannerVideoEdit_confirm"): true },
+                submit: function (v, h, f) {
+                    if (imgId>0) {
+                        $("#ulVideo").html("");
+                        childValue(imgId,true,imgSrc);
+                    }
+                    $("input[type=text]:eq(0)").focus();
+                    return true;
+                }
+            });
+            $("#jbox-iframe").css({height:"98%"});
+        }
+        var imgSrc = "";
+        var imgId = 0;
+        var imgTitle="";
+        function childValue(v,t,src){
+            if (t) {
+                add(src,v);
+            }else {
+                deleteLi(v);
+            }
+        }
+
+        //获取视频ID
+        function getVideoId(){
+            var ids="";
+            $("#ulVideo li").each(function(){
+                ids+=$(this).attr("id")+",";
+            });
+            if (ids.length>0) {
+                ids=ids.substring(0,ids.length-1);
+            }
+            return ids;
+        }
+
+        //删除视频显示
+        function deleteLi(obj){
+            $(obj).parent().remove();
+        }
+
+        //新增视频显示
+        function add(src,v){
+            if ($("#"+v).html()==undefined) {
+                var li="<li id=\""+v+"\">";
+                li+="<img src=\""+src+"\" /><span class='vClass'>"+getStr(imgTitle,8)+"</span><span class='xClass'>X</span>";
+                li+="</li>";
+                $("#ulVideo").append(li);
+            }
+        }
+    </script>
+    <style>
+        #ulVideo ul {
+            width: 500px;
+        }
+
+        ul, ol {
+            margin: 10px 10px 30px 1px;
+            padding: 0;
+        }
+
+        #ulVideo ul, li {
+            margin-left: 0px;
+            padding-left: 0px;
+            border: solid 1px #ccc;
+        }
+
+        #ulVideo li {
+            list-style: none;
+            float: left;
+            margin-right: 5px;
+            width: 150px;
+        }
+
+        #ulVideo img {
+            float: left;
+            width: 150px;
+            height: 150px;
+        }
+
+        .vClass {
+            float: left;
+            width: 80%;
+            border-top: solid 1px #ccc;
+        }
+
+        .xClass {
+            width: 20%;
+            float: left;
+            color: red;
+            background-color: gray;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        div label {
+            width: 100px;
+        }
+    </style>
+</head>
+<body style="background-color: #FFF !important;">
+    <input type="hidden" id="imgKey" />
+    <input type="hidden" id="imgSmallKey" />
+    <div style=" background-color:white; padding:10px 10px 10px 10px;">
+        <ul class="breadcrumb">
+            <li>
+                <span><strong>@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_Manage")</strong></span>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li>
+                <a href="@Url.Content("~/Banner/BannerVideoManage")">@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_bannerManage")</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li>
+                <span><strong>@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_bannerEdit")</strong></span>
+            </li>
+        </ul>
+        <div>
+            <label>@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_primaryClassify"):</label><select id="selCategory" ></select><span style="color:red;">*</span>
+        </div>
+        <div>
+            <button onclick="openVideoDialog()">@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_selectVideo")</button>
+        </div>
+        <div>
+            <table cellpadding="0" border="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <ul id="ulVideo"></ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="container">
+                            <label><a id="pickfiles">@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_uploadPicture")</a></label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="position:relative; ">
+            <img src="" id="imgUpload" style="position:relative; " /><span id="p" style="color:green; position:absolute; top:80px;left:96px;z-index:10;font-size:x-large;"></span><span style="color:#ccc; position:absolute;">&nbsp;@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_forExample")</span>
+            <div id="z"></div>
+        </div>
+        <div>
+            <label>@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_sort"):</label><input type="text" id="sortNum" onkeyup="num(this)" /><span style="color:gray;">&nbsp;@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_forExampleTheGreaterTheNumberRankTheTop")</span>
+        </div>
+        <div>
+            <button onclick="save()">@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_submit")</button>&nbsp;<button onclick="javascript:history.back(-1)">@LanguageUtil.Translate("admin_views_banner_bannerVideoEdit_back")</button>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $.get(api + '/QiniuUpload/GetToken?type=banner', function (imgData) {
+        var uploader = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',    //上传模式,依次退化
+            browse_button: 'pickfiles',
+            unique_names: true,
+            uptoken: imgData.token,
+            domain: '@DefaultData.ImageAddress',
+            container: 'container',           //上传区域DOM ID，默认是browser_button的父元素，
+            max_file_size: '1024mb',           //最大文件体积限制
+            flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
+            max_retries: 3,                   //上传失败最大重试次数
+            dragdrop: true,                   //开启可拖曳上传
+            drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+            chunk_size: '4mb',                //分块上传时，每片的体积
+            auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+            multi_selection: false,
+            filters: {
+                max_file_size: '2gb',
+                mime_types: [
+                    //{ title: "Video files", extensions: "avi,wmv,rmvb,rm,flash,mp4" }
+                    { title: "Video files", extensions: "*" }
+                ]
+            },
+            init: {
+                'FilesAdded': function (up, files) {
+                    plupload.each(files, function (file) {
+                        // 文件添加进队列后,处理相关的事情
+                        //$('#container').append("<div><span>" + file.name + "</span>(<span id='" + file.id + "'></span>)</div>");
+
+                        previewImage(file, function (imgsrc) {
+                            $("#imgUpload").attr("src",imgsrc);
+                        });
+
+                    });
+                },
+                'BeforeUpload': function (up, file) {
+                    // 每个文件上传前,处理相关的事情
+                    $("#imgUpload").parent().attr("style","position:relative;width:230px;height:180px; ");
+                    $("#imgUpload").attr("style","position:relative;width:230px;height:180px; ");
+                },
+                'UploadProgress': function (up, file) {
+                    // 每个文件上传时,处理相关的事情
+                    // $('#' + file.id).html("<span>" + file.percent + '%</span><span>速度:' + Math.round (file.speed / 1024) + 'KB/s</span><span>文件类型:' + file.type + '</span>');
+                    $("#p").text(file.percent+"%");
+                    if (file.percent==100) {
+                        $("#p").text(Translate("admin_views_banner_bannerVideoEdit_transcoding"));
+                    }
+                    $("#z").attr("style","width:100%;height:"+file.percent+"%;background-color:#000; opacity:0.2;filter:alpha(opacity=50);position:absolute;top:0px;vertical-align:middle;font-weight:bold");
+
+                },
+                'FileUploaded': function (up, file, info) {
+
+                    // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
+                    // 每个文件上传成功后,处理相关的事情
+                    // 其中 info 是文件上传成功后，服务端返回的json
+
+                    var res = $.parseJSON(info);
+                    //$('#' + file.id).html('Finished  ' + res.key);
+                    $("#imgKey").val(res.bigKey);
+                    $("#imgSmallKey").val(res.smallKey);
+                    // 在此我们返回videoId,把用户填写的视频信息更新到视频表
+                },
+                'Error': function (up, err, errTip) {
+                    //上传出错时,处理相关的事情
+                    $('#errortip').html(errTip);
+                },
+                'UploadComplete': function () {
+                    //队列文件处理完毕后,处理相关的事情
+                    $("#z").removeAttr("style");
+                    $("#p").text(Translate("admin_views_banner_bannerVideoEdit_finish"));
+                },
+                'Key': function (up, file) {
+                    // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+                    // 该配置必须要在 unique_names: false , save_key: false 时才生效
+                    var key = "";
+                    // do something with key here
+                    return key;
+                }
+            }
+        });
+    });
+
+    function previewImage(file, callback) {//file为plupload事件监听函数参数中的file对象,callback为预览图片准备完成的回调函数
+        if (!file || !/image\//.test(file.type)) return; //确保文件是图片
+        if (file.type == 'image/gif') {//gif使用FileReader进行预览,因为mOxie.Image只支持jpg和png
+            var fr = new mOxie.FileReader();
+            fr.onload = function () {
+                callback(fr.result);
+                fr.destroy();
+                fr = null;
+            }
+            fr.readAsDataURL(file.getSource());
+        } else {
+            var preloader = new mOxie.Image();
+            preloader.onload = function () {
+                preloader.downsize(300, 300);//先压缩一下要预览的图片,宽300，高300
+                var imgsrc = preloader.type == 'image/jpeg' ? preloader.getAsDataURL('image/jpeg', 80) : preloader.getAsDataURL(); //得到图片src,实质为一个base64编码的数据
+                callback && callback(imgsrc); //callback传入的参数为预览图片的url
+                preloader.destroy();
+                preloader = null;
+            };
+            preloader.load(file.getSource());
+        }
+    }
+</script>
+
+<script>
+    var imgBaseUrl = "@DefaultData.ImageAddress" + "/";
+    var HeaderBase = {
+        GetImgUrlPath: function (imageKey) {
+            return imgBaseUrl + imageKey;
+        }
+    };
+</script>

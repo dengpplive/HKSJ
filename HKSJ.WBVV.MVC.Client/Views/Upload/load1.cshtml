@@ -1,0 +1,38 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Common
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.Common.Config
+@*<div class="l_l_border loadContent">
+    <a id="load" class="l_l_img" href="javascript:void(0)" hidefocus="true">
+        <span>选择要上传的文件</span>
+    </a>
+    <p>支持wmv,asf,rm,rmvb,mpg,mpeg,mpe,mov,mp4,avi,mkv,flv,vob,f4v格式</p>
+    <p>可同时上传，单个视频大小不超过2G</p>
+</div>*@
+
+
+<div class="l_l_border loadContent">
+    <a id="load" class="l_l_img" href="javascript:void(0);" hidefocus="true">
+        <span>@LanguageUtil.Translate("web_Client_Views_Upload_load1_PleaseVideoTitle")</span>
+    </a>
+    <div class="l_l_text clearfloat">
+        <div class="l_l_text_left">
+            <p><h4>@LanguageUtil.Translate("web_Client_Views_Upload_load1_VideoFormatTitle")</h4></p>
+            <p>@LanguageUtil.Translate("web_Client_Views_Upload_load1_VideoFormatTip1")</p>
+            <p>@LanguageUtil.Translate("web_Client_Views_Upload_load1_VideoFormatTip2")</p>
+        </div>
+        <span class="l_l_text_cen"></span>
+        <div class="l_l_text_right">
+            <p><h4>@LanguageUtil.Translate("web_Client_Views_Upload_load1_VideoConTitle")</h4></p>
+            <p>@LanguageUtil.Translate("web_Client_Views_Upload_load1_VideoConAbout1")</p>
+            <p>@LanguageUtil.Translate("web_Client_Views_Upload_load1_VideoConAbout2")<a href="@ServerHelper.RootPath/Content/agreement/@WebConfig.ActiveLanguage/videoagreement.html" target="_blank">@LanguageUtil.Translate("web_Client_Views_Upload_load1_VideoConProtocol")</a></p>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $("#load").click(function () {
+        $("#btnload").click();
+    });
+</script>

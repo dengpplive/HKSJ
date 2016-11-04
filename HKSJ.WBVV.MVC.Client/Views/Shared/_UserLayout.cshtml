@@ -1,0 +1,184 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Common
+@using HKSJ.WBVV.Common.Language
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    @RenderSection("Metas", false)
+    <title></title>
+    @Styles.Render("~/Content/css/HomePageCss")
+    <link rel="icon" type="image/x-icon" href="@string.Format("{0}/favicon.ico", ServerHelper.RootPath)" />
+    <link rel="shortcut icon" type="image/x-icon" href="@string.Format("{0}/favicon.ico", ServerHelper.RootPath)" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/person_com.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/pager/pager.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/playease.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/gotop.css" />
+    <script src="@ServerHelper.RootPath/api/GlobalJsConstant"></script>
+    @RenderSection("Styles", false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/knockout")
+    <script src="@ServerHelper.RootPath/Content/js/common.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Scripts/jquery.blockUI.min.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Scripts/jquery.scrollTo.min.js" type="text/javascript"></script>
+    @*表情组件*@
+    <link href="@ServerHelper.RootPath/Content/js/emotion/jquery.Emotion.css" rel="stylesheet" />
+    <script src="@ServerHelper.RootPath/Content/js/emotion/jquery.Emotion.js" type="text/javascript"></script>
+
+    @*上传*@
+    <script src="@ServerHelper.RootPath/Scripts/plupload.full.min.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Scripts/qiniu.min.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/pager/jquery.pager.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/login.js" type="text/javascript"></script>
+
+    @*begin 问题反馈引用*@
+    <link href="http://120.25.1.78:8085/Css/feedback.css" rel="stylesheet" />
+    <script src="http://120.25.1.78:8085/Script/addQuestionFeedback.js"></script>
+    @*end 问题反馈引用*@
+
+    <script>
+        var userId = '@HKSJ.WBVV.MVC.Client.GlobalVariable.GlobalMemberInfo.UserId';
+    </script>
+
+</head>
+<body>
+    @Html.Action("_UserHeader", "UserRoom")
+    <!-- 子导航 开始  -->
+    <div class="daohang_map" id="roomNav" data-bind="visible:!$root.isEditManage()">
+        <div class="nav">
+            <ul data-bind="foreach:links">
+                <li><a data-bind="css:{curr:$root.selCss()==Id},attr:{href:Href},text:Name"></a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="second_nav" style="display:none;">
+            <ul>
+                <li><a class="curr_01" href="#">@LanguageUtil.Translate("web_Views_Shared_UserLayout_second_nav_li1")</a></li>
+                <li><a href="#">@LanguageUtil.Translate("web_Views_Shared_UserLayout_second_nav_li2")</a></li>
+                <li><a href="#">@LanguageUtil.Translate("web_Views_Shared_UserLayout_second_nav_li3")</a></li>
+                <li><a href="#">@LanguageUtil.Translate("web_Views_Shared_UserLayout_second_nav_li4")</a></li>
+                <li><a href="#">@LanguageUtil.Translate("web_Views_Shared_UserLayout_second_nav_li5")</a></li>
+                <li><a href="#">@LanguageUtil.Translate("web_Views_Shared_UserLayout_second_nav_li6")</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+        <script type="text/javascript">
+            browserUserId = -1;
+            function roomNav() {
+                var self = this;
+                self.browserUserId = ko.observable(-1);
+                //当前登录的用户Id
+                self.loginUserId = ko.observable(-2);
+
+                //是否进入编辑管理页面
+                self.isEditManage = ko.observable(false);
+                //链接url
+                self.links = ko.observableArray([]);
+                //默认选择的样式
+                self.selCss = ko.observable(0);
+
+                //设置菜单url
+                self.setLinks = function () {
+                    var linkArr = [
+                       {
+                           Id: 0,
+                           Name: Translate("web_Views_Shared_UserLayout_roomNav_setLinks_linkArr0"),
+                           Href: rootPath + "/UserRoom/Index?browserUserId=" + self.browserUserId() + "&linkcss=0"
+                       },
+                       {
+                           Id: 1,
+                           Name: Translate("web_Views_Shared_UserLayout_roomNav_setLinks_linkArr1"),
+                           Href: rootPath + "/UserRoom/Video?browserUserId=" + self.browserUserId() + "&linkcss=1"
+                       },
+                       {
+                           Id: 2,
+                           Name: Translate("web_Views_Shared_UserLayout_roomNav_setLinks_linkArr2"),
+                           Href: rootPath + "/UserRoom/Album/Index?browserUserId=" + self.browserUserId() + "&linkcss=2"
+                       },
+                       {
+                           Id: 3,
+                           Name: Translate("web_Views_Shared_UserLayout_roomNav_setLinks_linkArr3"),
+                           Href: rootPath + "/UserRoom/Fans?browserUserId=" + self.browserUserId() + "&linkcss=3"
+                       },
+                        {
+                            Id: 4,
+                            Name: Translate("web_Views_Shared_UserLayout_roomNav_setLinks_linkArr4"),
+                            Href: rootPath + "/UserRoom/Message?browserUserId=" + self.browserUserId() + "&linkcss=4"
+                        }];
+                    //设置url
+                    self.links(linkArr)
+                }
+                self.init = function () {
+                    check(function (d) {
+                        //设置当前的登录用户的Id
+                        self.loginUserId(d.UserId);
+
+                        browserUserId = $.trim(getURLParam("browserUserId", location.href));
+                        browserUserId = browserUserId == -1 ? self.loginUserId() : browserUserId;
+                        if (browserUserId == null || browserUserId == "" || (browserUserId <= 0 && browserUserId != -1)) {
+                            globalPromptBox.showGeneralMassage(2, Translate("web_Views_Shared_UserLayout_roomNav_init_browserUserId_null"), 3000, false);
+                            history.go(-1);
+                        } else {
+                            self.browserUserId(browserUserId);
+                            //加载link
+                            self.setLinks();
+                            //样式
+                            var linkcss = $.trim(getURLParam("linkcss", location.href));
+                            self.selCss((linkcss == null || linkcss == '') ? 0 : parseInt(linkcss));
+
+                            var manage = $.trim(getURLParam("manage", location.href));
+                            var edit = $.trim(getURLParam("edit", location.href));
+                            var _isEdit = (manage == "1" && edit == "1") ? true : false;
+                            //是否编辑
+                            self.isEditManage(_isEdit)
+                        }
+                    });
+                }
+            }
+            var vm_roomNav = new roomNav();
+            vm_roomNav.init();
+            ko.applyBindings(vm_roomNav, document.getElementById("roomNav"));
+
+        </script>
+    </div>
+    <script src="@ServerHelper.RootPath/Content/js/roomHeader.js" type="text/javascript"></script>
+    <!-- 子导航 结束  -->
+    @RenderBody()
+    @RenderSection("Scripts", false)
+
+    @Html.Action("_Footer", "Home")
+
+    <!--提示框 -->
+    <div id="globalbBG" class="bg"></div>
+    <div id="globalMassage" class="tishi">
+        <div id="globalIcon" class="ts_01"><span id="globalTxtMassage"></span></div>
+    </div>
+    <!--提示框 -->
+    <!-- 提示弹框 -->
+    <div id="globalbPromptBG" class="bg02"></div>
+    <div id="globalbPromptMassage" class="tankuang">
+        <div class="tan_top">
+            <div class="tan_top_01" id="globalbPromptTitle">@LanguageUtil.Translate("web_Views_Shared_UserLayout_globalbPromptMassage_globalbPromptTitle")</div>
+            <div class="login_close"><a href="javascript:void(0);" name="btnCancelExe"><img src="@ServerHelper.RootPath/Content/images/icon_img/icon_close.png"></a></div>
+            <div class="clear"></div>
+        </div>
+        <div class="tan_main">
+            <div class="tan_m_tu"><span id="globalbPromptTxtMassage">@LanguageUtil.Translate("web_Views_Shared_UserLayout_globalbPromptMassage_globalbPromptTxtMassage")</span></div>
+        </div>
+        <div class="tan_foot">
+            <input class="tsn_f_01" type="button" value="@LanguageUtil.Translate("web_Views_Shared_UserLayout_globalbPromptMassage_btnExeFunction")" id="btnExeFunction"><input class="tsn_f_02" type="button" name="btnCancelExe" value="@LanguageUtil.Translate("web_Views_Shared_UserLayout_globalbPromptMassage_btnCancelExe")">
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!-- 提示弹框 -->
+    <!-- 返回顶部 -->
+    <div class="bottom_tools">
+        <a id="feedback" href="javascript:void(0);" onclick="javascript: doFeedback();" title="@LanguageUtil.Translate("web_Views_Shared_UserLayout_bottom_tools_feedback")"></a>
+        <a id="scrollUp" href="javascript:void(0);" title="@LanguageUtil.Translate("web_Views_Shared_UserLayout_bottom_tools_scrollUp")"></a>
+    </div>
+    <!-- 返回顶部 -->
+
+</body>
+</html>

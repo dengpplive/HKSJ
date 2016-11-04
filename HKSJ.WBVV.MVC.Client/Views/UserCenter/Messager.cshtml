@@ -1,0 +1,464 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Common
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/account.css" />
+<script type="text/javascript">
+    document.title = '@GlobalMemberInfo.NickName' + "-" + Translate("web_Client_Views_UserCenter_Messager_Title") + " " + companyTitle;
+    userId = "@GlobalMemberInfo.UserId";
+    var menuId = 6;
+</script>
+<div class="wrap view">
+    <div style="margin-right:10px;" align="left" height="740px" width="250px">
+        @Html.Partial("_UserMenu")
+    </div>
+    <div class="view_right" id="messContainer">
+        <div class="v_r_title xiaoxi" id="menuTab">
+            <a id="center01" itemid="1" href="javascript:void(0)" class="v_r_ti_cur" data-bind="click:function(){$root.tabSwitch($element);}">@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_SysMessageTitle")<span id="cnt1"></span></a>
+            <a id="center02" itemid="2" href="javascript:void(0)" data-bind="click:function(){$root.tabSwitch($element);}">@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_CommentTitle")<span id="cnt2"></span></a>
+            <a id="center03" itemid="3" href="javascript:void(0)" data-bind="click:function(){$root.tabSwitch($element);}">@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageTitle")<span id="cnt3"></span></a>
+        </div>
+        <div id="main" style="min-height:300px;">
+            <!-- 系统消息 -->
+            <div class="x_r_center01" id="x_r_center01" style="display:none;">
+                <!--ko if:$root.sysData().length>0 -->
+                <ul data-bind="visible:$root.state()==0,foreach:{data:$root.sysData}">
+                    <li data-bind="attr:{id:'s_'+$data.Id}">
+                        <p class="x_r_span" data-bind="text:$data.CreateTime"></p>
+                        <p class="x_r_tz" data-bind="text:$data.MessageContent"></p>
+                        <p class="x_r_delete"><a href="javascript:void(0)" data-bind="click:function(){$root.deleteSystemMessage($element,$data.Id)}">@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_SysMessageDelLink")</a></p>
+                    </li>
+                </ul>
+                <!--/ko-->
+                <p id="pmess1" data-bind="visible:($root.state()==1||($root.state() == 0 && $root.isException)||$root.sysData().length==0),html:$root.tipMsg" class="no_mess"></p>
+            </div>
+            <!-- 评论 -->
+            <div class="x_r_center02" id="x_r_center02" style="display:none;">
+                <!--ko if:$root.commentsData().length>0 -->
+                <ul data-bind="visible:$root.state()==0,foreach:{data:$root.commentsData}">
+                    <li data-bind="attr:{id:'p_'+$data.Id}">
+                        <div class="clearfloat">
+                            <div class="x_r_cen02_left"><a target="_blank" href="javascript:void(0)" data-bind="click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"><img userimg="1" data-bind="attr:{src:$root.handUserPicture($data.FromUser.Picture)}"></a></div>
+                            <div data-bind="attr:{class:'x_r_cen02_right '+($data.IsRead?'':'cen_font')}">
+                                <p class="x_r_pj clearfloat">
+                                    <!--ko if:!$data.ToUser-->
+                                    【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.FromUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_OwnerCommentShow")&nbsp;&nbsp;“<a target="_blank" href="javascript:void(0)" data-bind="text:$data.Video.Title,click:function(){$root.removeCenFont($data.Id);$root.goPlayer($data.Video.Id);}"></a>”
+                                    <!--/ko-->
+                                    <!--ko if:$data.ToUser-->
+                                    <!--ko if:$data.ToUser.Id==userId-->
+                                    【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.FromUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_CommentShowOne")“<a target="_blank" href="javascript:void(0)" data-bind="text:$data.Video.Title,click:function(){$root.removeCenFont($data.Id);$root.goPlayer($data.Video.Id);}"></a>”@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_CommentShowSecond")
+                                    <!--/ko-->
+                                    <!--ko if:$data.ToUser.Id!=userId-->
+                                    【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.FromUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_CommentShowThird")&nbsp;&nbsp;“<a target="_blank" href="javascript:void(0)" data-bind="text:$data.Video.Title,click:function(){$root.removeCenFont($data.Id);$root.goPlayer($data.Video.Id);}"></a>”@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_CommentShowFour")
+                                    <!--/ko-->
+                                    <!--/ko-->
+                                    <span class="x_r_span02" data-bind="text:$data.CreateTime"></span>
+                                </p>
+                                <p class="x_r_pj_center"><a target="_blank" href="javascript:void(0)" data-bind="html:analyticEmotion($data.Content,33,30),click:function(){$root.removeCenFont($data.Id);locatingComment($data.EntityId,$data.Video.Id,$root.playCommentPageSize,$root.commentSize,$data.Position);}"></a></p>
+                            </div>
+                        </div>
+                        <p class="x_r_delete"><a href="javascript:void(0)" data-bind="click:function(){$root.deleteUserComment($element,$data.Id,$data.Video.Id)}">@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_CommentDelLink")</a></p>
+                    </li>
+                </ul>
+                <!--/ko-->
+                <p id="pmess2" data-bind="visible:($root.state()==1||($root.state() == 0 && $root.isException)||$root.commentsData().length==0),html:$root.tipMsg" class="no_mess"></p>
+            </div>
+            <!-- 留言 -->
+            <div class="x_r_center02" id="x_r_center03" style="display:none;">
+                <!--ko if:$root.messagesData().length>0 -->
+                <ul data-bind="visible:$root.state()==0,foreach:{data:$root.messagesData}">
+                    <li data-bind="attr:{id:'m_'+$data.Id}">
+                        <div class="clearfloat">
+                            <div class="x_r_cen02_left"><a target="_blank" href="javascript:void(0)" data-bind="click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"><img userimg="1" data-bind="attr:{src:$root.handUserPicture($data.FromUser.Picture)}"></a></div>
+                            <div data-bind="attr:{class:'x_r_cen02_right liuyan_right '+($data.IsRead?'':'cen_font')}">
+                                <p class="x_r_pj clearfloat">
+                                    <!--ko if:$root.compare($data.ToUser.Id,$data.User.Id,1)-->
+                                    【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.FromUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageShowOne")
+                                    <!--/ko-->
+                                    <!--ko if:!$root.compare($data.ToUser.Id,$data.User.Id,1)-->
+                                    <!--ko if:$root.compare($data.ToUser.Id,$data.User.Id,2)-->
+                                    <!--ko if:$root.isEquals($data.FromUser.Id,$data.User.Id)-->
+                                    【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.FromUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageShowSecond")【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.ToUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.ToUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageShowThird")
+                                    <!--/ko-->
+                                    <!--ko if:!$root.isEquals($data.FromUser.Id,$data.User.Id)-->
+                                    【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.FromUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageShowFour")【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.User.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.User.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageShowFive")
+                                    <!--/ko-->
+                                    <!--/ko-->
+                                    <!--ko if:$root.compare($data.ToUser.Id,$data.User.Id,3)-->
+                                    【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.FromUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.FromUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageShowSix")
+                                    【<a target="_blank" href="javascript:void(0)" data-bind="text:$data.ToUser.NickName,click:function(){$root.removeCenFont($data.Id);$root.gotoRoom($data.ToUser.Id);}"></a>】@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageShowSeven")
+                                    <!--/ko-->
+                                    <!--/ko-->
+
+                                    <span class="x_r_span02" data-bind="text:$data.CreateTime"></span>
+                                </p>
+                                <p class="x_r_pj_center liyan_center"><a target="_blank" href="javascript:void(0)" data-bind="html:analyticEmotion($data.Content,33,30),click:function(){$root.removeCenFont($data.Id);locatingMessage($data.EntityId,$data.User.Id,$root.roomMessagePageSize,$root.commentSize,$data.Position);}"></a></p>
+                            </div>
+                        </div>
+                        <p class="x_r_delete"><a href="javascript:void(0)" data-bind="click:function(){$root.deleteUserMessage($element,$data.Id,$data.User.Id)}">@LanguageUtil.Translate("web_Client_Views_UserCenter_Messager_MessageDelLink")</a></p>
+                    </li>
+                </ul>
+                <!--/ko-->
+                <p id="pmess3" data-bind="visible:($root.state()==1||($root.state() == 0 && $root.isException)||$root.messagesData().length==0),html:$root.tipMsg" class="no_mess"></p>
+            </div>
+            <!-- 分页 -->
+            <div class="v_fun_wz02 v_funney_wz" id="pager" data-bind="visible:$root.isShowPagerBar()">
+            </div>
+            <!-- 分页 end -->
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    function MessageCenter() {
+        var self = this;
+        //分页容器
+        self.pagerId = ko.observable('pager');
+        //每页大小
+        self.pageSize = ko.observable(8);
+        //当前第几页
+        self.pagenumber = ko.observable(1);
+        //总条数
+        self.totalcount = ko.observable(0);
+        //总页数
+        self.pageCount = ko.observable(1);
+        //当前页标志
+        self.currMessageType = ko.observable();
+        //页面数据
+        self.sysData = ko.observableArray();
+        self.commentsData = ko.observableArray();
+        self.messagesData = ko.observableArray();
+
+        //是否显示分页条
+        self.isShowPagerBar = ko.observable(false);
+        //默认用户图像
+        self.defaultUserImage = ko.observable(defaultData.defaultUserImage);
+        //0未查询 1正在查询 2查询失败
+        self.state = ko.observable(0);
+        self.isException = false;
+        //个人空间留言分页大小
+        self.roomMessagePageSize = 10;
+        //播放页面的评论分页大小
+        self.playCommentPageSize = 10;
+        //子集分页大小
+        self.commentSize = 5;
+
+        //加载错误处理
+        self.loadError = function () {
+            //用户图像无法显示时 显示默认的图像
+            $("img[userimg]").error(function () {
+                $(this).attr("src", self.defaultUserImage());
+            });
+        }
+        //是否为所属
+        self.isOwner = function (ownerUserId) {
+            return (ownerUserId == userId);
+        }
+        //是否相等
+        self.isEquals = function (u1, u2) {
+            return (u1 == u2);
+        }
+        //留言
+        self.compare = function (ToUserId, OwnerUserId, type) {
+            if (type == 1) {//发表留言
+                return userId == ToUserId && userId == OwnerUserId;
+            } else if (type == 2) {
+                return userId == ToUserId
+            } else if (type == 3) {
+                return userId == OwnerUserId
+            }
+        }
+        //处理用户的图像
+        self.handUserPicture = function (pic) {
+            if (pic == null || pic == '')
+                pic = self.defaultUserImage();
+            else {
+                if (pic.indexOf("http:") > -1) {
+                    return pic;
+                } else {
+                    return rootPath + pic;
+                }
+            }
+            return pic;
+        }
+        //界面显示
+        self.tipMsg = ko.computed(function () {
+            var msg = "";
+            var curr = self.currMessageType();
+
+            if (self.state() == 1) {
+                var msg = Translate("web_Client_Views_UserCenter_Loading");
+                loading = '<img src="' + rootPath + '/Content/images/icon_img/loading_32X32.gif"><br/><span style="font-size:12px;">' + msg + '</span>';
+                msg = loading; //"正在加载中...";
+            } else {
+                if (self.state() == 0 && self.isException) {
+                    msg = Translate("web_Client_Views_UserCenter_NoQueryData");
+                }
+                else {
+                    if (curr == 1 && self.sysData().length == 0) {
+                        msg = Translate("web_Client_Views_UserCenter_NoSysData");//"暂无系统消息";
+                    } else if (curr == 2 && self.commentsData().length == 0) {
+                        msg = Translate("web_Client_Views_UserCenter_NoCommetData");//"暂无视频评论";
+                    } else if (curr == 3 && self.messagesData().length == 0) {
+                        msg = Translate("web_Client_Views_UserCenter_NoMessageData");//"暂无用户留言";
+                    }
+                }
+            }
+            return msg;
+        }, self);
+
+        //选项卡切换
+        self.tabSwitch = function (ele) {
+            if (self.state() == 0) {
+                var messageTypeId = $(ele).attr("itemid");
+                //显示tab
+                self.showTab(ele, messageTypeId);
+                //加载数据
+                self.loadPage(1, messageTypeId);
+            }
+            return false;
+        }
+        //显示tab
+        self.showTab = function (ele, messageTypeId) {
+            if (ele == null) ele = $("#center0" + messageTypeId);
+            //设置和显示
+            $(ele).attr("class", "v_r_ti_cur");
+            $("#messContainer div[id=x_r_center0" + messageTypeId + "]").show();
+            //清空样式和隐藏
+            $("#messContainer div[id^=x_r_center0]").not("[id='x_r_center0" + messageTypeId + "']").hide();
+            $("#menuTab a[itemid]").not("[itemid='" + messageTypeId + "']").removeAttr("class");
+        }
+        //初始化数据
+        self.init = function () {
+            var t = '@Model';
+            if (self.state() == 0) {
+                self.loadPage(1, t);
+                addMask($("#main"), 1);
+            }
+        }
+
+        //加载页面
+        self.loadPage = function (pageNum, t) {
+            var d = {
+                pageindex: pageNum,
+                pagesize: self.pageSize(),
+                commmentSize: self.commentSize
+            };
+            if (!t || t == 0 || (t && (t + '').toLowerCase() == 'null')) t = 1;
+            var url = rootPath + "/UserCenter/GetSystemMessages";
+            if (t == 2) {
+                url = rootPath + "/UserCenter/GetComments";
+                d.commmentPageSize = self.playCommentPageSize;
+            } else if (t == 3) {
+                url = rootPath + "/UserCenter/GetUserMessages";
+                d.messagePageSize = self.roomMessagePageSize;
+            }
+            $("#menuTab a").removeAttr("class");
+            $("#menuTab a[itemid = " + t + "]").attr("class", "v_r_ti_cur");
+            //初始化数据
+
+            self.currMessageType(t);
+            self.state(1);
+            self.isShowPagerBar(false);
+            self.isException = false;
+            self.sysData([]);
+            self.commentsData([]);
+            self.messagesData([]);
+
+            //console.log("url:" + url);
+            //console.log(d);
+            $.post(url, d, function (data) {
+                //console.log(t + "返回数据:");
+                //console.log(data);
+                //加载数据
+                self.getPager(pageNum, data, t);
+            }, "json");
+        }
+        self.getPager = function (pageNum, data, t) {
+            if (t == self.currMessageType()) {
+                //分页数据
+                var pageResult = null;
+                try {
+                    //显示tab
+                    self.showTab(null, self.currMessageType());
+                    if (data == null) {
+                        var exp = Translate("web_Client_Views_UserCenter_loadDataFail");//'加载数据失败';
+                        $("#pmess" + t).html(exp);
+                        throw new Error(exp);
+                    }
+                    pageResult = data.PageResult;
+                    //选项卡标志页
+                    self.currMessageType(t);
+                    //设置当前页
+                    self.pagenumber(pageNum);
+                    //总条数
+                    self.totalcount(pageResult.TotalCount);
+                    //重新计算页数
+                    var pagecnt = self.totalcount() % self.pageSize() == 0 ? parseInt(self.totalcount() / self.pageSize(), 10) : parseInt(self.totalcount() / self.pageSize(), 10) + 1;
+                    self.pageCount(pagecnt);
+
+                    //如果数据大于每页大小 显示分页条
+                    if (self.totalcount() > self.pageSize()) self.isShowPagerBar(true); else self.isShowPagerBar(false);
+                    //console.log("Datalength：" + pageResult.Data .length+ " totalcount:" + self.totalcount() + " pagenumber:" + self.pagenumber() + " pagecount:" + self.pageCount() + " " + "isShowPagerBar:" + self.isShowPagerBar());
+                    $("#" + self.pagerId()).pager({
+                        pagenumber: self.pagenumber(), pagecount: self.pageCount(), totalcount: self.totalcount(), buttonClickCallback: function (pageclickednumber) {
+                            //单击加载
+                            self.loadPage(pageclickednumber, t);
+                        }
+                    });
+                    $("#menuTab a[itemid]").removeAttr("class");
+                    $("#menuTab a[itemid=" + t + "]").attr("class", "v_r_ti_cur");
+
+                    //设置菜单数量
+                    $("#menuTab a").each(function (idx, a) {
+                        var messageTypeId = $(a).attr("itemid");
+                        for (var i = 1; i <= data.MessageTypes.length; i++) {
+                            if (i == messageTypeId) {
+                                var cnt = data.MessageTypes[i - 1].UnreadMessageCount;
+                                if (cnt > 0) {
+                                    if (cnt > 99) cnt = 99;
+                                    $("#cnt" + i).attr("class", "x_r_num" + i);
+                                    $("#cnt" + i).text(cnt);
+                                } else {
+                                    $("#cnt" + i).attr("class", "");
+                                    $("#cnt" + i).text("");
+                                }
+                            }
+                        }
+                    });
+                    //设置头部消息数和链接
+                    $("#messageUrl").attr("href", rootPath + "/UserCenter/Messager?t=" + data.MessageType.MessageTypeId);
+                    //修改消息数量的显示
+                    if (data.MessageType.UnreadMessageCount <= 0) {
+                        $("#messageUrl #xqtip").removeAttr("class");
+                        $("#messageUrl #xqtip").text("");
+                    } else {
+                        if (data.MessageType.UnreadMessageCount > 99) data.MessageType.UnreadMessageCount = 99;
+                        $("#messageUrl #xqtip").attr("class", "xx_num");
+                        $("#messageUrl #xqtip").text(data.MessageType.UnreadMessageCount);
+                    }
+                }
+                catch (e) {
+                    self.isException = true;
+                    //console.log(e.message);
+                }
+                finally {
+                    //更改状态
+                    self.state(0);
+                    //console.log("isException:" + self.isException + " state:" + self.state());
+                    //内容页数据
+                    if (!self.isException && pageResult) {
+                        if (t == 1) {
+                            self.sysData(pageResult.Data);
+                        } else if (t == 2) {
+                            self.commentsData(pageResult.Data);
+                        } else if (t == 3) {
+                            self.messagesData(pageResult.Data);
+                        }
+                    }
+                    //用户图像处理
+                    self.loadError();
+                    removeMask($("#main"));
+                }
+            } else {
+                // console.log("curr:" + t + " currMessageType:" + self.currMessageType());
+            }
+        }
+        //删除系统消息
+        self.deleteSystemMessage = function (ele, systemMessageId) {
+            var url = rootPath + "/UserCenter/DeleteSystemMessage?messageId=" + systemMessageId;
+            //console.log("删除系统消息url:" + url);
+            var requestStatus = $(ele).attr("requestStatus");
+            if (requestStatus == null || requestStatus == undefined) {
+                $(ele).attr("requestStatus", "sending");
+                $.getJSON(url, function (data) {
+                    try {
+                        //console.log("删除系统消息返回数据:");
+                        //console.log(data);
+                        if (data != null && data.Success && data.Data) {
+                            //重新加载页面
+                            self.loadPage(self.pagenumber(), self.currMessageType());
+                        } else {
+                            globalPromptBox.showGeneralMassage(2, Translate("web_Client_Views_UserCenter_DeleteFail"), 1000, false);
+                        }
+                    } finally {
+                        $(ele).removeAttr("requestStatus");
+                    }
+                }, "json");
+            }
+        }
+        //删除用户评论
+        self.deleteUserComment = function (ele, messageId) {
+            var url = rootPath + "/UserCenter/DeleteComment?messageId=" + messageId;
+            //console.log("删除用户评论url:" + url);
+            var requestStatus = $(ele).attr("requestStatus");
+            if (requestStatus == null || requestStatus == undefined) {
+                $(ele).attr("requestStatus", "sending");
+                $.getJSON(url, function (data) {
+                    try {
+                        //console.log("删除用户评论返回数据:");
+                        //console.log(data);
+                        if (data != null && data.Success && data.Data) {
+                            //重新加载页面
+                            self.loadPage(self.pagenumber(), self.currMessageType());
+                        } else {
+                            globalPromptBox.showGeneralMassage(2, Translate("web_Client_Views_UserCenter_DeleteFail"), 1000, false);
+                        }
+                    } finally {
+                        $(ele).removeAttr("requestStatus");
+                    }
+
+                }, "json");
+            }
+        }
+        //删除用户留言
+        self.deleteUserMessage = function (ele, messageId) {
+            var url = rootPath + "/UserCenter/DeleteUserMessageById?messageId=" + messageId;
+            //console.log("删除用户留言url:" + url);
+            var requestStatus = $(ele).attr("requestStatus");
+            if (requestStatus == null || requestStatus == undefined) {
+                $(ele).attr("requestStatus", "sending");
+                $.getJSON(url, function (data) {
+                    try {
+                        //console.log("删除用户留言返回数据:");
+                        //console.log(data);
+                        if (data != null && data.Success && data.Data) {
+                            //重新加载页面
+                            self.loadPage(self.pagenumber(), self.currMessageType());
+                        } else {
+                            globalPromptBox.showGeneralMassage(2, Translate("web_Client_Views_UserCenter_DeleteFail"), 1000, false);
+                        }
+                    } finally {
+                        $(ele).removeAttr("requestStatus");
+                    }
+                }, "json");
+            }
+        }
+        //移除粗体样式
+        self.removeCenFont = function (id) {
+            var t = self.currMessageType();
+            if (t == 1) {
+                $("#x_r_center0" + t + " li[id='s_" + id + "'] p").removeClass("cen_font");
+            } else if (t == 2) {
+                $("#x_r_center0" + t + " li[id='p_" + id + "'] div").removeClass("cen_font");
+            } else if (t == 3) {
+                $("#x_r_center0" + t + " li[id='m_" + id + "'] div").removeClass("cen_font");
+            }
+        }
+        //跳转到用户空间
+        self.gotoRoom = function (uid) {
+            var url = rootPath + "/UserRoom/Index?browserUserId=" + uid + "&v=" + Math.random();
+            window.open(url, "newRoom");
+        }
+        //跳转到播放页面
+        self.goPlayer = function (Id, anchor) {
+            var url = rootPath + "/Play/Index?videoId=" + Id + "&v=" + Math.random();
+            if (anchor)
+                url = url + "#" + anchor;
+            window.open(url, "newPlay");
+        }
+    }
+    var messageCenter = new MessageCenter();
+    messageCenter.init();
+    ko.applyBindings(messageCenter, document.getElementById("messContainer"));
+</script>

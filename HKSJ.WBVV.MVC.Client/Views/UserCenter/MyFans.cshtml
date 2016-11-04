@@ -1,0 +1,84 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.Common.Language
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/left.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/account.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/playease.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/person_com.css" />
+<script type="text/javascript">
+    document.title = '@GlobalMemberInfo.NickName' + "-" + Translate("web_Client_Views_UserCenter_MyFans_Title") + " " + companyTitle;
+    var userId = "@GlobalMemberInfo.UserId";
+    var menuId = 4;
+</script>
+<!--  搜索栏结束 -->
+<div class="wrap view">
+    <div style="margin-right:48px;" align="left" height="740px" width="220px">
+        @Html.Partial("_UserMenu")
+    </div>
+
+    <div class="view_right" id="subContainer">
+        <div class="v_r_title" id="menuTab">
+            <a href="javascript:void(0)" itemid="1" class="v_r_ti_cur" style="margin-right:28px;">@LanguageUtil.Translate("web_Client_Views_UserCenter_MyFans_MySubscribeDynamic")</a>
+            <a href="javascript:void(0)" itemid="2">@LanguageUtil.Translate("web_Client_Views_UserCenter_MyFans_MySubscribeList")</a>
+        </div>
+
+        <div class="sub_r_con" id="showSubDiv1" style="display:block;min-height:300px;" loading="main1">
+            <!--ko if:list().length>0 -->
+            <ul data-bind="foreach:list">
+                <li>
+                    <div class="sub_r_dm">
+                        <a class="sub_r_img" data-bind="attr:{href:$root.goPlayer(Id),title:Title}" target="_blank">
+                            <div class="play_img" wth="176" hht="132"><i></i><img data-bind="attr:{src:SmallPicturePath,alt:Title,sid:Id}"></div>
+                        </a>
+                        
+                    </div>
+                    <div class="sub_r_title">
+                        <div class="sub_c_ti"><a data-bind="attr:{href:$root.goPlayer(Id),title:Title}"><!--ko text:Title--><!--/ko--></a></div>
+                        <p class="sub_c_t_p">@(LanguageUtil.Translate("web_Client_Views_UserCenter_MyFans_Author"))<!--ko text:UserNickName--><!--/ko-->
+                            <span class="sub_c_ti_bf" ><!--ko text:PlayCount--><!--/ko--></span>
+                            <span class="sub_c_ti_pl" ><!--ko text:CommentCount--><!--/ko--></span>
+                        </p>
+                        <p data-bind="attr:{title:About}">@(LanguageUtil.Translate("web_Client_Views_UserCenter_MyFans_About"))<!--ko text:About--><!--/ko--></p>
+                        <p class="sub_c_t_time"><!--ko text:CreateTimeStr--><!--/ko--></p>
+                    </div>
+                </li>
+            </ul>
+            <!--/ko-->
+            <p data-bind="visible:(!$root.isLoading()&&list().length==0),html:$root.tipMsg" class="no_mess"></p>
+            <div class="clear"></div>
+        </div>
+        <div id="pager1" class="v_fun_wz02" style="margin-top:30px;"></div>
+
+        <div class="sub_r_con sub_r_list" id="showSubDiv2" style="display:none;min-height:300px;" loading="main2">
+            <!--ko if:list().length>0 -->
+            <ul data-bind="foreach:list">
+                <li>
+                    <div class="sub_r_list_img">
+                        <a data-bind="attr:{href:$root.gotoRoom(Id)}">
+                            <img data-bind="attr:{src:$root.handUserPicture(Picture)}">
+                        </a>
+                        <p class="sub_r_list_p" data-bind="event:{mouseover:function(){$('#quxiao'+Id).show();},mouseout:function(){$('#quxiao'+Id).hide()}}">
+                            <a class="sub_l_t_btn_01" href="javascript:void(0)">@(LanguageUtil.Translate("web_Client_Views_UserCenter_MyFans_Subscribed"))</a>
+                            <a class="sub_l_t_btn_02" href="javascript:void(0)" data-bind="click:function(){$root.confirmSub($data)},attr:{id:'quxiao'+Id}">@(LanguageUtil.Translate("web_Client_Views_UserCenter_MyFans_CancelSubscribe"))</a>
+                        </p>
+                    </div>
+                    <div class="sub_r_list_title">
+                        <div class="clearfloat">
+                            <a class="sub_r_ls_name" data-bind="attr:{href:$root.gotoRoom(Id)}"><!--ko text:NickName--><!--/ko--></a>
+                            <span class="sub_l_t_dj">@(LanguageUtil.Translate("web_Client_Views_UserCenter_MyFans_Grade"))<img src="@ServerHelper.RootPath/Content/images/icon_img/vip_01.png"></span>
+                        </div>
+                        <span class="sub_l_t_js" data-bind="attr:{title:Bardian}">@(LanguageUtil.Translate("web_Client_Views_UserCenter_MyFans_Greeting"))<!--ko text:Bardian--><!--/ko--></span>
+                    </div>
+                </li>
+            </ul>
+            <!--/ko-->
+            <p data-bind="visible:(!$root.isLoading()&&list().length==0),html:$root.tipMsg" class="no_mess"></p>
+            <div class="clear"></div>
+        </div>
+        <div id="pager2" class="v_fun_wz02" style="display:none;margin-top:30px;"></div>
+    </div>
+    <div class="clear"></div>
+
+</div>
+<script type="text/javascript" src="@ServerHelper.RootPath/Content/js/playerease.js"></script>
+<script type="text/javascript" src="@ServerHelper.RootPath/Content/js/userFans.js"></script>

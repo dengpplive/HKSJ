@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="v_funney_img" id="divList">
+    <div class="dy_top">
+        <div class="dy_01">
+            <span data-bind="text:plateName"></span>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <ul data-bind="foreach:listData,as:'item'">
+        <li>
+            <a data-bind="click:function(){$root.goPlayer($data.Id)}">
+                <div class="play_img" wth="160" hht="120">
+                    <i></i>
+                    <img data-bind="attr:{src:SmallPicturePath}" width="160" height="120">
+                </div>
+            </a>
+            <p><a data-bind="text:Title,click:function(){$root.goPlayer($data.Id)}"></a></p>
+        </li>
+    </ul>
+    <div class="clear"></div>
+</div>

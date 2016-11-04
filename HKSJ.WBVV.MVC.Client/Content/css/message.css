@@ -1,0 +1,38 @@
+﻿/* CSS Document */
+
+.m_top{width:1200px; height:528px; border:1px solid #ccc; margin:0 auto;}
+
+
+
+/* 发表留言 */
+.m_ly{width:1150px; margin:30px auto;}
+.m_l_t{min-width:200px; width:95%;  min-height:130px; max-height:200px;border-radius:8px; overflow: hidden; resize:none; border:2px solid #c9c7c7;
+ margin:42px 10px 10px 25px; font-size:14px; padding:2px 0 0 5px;}
+.m_l_t:focus{outline:none;}
+.m_l_fb{ position:relative;width:1168px; height:84px;}
+.m_l_fb span{left:30px; top:-36px;}
+.m_l_fb a{width:74px; height:32px; background-color:#059ff7; color:#ffffff; font-size:18px; display:block; margin:36px 5px 24px 1042px; padding-left:36px; padding-top:6px; border-radius:2px; }
+.m_l_num{color:#059ff7;}
+.m_l_page{margin:0 auto; padding:0px;}
+
+
+/*  页码 */
+
+.v_funney_wz {width:1200px;}
+.v_funney_wz ul li{ float:left;}
+
+
+.v_fun_wz02 { margin-bottom:50px; }
+.v_fun_wz02 ul { width:400px; padding-left:7px; margin:0 auto;}
+
+.v_fun_wz02 ul li {margin-right:5px;}
+.v_fun_wz02 ul li a { border:1px solid #999999; padding:5px 12px;}
+
+.v_fun_wz02 ul .v_fun_dhs { border:1px solid #c9c9c9; }
+.v_fun_wz02 ul li a:hover { color:#fff; border:1px solid #e3e3e3; background-color:#059ff7;}
+
+
+
+
+
+

@@ -1,0 +1,202 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.Common.Language
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/login.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/account.css" />
+<link href="@ServerHelper.RootPath/Content/css/playease.css" type="text/css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Content/css/paging.css" rel="stylesheet" />
+<script type="text/javascript">    
+    document.title ='@GlobalMemberInfo.NickName' + "-"+Translate("web_Client_Views_UserCenter_UserHistory_Title")+" " + companyTitle;
+    var userId = "@GlobalMemberInfo.UserId";
+    var menuId = 5;
+</script>
+<div class="wrap view">
+
+    <div style="margin-right:48px;" align="left" height="740px" width="250px">
+        @Html.Partial("_UserMenu")
+    </div>
+
+    <div class="view_right" id="history">
+        <div class="v_r_title">
+            <span class="v_r_ti_cur">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserHistory_VideoLookRecords")</span>
+            <a style="float: right" href="javascript:delAllRec();">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserHistory_DeleteAllRecords")</a>
+        </div>
+        <div class="v_r_tu">
+            <ul>
+                <li>
+                    <div class="v_r_01">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserHistory_Today")</div>
+                    <div class="v_r_02" loading="today">
+                        <ul>
+                            <!-- ko foreach:todayHistories -->
+                            <li>
+                                <a data-bind="attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank">
+                                    <div class="play_img" wth="176" hht="132">
+                                        <i></i>
+                                        <img data-bind="attr:{src:$data.SmallPicturePath,title:$data.Title}">
+                                    </div>
+
+
+                                </a>
+                                <div class="v_r_sp">
+                                    <h4><a title="" data-bind="text:$data.Title,attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank"></a></h4>
+                                    <p data-bind="text:$data.WatchTimeString"></p>
+                                </div>
+                            </li>
+                            <!--/ko-->
+                            <div class="clear"></div>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="v_r_01 v_r_t_gk">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserHistory_Yesterday")</div>
+                    <div class="v_r_02 v_r_t_i_gk" loading="yesterday">
+                        <ul>
+                            <!-- ko foreach:yesterdayHistories -->
+                            <li>
+                                <a data-bind="attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank">
+                                    <div class="play_img" wth="176" hht="132">
+                                        <i></i>
+                                        <img data-bind="attr:{src:$data.SmallPicturePath,title:$data.Title}">
+                                    </div>
+                                </a>
+                                <div class="v_r_sp">
+                                    <h4><a title="" data-bind="text:$data.Title,attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank"></a></h4>
+                                    <p data-bind="text:$data.WatchTimeString"></p>
+                                </div>
+                            </li>
+                            <!--/ko-->
+                            <div class="clear"></div>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="v_r_01 v_r_t_gk">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserHistory_WithInWeek")</div>
+                    <div class="v_r_02 v_r_t_i_gk" loading="weekday">
+                        <ul>
+                            <!-- ko foreach:weekHistories -->
+                            <li>
+                                <a data-bind="attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank">
+                                    <div class="play_img" wth="176" hht="132">
+                                        <i></i>
+                                        <img data-bind="attr:{src:$data.SmallPicturePath,title:$data.Title}">
+                                    </div>
+                                </a>
+
+
+
+                                <div class="v_r_sp">
+                                    <h4><a title="" data-bind="text:$data.Title,attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank"></a></h4>
+                                    <p data-bind="text:$data.WatchTimeString"></p>
+                                </div>
+                            </li>
+                            <!--/ko-->
+
+
+                            <div class="clear"></div>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="v_r_01 v_r_t_gk">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserHistory_EarLy")</div>
+                    <div class="v_r_02 v_r_t_i_gk" loading="earyday">
+                        <ul>
+                            <!-- ko foreach:moreHistories -->
+                            <li>
+                                <a data-bind="attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank">
+                                    <div class="play_img" wth="176" hht="132">
+                                        <i></i>
+                                        <img data-bind="attr:{src:$data.SmallPicturePath,title:$data.Title}">
+                                    </div>
+                                </a>
+                                <div class="v_r_sp">
+                                    <h4><a title="" data-bind="text:$data.Title,attr:{href:$root.getPlayUrl(VideoId),title:$data.Title}" target="_blank"></a></h4>
+                                    <p data-bind="text:$data.WatchTimeString"></p>
+                                </div>
+                            </li>
+                            <!--/ko-->
+
+                            <div class="clear"></div>
+
+                        </ul>
+                    </div>
+                    <!-- 分页 -->
+                    <div class="v_fun_wz02 v_funney_wz">
+                        <ul id="page"></ul>
+                        <div class="clear"></div>
+                    </div>
+                    <!-- 分页 end -->
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+<script>
+    var totalCount = 1, page = 1, totalPages = 1, pageSize = 8;
+    $(function() {
+        addMask($("div[loading]"),1);
+        LoadData(page);
+    });
+
+    function  LoadData(page) {
+        var url = api + 'User/GetHistoryVideoByUserId?uid=' + vmhistory.userId +  '&pageIndex=' + page + '&pageSize=' + pageSize + '&v=' + Math.random();
+        $.getJSON(url, function (data) {
+            try {
+                if (data.msg == "success") {
+                    vmhistory.todayHistories(data.datalist.TodayHistories);
+                    vmhistory.yesterdayHistories(data.datalist.YesterdayHistories);
+                    vmhistory.weekHistories(data.datalist.OneWeekHistories);
+                    vmhistory.moreHistories(data.datalist.MoreHistories);
+                    totalCount = data.datalist.TotalMoreCount;
+                }
+
+            }finally {
+                removeMask($("div[loading]"));
+            }
+        });
+    }
+
+    var vm_history = function() {
+        var self = this;
+        self.userId = @Model;
+        self.todayHistories = ko.observableArray();
+        self.yesterdayHistories = ko.observableArray();
+        self.weekHistories = ko.observableArray();
+        self.moreHistories = ko.observableArray();
+        //获取播放页面的url
+        self.getPlayUrl = function(vid) {
+            return '@ServerHelper.RootPath' + '/Play/?videoId=' + vid;
+        };
+    };
+
+    var vmhistory = new vm_history();
+
+    ko.applyBindings(vmhistory, document.getElementById("history"));
+
+    function delAllRec() {
+        if (vmhistory.todayHistories().length == 0 && vmhistory.yesterdayHistories().length == 0 && vmhistory.weekHistories().length == 0 && vmhistory.moreHistories().length == 0) {
+            globalPromptBox.showGeneralMassage(1, Translate("web_Client_Views_UserCenter_UserHistory_NoRecordDelete"), 2000, false);
+            return;
+        }
+        if (userId > 0) {
+            var url = api + 'User/DelAllRecByUserId?uid='+userId;
+            $.ajax({
+                type: "post",
+                url: url,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success) {
+                        globalPromptBox.showGeneralMassage(1, Translate("web_Client_Views_UserCenter_UserHistory_DeleteSuccess"), 2000, false);
+                        LoadData(page);
+                    }
+                },
+                error:function(err) {
+
+                }
+            });
+        }
+    }
+
+</script>

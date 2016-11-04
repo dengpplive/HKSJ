@@ -1,0 +1,71 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<div id="videoContainer" data-bind="visible:$root.categoryData().length>0,foreach:{data:$root.categoryData,as:'cate'}">
+    <div class="wrap">
+        <div class="mail_dy">
+            <div class="dy_left">
+                <div class="dy_top">
+                    <div class="dy_more"><a data-bind="attr:{href:$root.getFilterUrl(cate.data.category)}">@LanguageUtil.Translate("web_View_Home_FirstCategory_dymore")</a></div>
+                    <div class="dy_01"><a data-bind="attr:{href:$root.getFilterUrl(cate.data.category)},text:cate.data.category.Name"></a></div>
+                    <div class="dy_top_title">
+                        <ul data-bind="foreach:{data:$root.getChilds(cate.data.category.Id)}">
+                            <li><a data-bind="attr:{href:$root.getChildFilterUrl($parent.category,$data)},text:$data.ParentCategory.Name "></a></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="wei_left">
+                    <!--ko if:(cate.data.model != null && cate.data.model.RecommendCategoryVideo != null && cate.data.model.RecommendCategoryVideo.length > 0) -->
+                    <ul data-bind="foreach:{data:cate.data.model.RecommendCategoryVideo,as:'cmd'}">
+                        <li>
+                            <div class="play_img" wth="176" hht="132">
+                                <a data-bind="attr:{href:$root.getPlayUrl(cmd.Id),title:$root.showTitle(cmd.Title)}" target="_blank">
+                                    <i></i><img video="true" data-bind="attr:{src:cmd.SmallPicturePath}">
+                                </a>
+                                <div class="wei_left_text">
+                                    <h6>
+                                        <a data-bind="text:$root.showTitle(cmd.Title),attr:{href:$root.getPlayUrl(cmd.Id),title:$root.showTitle(cmd.Title)}" target="_blank"></a>
+                                    </h6>
+                                    <p data-bind="text:$root.showAbout(cmd.About),attr:{title:$root.showAbout(cmd.About)}"> </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--/ko-->
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+            <div class="dy_right">
+                <div class="mail_right_titel"><a href="javascript:void(0)">@LanguageUtil.Translate("web_View_Home_FirstCategory_hot")</a></div>
+                <div class="dy_right_img">
+                    <!--ko if:(cate.data.model != null && cate.data.model.HotCategoryVideo != null && cate.data.model.HotCategoryVideo.length > 0) -->
+                    <ul class="d_r_wbg" data-bind="foreach:{data:cate.data.model.HotCategoryVideo,as:'hot'}">
+                        <!--ko if:$index()<4 -->
+                        <li class="dm_right dy_right_li_02">
+                            <div class="dm_right">
+                                <a data-bind="attr:{href:$root.getPlayUrl(hot.Id),title:$root.showTitle(hot.Title)}" target="_blank">
+                                    <div class="dm_r_left_01 play_img play_img2" wth="80" hht="60">
+                                        <i></i><img video="true" class="dm_img" data-bind="attr:{src:hot.SmallPicturePath,alt:hot.Title}">
+                                    </div>
+                                </a>
+                                <div class="dm_r_right_01">
+                                    <p class="dm_i_bt"><a data-bind="attr:{href:$root.getPlayUrl(hot.Id),title:$root.showTitle(hot.Title)},text:$root.showTitle(hot.Title)" target="_blank"></a></p>
+                                    <p class="dm_i_p" data-bind="text:$root.showAbout(hot.About),attr:{title:$root.showAbout(hot.About)}"></p>
+                                    <span class="dm_i_i right_bo" data-bind="text:hot.PlayCount"></span>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+                        <!--/ko-->
+                    </ul>
+                    <!--/ko-->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

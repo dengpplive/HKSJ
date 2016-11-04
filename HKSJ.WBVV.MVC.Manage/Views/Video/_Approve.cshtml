@@ -1,0 +1,53 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<style>
+    .modalcss {
+    position: relative;
+    max-height: 800px; 
+    padding: 15px;
+    overflow-y: initial; 
+    height: 720px;
+    background-color: #ffffff;
+    /* background: #ffffff; */
+    }
+</style>
+<div id="approve" class="modal hide fade" tabindex="-1" data-replace="true" aria-hidden="true" style="display: none; margin-top: 0px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h3 >@LanguageUtil.Translate("admin_Views_Video_Approve_h3_AuditVideo")</h3>
+    </div>
+    <div class="modal-body modalcss">
+        <div id="divFlashPlayer">
+
+        </div>
+        <div class="row-fluid margin-bottom-10">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Approve_label_AuditContent")</label>
+            <div class="controls">
+                <select class="per_a_add_nr_l_sort" style="float: left" id="approveContent">
+                    <option value="-1">@LanguageUtil.Translate("admin_Views_Video_Approve_option_AuditPass")</option>
+                    <option value="0">@LanguageUtil.Translate("admin_Views_Video_Approve_option_notPasscontainsIllegalInfo")</option>
+                    <option value="1">@LanguageUtil.Translate("admin_Views_Video_Approve_option_notPassVideoisnotClear")</option>
+                    <option value="2">@LanguageUtil.Translate("admin_Views_Video_Approve_option_notPassVideoTimeisnotenough")</option>
+                    <option value="3">@LanguageUtil.Translate("admin_Views_Video_Approve_option_notPassOthers")</option>
+                </select>
+            </div>
+        </div>
+        <div class="row-fluid margin-bottom-10">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Approve_label_Remarks")</label>
+            <div class="controls">
+                <textarea placeholder="@LanguageUtil.Translate("admin_Views_Video_Approve_textarea_Remarks")" id="ApproveRemark" class="large m-wrap" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="row-fluid margin-bottom-10">
+            <button type="submit" class="btn blue" id="approvePass" onclick="ApproveVideo(false)"><i class="icon-ok"></i>@LanguageUtil.Translate("admin_Views_Video_Approve_button_Pass")</button>
+            <button type="button" class="btn blue" id="approveNoPass" onclick="ApproveVideo(true)">@LanguageUtil.Translate("admin_Views_Video_Approve_button_NotPass")</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+       
+    </div>
+</div>
+
+

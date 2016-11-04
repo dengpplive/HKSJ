@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .row-fluid table th,.row-fluid table td{
+         text-align:center;
+         vertical-align:middle;
+    }
+</style>
+<div class="row-fluid">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <td style="width: 8px;">
+                    <input type="checkbox" onclick="checkAll(this)" />
+                </td>
+                <th>序号</th>
+                <th>封面</th>
+                <th>视频名称</th>
+                <th data-sort="BB" data-desc="true" onclick="checkSort(this)">视频类型</th>
+                <th>上传者信息</th>
+                <th>上传时间</th>
+                <th>视频状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:data">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked:ischeck" />
+                </td>
+                <td data-bind="text:index"></td>
+                <td><img data-bind="attr:{src:model.SmallPicturePath}" src="" style="width:200px; height:150px;" /></td>
+                <td data-bind="text:model.Title"></td>
+                <td data-bind="text:getCategoryName(model.ParentId)+model.CategoryName"></td>
+                <td data-bind="html:(model.CreateManageName==''?'':'昵称：'+model.CreateManageName)+(model.Account==''?'':'<div>ID：'+model.Account)+'</div>'"></td>
+                <td data-bind="text:model.CreateTime.replace('T',' ').substring(0,19)"></td>
+                <td>
+                    @*<a data-bind="attr:{href:model.PersistentUrl}" href="" target="_blank">*@
+                    <span data-bind="text:model.VideoStateStr"></span><br />
+                    @*</a>*@
+                    <span data-bind="text:(model.VideoState==4?model.ApproveRemark:'')" style="color:red;"></span>
+                </td>
+                @*<td data-bind="text:model.CheckStateStr"></td>*@
+
+                <td>
+                    @*<a class="btn  green"  data-bind="attr:{data_id:model.Id}" onclick="openedit(this)"><i class="icon-edit"></i>修改</a>
+                        <a class="btn  red" data-bind="click: function () { delvideo(model.Id) }"><i class="icon-remove"></i>删除</a>*@
+                    <a class="btn  blue" data-bind="click: function () { ApproveOpens(model.Id,model.VideoState,model.ApproveContent) },visible:model.VideoState!=0"><span data-bind="text:getStateStr(model.VideoState)"></span></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="divTip" style=" display:none; ">
+        <img src="@Url.Content("~/Content/images/no.jpg")" style=" width:98px; height:98px;" /><span style=" font-size:18px; position:relative; top:0px;">没有搜索到内容，请更换搜索条件！</span>
+    </div>
+</div>

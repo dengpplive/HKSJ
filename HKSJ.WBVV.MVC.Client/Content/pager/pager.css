@@ -1,0 +1,14 @@
+/* jquery.page.js css  */
+ul.pages {display:block;border:none;text-transform:uppercase;margin:10px 0 50px;padding:0;text-align:center;}
+ul.pages li {list-style:none;float:left;border:1px solid #999; text-decoration:none;margin:0 5px 0 0;padding:5px;padding:5px 12px;}
+ul.pages li:hover {border:1px solid #999;color:#fff;background-color:#059ff7;}
+ul.pages li.pgEmpty {border:1px solid #f0f0f0;color:#d9d6c3;background-color:#f0f0f0;}
+ul.pages li.thpoint {border:none;cursor:auto; color:#000;background-color:#fff;}
+ul.pages li.pgCurrent { padding:5px 12px;border:1px solid #999;border-color: #059FF7;color:#FFF;font-weight:700;background-color:#059FF7;}
+#pager1 .pages li {float: none;display: inline-block;}
+#pager1 .pages {margin-left: 0;}
+#pager .pages li {float: none;display: inline-block;}
+#pager .pages {margin-left: 0;}
+#page .pages li {float: none;display: inline-block;}
+#page .pages {margin-left: 0;}
+#page ul{ width: 100%;}

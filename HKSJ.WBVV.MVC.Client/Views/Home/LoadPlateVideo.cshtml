@@ -1,0 +1,77 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<div id="plateContainer" data-bind="visible:$root.plateData().length>0,foreach:{data:$root.plateData,as:'plate'}">
+    <!--ko if:(plate.data.model.RecommendPlateVideo != null && plate.data.model.RecommendPlateVideo.length > 0 || plate.data.model.HotPlateVideo != null && plate.data.model.HotPlateVideo.length > 0) -->
+    <div class="wrap JRTJ">
+        <div class="mail clearfloat">
+            <div class="mail_left">
+                <div class="mail_left_titel">
+                    <div class="mail_left_t_more"><a href="javascript:void(0)"></a></div>
+                    <a href="javascript:void(0)" data-bind="text:plate.data.plateView.Name"></a>
+                </div>
+                <div class="left_img clearfloat">
+                    <!--ko if:(plate.data.model.RecommendPlateVideo != null && plate.data.model.RecommendPlateVideo.length > 0)-->
+                    <div class="img_01">
+                        <a data-bind="attr:{href:$root.getPlayUrl(plate.data.model.RecommendPlateVideo[0].Id),title:$root.showTitle(plate.data.model.RecommendPlateVideo[0].Title)}" target="_blank">
+                            <i></i><img video="true" data-bind="attr:{src:plate.data.model.RecommendPlateVideo[0].BigPicturePath}" />
+                        </a>
+                        <div class="">
+                            <h6>
+                                <a target="_blank" data-bind="text:plate.data.model.RecommendPlateVideo[0].Title,attr:{href:$root.getPlayUrl(plate.data.model.RecommendPlateVideo[0].Id),title:$root.showTitle(plate.data.model.RecommendPlateVideo[0].Title)}"></a>
+                            </h6>
+                            <p data-bind="text:$root.showAbout(plate.data.model.RecommendPlateVideo[0].About),attr:{title:$root.showAbout(plate.data.model.RecommendPlateVideo[0].About)}"></p>
+                        </div>
+                    </div>
+                    <!--/ko-->
+                    <div class="center_img clearfloat">
+                        <!--ko if:(plate.data.model.RecommendPlateVideo != null && plate.data.model.RecommendPlateVideo.length > 0)-->
+                        <ul data-bind="foreach:{data:plate.data.model.RecommendPlateVideo,as:'pcmd'}">
+                            <!--ko if:$index()>0 -->
+                            <li>
+                                <a data-bind="attr:{href:$root.getPlayUrl(pcmd.Id),title:$root.showTitle(pcmd.Title)}" target="_blank">
+                                    <i></i><img video="true" data-bind="attr:{src:pcmd.BigPicturePath}">
+                                </a>
+                                <div class="mail_text">
+                                    <h6>
+                                        <a data-bind="text:$root.showTitle(pcmd.Title),attr:{href:$root.getPlayUrl(pcmd.Id),title:$root.showTitle(pcmd.Title)}" target="_blank"></a>
+                                    </h6>
+                                    <p data-bind="text:$root.showAbout(pcmd.About),attr:{title:$root.showAbout(pcmd.About)}"></p>
+                                </div>
+                            </li>
+                            <!--/ko-->
+                        </ul>
+                        <!--/ko-->
+                    </div>
+                </div>
+            </div>
+            <!-- 热门精选  -->
+            <!-- 热门精选  -->
+            <div class="mail_right">
+                <div class="mail_right_titel"><a href="javascript:void(0)">@LanguageUtil.Translate("web_View_Home_LoadPlateVideo_hot")</a></div>
+                <div class="right_img">
+                    <!--ko if:(plate.data.model.HotPlateVideo != null && plate.data.model.HotPlateVideo.length > 0) -->
+                    <ul data-bind="foreach:{data: plate.data.model.HotPlateVideo,as:'phot'}">
+                        <li data-bind="attr:{class:($index()==0?'right_li_02 right_li_01':'right_li_02')}">
+                            <div class="right_li_box">
+                                <div class="play_img" wth="212" hht="159">
+                                    <a data-bind="attr:{href:$root.getPlayUrl(phot.Id),title:$root.showTitle(phot.Title)}" target="_blank">
+                                        <i></i><img video="true" data-bind="attr:{src:phot.SmallPicturePath,alt:phot.Title}">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="right_img_title02 clearfloat">
+                                <div data-bind="attr:{class:($index()>=3?'right_smart_img03':'right_smart_img02')}"><span data-bind="text:($index()+1)"></span></div>
+                                <div class="right_title"><a data-bind="text:$root.showTitle(phot.Title),attr:{href:$root.getPlayUrl(phot.Id),title:$root.showTitle(phot.Title)}" target="_blank"></a></div>
+                                <div class="right_dj"><div class="right_bo" data-bind="text:phot.PlayCount"></div></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--/ko-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ko-->
+</div>

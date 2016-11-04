@@ -1,0 +1,47 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<div class="row-fluid">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <td style="width: 8px;">
+                    <input type="checkbox" onclick="checkAll(this)" /></td>
+                <th>@LanguageUtil.Translate("admin_Views_Video_List_th_SeqNo")</th>
+                <th>@LanguageUtil.Translate("admin_Views_Video_List_th_VideoName")</th>
+                <th data-sort="BB" data-desc="true" onclick="checkSort(this)">@LanguageUtil.Translate("admin_Views_Video_List_th_VideoType")</th>
+                <th>@LanguageUtil.Translate("admin_Views_Video_List_th_VideoResource")</th>
+                <th>@LanguageUtil.Translate("admin_Views_Video_List_th_UploaderId")</th>
+                <th>@LanguageUtil.Translate("admin_Views_Video_List_th_Uploader")</th>
+                <th>@LanguageUtil.Translate("admin_Views_Video_List_th_CreateTime")</th>
+                <th>@LanguageUtil.Translate("admin_Views_Video_List_th_VideoStatus")</th>
+                <th>@LanguageUtil.Translate("admin_Views_Video_List_th_operation")</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:data">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked:ischeck" /></td>
+                <td data-bind="text:index"></td>
+                <td data-bind="text:model.Title"></td>
+                <td data-bind="text:model.CategoryName"></td>
+                <td data-bind="text:model.VideoSource==false?'@LanguageUtil.Translate("admin_Views_Video_List_td_BackgroundUpload")':'@LanguageUtil.Translate("admin_Views_Video_List_td_ForegroundUpload")'"></td>
+                <td data-bind="text:model.CreateManageId"></td>
+                <td data-bind="text:model.CreateManageName"></td>
+                <td data-bind="text:model.CreateTimeStr"></td>
+                <td >
+                    <a data-bind="attr:{href:model.PersistentUrl}" href="" target="_blank">
+                        <span data-bind="text:model.VideoStateStr"></span>
+                    </a>
+                </td>
+                <td>
+                    <a class="btn  green"  data-bind="attr:{data_id:model.Id}" onclick="openedit(this)"><i class="icon-edit"></i>@LanguageUtil.Translate("admin_Views_Video_List_a_Edit")</a>
+                    <a class="btn  red" data-bind="click: function () { delvideo(model.Id) }"><i class="icon-remove"></i>@LanguageUtil.Translate("admin_Views_Video_List_a_Delete")</a>
+                    @*<a class="btn  blue" data-bind="click: function () { ApproveOpen(model.Id,model.VideoState) }"><i class="icon-edit"></i>审核</a>*@
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

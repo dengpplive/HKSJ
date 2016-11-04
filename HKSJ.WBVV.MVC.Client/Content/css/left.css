@@ -1,0 +1,47 @@
+
+/* CSS Document */
+
+
+.view{margin-top:40px;}
+.view_left{width:216px; height:738px; border:1px solid #e5e5e5; float:left; margin-right:30px; background-color:#f1f1f1; }
+
+/*  view_left */
+.v_l_message{width:160px; height:152px; margin:12px 0 15px 33px;}
+.v_l_message02 a,.v_l_shu  p, .v_l_message03 a{color:#272727;}
+.v_l_message img{width:150px; height:150px; border:1px solid #ccc;}
+
+.v_l_message02{height:100px; border-bottom:1px solid #e5e5e5; }
+.v_l_name{font-size:18px; text-align:center; display:block; color:#333;}
+.v_l_cline{width:32px; height:26px; margin-left:10px; vertical-align:middle;}
+
+.v_l_div{margin:0 auto; width:150px;}
+.v_l_shu {margin:10px 0 2px 0; width:75px; float:left ;text-align:center; font-size:14px;}
+
+.c{width:216px; height:373px; }
+
+.v_l_message03 li{width:216px; height:52px; border-bottom:1px solid #e5e5e5;}
+.v_l_message03 li a{width:216px; height:40px; display:block; padding-top:12px; font-size:14px;}
+.v_l_message03 li a:hover {color:#059ff7;}
+.v_l_message03 ul li.cur a{color:#059ff7; font-size:14px;}
+
+/* 左边样式 */
+.v_l_message03 ul li .i_index{background:url(../images/icon_img/bg_img.png) no-repeat; vertical-align:middle; width:22px; height:22px; margin:0px 12px 8px 60px; display:inline-block;}
+.v_l_message03 ul .left_li .lis_1{background-position:-58px -29px;}
+.v_l_message03 ul li:hover .lis_1, .v_l_message03 ul .left_li .act1{background-position:-27px -29px;}
+.v_l_message03 ul .left_li .lis_2{background-position:-122px -29px;}
+.v_l_message03 ul li:hover .lis_2, .v_l_message03 ul .left_li .act2{background-position:-89px -29px;}
+.v_l_message03 ul .left_li .lis_3{background-position:-194px -29px;}
+.v_l_message03 ul li:hover .lis_3, .v_l_message03 ul .left_li .act3{background-position:-156px -29px;}
+.v_l_message03 ul .left_li .lis_4{background-position:-270px -29px;}
+.v_l_message03 ul li:hover .lis_4, .v_l_message03 ul .left_li .act4{background-position:-231px -29px;}
+.v_l_message03 ul .left_li .lis_5{background-position:-343px -29px;}
+.v_l_message03 ul li:hover .lis_5, .v_l_message03 ul .left_li .act5{background-position:-308px -29px;}
+.v_l_message03 ul .left_li .lis_6{background-position:-422px -29px;}
+.v_l_message03 ul li:hover .lis_6, .v_l_message03 ul .left_li .act6{background-position:-381px -29px;}
+.v_l_message03 ul .left_li .lis_7{background-position:-496px -29px;}
+.v_l_message03 ul li:hover .lis_7, .v_l_message03 ul .left_li .act7{background-position:-461px -28px;}
+.v_l_message03 ul .left_li .lis_8{background-position:-569px -28px;}
+.v_l_message03 ul li:hover .lis_8, .v_l_message03 ul .left_li .act8{background-position:-531px -27px;}
+
+
+

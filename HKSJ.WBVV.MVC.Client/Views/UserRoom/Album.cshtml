@@ -1,0 +1,60 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@section Metas
+{
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Language" content="zh-CN" />
+}
+
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/person_com.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/5bvv_person_video.css" />
+}
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/roomAlbum.js" type="text/javascript"></script>
+}
+
+<!-- 原创视频集 开始  -->
+<div loading="main" style="min-height:30px;">
+    <div class="v_funney wrap" id="vl">
+        <div class="v_fun_w_zhuanji">
+            <div class="v_fun_wz01 v_funney_wz">
+                <ul id="secheader">
+                    <li class="v_f_f_right" data-bind="html:$root.showAlbumTotalHtml"></li>
+                    <li>
+                        <a class="vid_total_curr" href="javascript:void(0)" isdesc="true" orderby="OrderCreateTime" data-bind="click:function(){$root.setFiledOrder($element)}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Album_LastNewAlbum")</a>
+                    </li>
+                    <li><a href="javascript:void(0)" orderby="PlayCount" isdesc="true" data-bind="click:function(){$root.setFiledOrder($element)}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Album_MostPlayCount")</a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+
+            <div class="zhuanji_img clearfloat" id="container">
+                <ul data-bind="foreach:list">
+                    <li class="zhuanji_p_img">
+                        <a data-bind="attr:{href:$root.goSonAlbum(Id),title:Title}">
+                            <img data-bind="attr:{src:Thumbnail,alt:Title}" width="200" height="150">
+                            <div class="zhuanji_p_i_shuz" data-bind="html:$root.showVideoCount(VideoCount)"></div>
+                        </a>
+                        <div class="zhuanji_p_i_wz wrap_l_tu_bg2">
+                            <h6><a data-bind="text:Title,attr:{title:Title,href:$root.goSonAlbum(Id)}"></a></h6>
+                            <p data-bind="html:$root.showPlayCountHtml(FormatPlayCount)"></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        @*分页*@
+        <div class="v_fun_wz02 " id="pager">
+        </div>
+    </div>
+</div>
+<!-- 原创视频集 结束  -->

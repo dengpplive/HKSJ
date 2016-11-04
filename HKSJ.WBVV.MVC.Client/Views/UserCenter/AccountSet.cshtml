@@ -1,0 +1,1008 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.MVC.Common
+@model HKSJ.WBVV.Entity.ViewModel.Client.AccountView
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.Common.Language
+@{
+    string phone = ViewBag.Phone;
+    List<string> pictures = ViewBag.UserPictures;
+}
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/login.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/left.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/account.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/cropper.css" />
+
+<script src="@ServerHelper.RootPath/Scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="@ServerHelper.RootPath/Scripts/areadata.js" type="text/javascript"></script>
+<script src="@ServerHelper.RootPath/Scripts/plupload.full.min.js"></script>
+<script src="@ServerHelper.RootPath/Scripts/qiniu.min.js"></script>
+<script src="@ServerHelper.RootPath/Scripts/Cropper/jquery.min.js"></script>
+<script src="@ServerHelper.RootPath/Scripts/Cropper/bootstrap.min.js"></script>
+<script src="@ServerHelper.RootPath/Scripts/Cropper/cropper.js"></script>
+<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=@Model.LastLoginIp"></script>
+<script>
+    document.title = '@GlobalMemberInfo.NickName' + "-@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Title") " + companyTitle;
+    var menuId = 8;
+    var userId = "@GlobalMemberInfo.UserId";
+
+</script>
+<div class="wrap view">
+    <div style="margin-right: 48px;" align="left" height="740px" width="250px">
+        @Html.Partial("_UserMenu")
+    </div>
+    <div class="view_right">
+        <div class="v_r_title xiaoxi" id="menuTab">
+            <a id="setform1" itemid="1" class="v_r_ti_cur" href="javascript:void(0);">@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_PersonalData")</a>
+            <a id="setform2" itemid="2" href="javascript:void(0);">@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ModifyAvatar")</a>
+            <a id="setform3" itemid="3" href="javascript:void(0);">@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_SecuritySettings")</a>
+        </div>
+        <div class="s_r_form01" id="s_r_setform1" style="display: block;">
+            <!--个人资料 预览状态-->
+            <div class="s_r_data" id="userinfo_edit">
+                <p>
+                    <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_UserNickName")</span><b>@Model.NickName</b>
+                </p>
+                <p>
+                    <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_UserSex")</span><b>@(Model.Gender == 0 ? LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Man") : LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_WoMan"))</b>
+                </p>
+                <p>
+                    <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Birthday")</span><b>@Model.Birthdate</b>
+                </p>
+                <p>
+                    <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Address")</span><b>@(Model.Province)-@(Model.City)</b>
+                </p>
+                <p>
+                    <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Zodiac")</span><b id="zodiac_b"></b>
+                </p>
+                <p>
+                    <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Constellation")</span><b id="constellation_b"></b>
+                </p>
+                <p>
+                    <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Bardian")</span><b>@Model.Bardian</b>
+                </p>
+                <a href="javascript:void(0);" onclick="AC.Toggle('userinfo_edit', 'accoutForm')">@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ModifyUserInfo")</a>
+            </div>
+            <!--个人资料 编辑状态-->
+            <form id="accoutForm">
+                <input id="suid" name="Id" type="hidden" value="@GlobalMemberInfo.UserId" />
+                <table width="550" border="0">
+                    <tr>
+                        <td colspan="2">
+                            <span class="s_r_form_span s_r_f_s02">@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_NoNeedModify")</span>
+                            <a class="s_r_form_upsj" href="javascript:void(0);" onclick="AC.Toggle('userinfo_edit', 'accoutForm')">@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ClickGoBack")</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="65">@LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowSex")</td>
+                        <td>
+                            @{
+                                var bchk = "checked";
+                                var gchk = "";
+                                var gender = Convert.ToBoolean(Model.Gender);
+                                if (gender)
+                                {
+                                    bchk = "";
+                                    gchk = "checked";
+                                }
+                            }
+                            @(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Man"))&nbsp;
+                            <input type="radio" name="Gender" value="0" @bchk>
+                            &nbsp;&nbsp;&nbsp;@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_WoMan"))&nbsp;
+                            <input type="radio" name="Gender" value="1" @gchk>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowNickName"))</td>
+                        <td style="width: 202px;">
+                            <input class="s_r_brithday" type="text" id="nickName" name="NickName" data-style="error" onfocus="LR.RemoveErrorClass('nickName')" value="@Model.NickName" onkeyup="AC.NickNameChange('nickName')" maxlength="100" onblur="AC.CheckNickName('nickName')">
+                        </td>
+                        <td><span id="spannickName" class="error"></span></td>
+                    </tr>
+                    <tr>
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowBirthday"))</td>
+                        <td colspan="2">
+                            <input class="s_r_brithday" type="text" readonly="readonly" id="birthdate" name="Birthdate" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Placeholder_Birthday"))"
+                                   onfocus="WdatePicker({ onpicked: AC.BirthdateChange })" value="@Model.Birthdate">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowAddress"))</td>
+                        <td colspan="2">
+                            <select class="s_r_city" id="seachprov" name="ProvinceCode" onchange="changeComplexProvince('seachprov', 'province', this.value, sublocation_array, 'seachcity', 'city');">
+                                <option value="0">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowPleaseSelect"))</option>
+                            </select>
+                            <input type="hidden" id="province" name="Province" value="@Model.Province" />
+                            <select class="s_r_city" id="seachcity" name="CityCode" onchange="changeCity('seachcity', 'city');">
+                                <option value="0">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowPleaseSelect"))</option>
+                            </select>
+                            <span id="seachdistrict_div" style="display: none;"></span>
+                            <input type="hidden" id="city" name="City" value="@Model.City" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowZodiac"))</td>
+                        <td colspan="2">
+                            <select class="s_r_city" id="zodiac" name="Zodiac">
+                                <option value="0" text="">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowPleaseSelect"))</option>
+                                <option value="1" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowMouse"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowMouse"))</option>
+                                <option value="2" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowCattle"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowCattle"))</option>
+                                <option value="3" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowTiger"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowTiger"))</option>
+                                <option value="4" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowRabbit"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowRabbit"))</option>
+                                <option value="5" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowLoong"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowLoong"))</option>
+                                <option value="6" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowSnake"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowSnake"))</option>
+                                <option value="7" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowHouse"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowHouse"))</option>
+                                <option value="8" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowSheep"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowSheep"))</option>
+                                <option value="9" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowMonkey"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowMonkey"))</option>
+                                <option value="10" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowChicken"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowChicken"))</option>
+                                <option value="11" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowDog"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowDog"))</option>
+                                <option value="12" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowPig"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowPig"))</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowConstellation"))</td>
+                        <td colspan="2">
+                            <select class="s_r_city" id="constellation" name="Constellation">
+                                <option value="0" text="">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowPleaseSelect"))</option>
+                                <option value="1" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowCapricorn"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowCapricorn"))</option>
+                                <option value="2" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowAquarius"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowAquarius"))</option>
+                                <option value="3" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowPisces"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowPisces"))</option>
+                                <option value="4" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowAries"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowAries"))</option>
+                                <option value="5" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowTaurus"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowTaurus"))</option>
+                                <option value="6" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowGemini"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowGemini"))</option>
+                                <option value="7" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowCancer"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowCancer"))</option>
+                                <option value="8" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowLeo"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowLeo"))</option>
+                                <option value="9" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowVirgo"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowVirgo"))</option>
+                                <option value="10" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowLibra"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowLibra"))</option>
+                                <option value="11" text="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowScorpio"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowScorpio"))</option>
+                                <option value="12" text=">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowSagittarius"))">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowSagittarius"))</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top" class="s_r_text">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowBardian"))</td>
+                        <td class="s_r_text" colspan="2">
+                            <textarea id="bardian" name="Bardian" maxlength="100" onkeyup="AC.BardianChange()">@Model.Bardian</textarea>
+                            <p id="pbardian" class="s_r_c_m_a_sapn">@(Model.Bardian == null ? 0 : Model.Bardian.Length)/@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowBardianLenLimit"))</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="s_r_submit" align="center" colspan="3">
+                            <input class="s_r_btn" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_SaveModify"))" id="accountBtn" onclick="AC.SaveAccount('accountBtn', 'accoutForm')">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="s_r_form02" id="s_r_setform2" style="display: none;">
+            <input type="hidden" id="imgKey" />
+            <div class="s_r_f_left">
+                <div>
+                    <div id="container" class="s_r_f_l_01">
+
+                        <img id="imgSrc" src="@ViewBag.SrcUri" alt="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_AltHeaderPicture"))" style="width: 120px; height: 120px;">
+                        <input class="s_r_f_l_toux" id="pickfiles" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_UploadLocalPicture"))">
+                    </div>
+                    <div class="s_r_f_l_02" id="s_r_f_l_02">
+                        <div class="s_r_f_l_02_box">
+                            <ul>
+                                @{
+                                    foreach (var picture in pictures)
+                                    {
+                                        <li>
+                                            <input type="image" src="@("http:"+ServerHelper.RootPath+picture)" onclick="AC.SaveSystemPic(this)" alt="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_SysHeaderPicture"))" />
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="s_r_f_l_img" id="s_r_f_l_next" title="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_NextPicture"))">
+                            <a href="javascript:void(0);">
+                                <img src="@ServerHelper.RootPath/Content/images/icon_img/5bvv-touxiang06_14.png">
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="s_r_f_right">
+                <p>@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_PictureFormatTip"))</p>
+                <div id="diviframe" style="display: none; width: 650px; height: 425px;">
+                    <!-- 头像裁剪 -->
+                    <div style="width: 640px;">
+                        <div style="width: 490px; float: left;">
+                            <div style="width:490px;height: 340px;">
+                                <img id="image" class="img-responsive" alt="Picture" src="" />
+                                <input id="picLeft" type="hidden" />
+                                <input id="picTop" type="hidden" />
+                                <input id="picWidth" type="hidden" />
+                                <input id="picHeight" type="hidden" />
+                                <input id="naturalRatio" type="hidden" />
+                                <input id="canvasWidth" type="hidden" />
+                                <input id="croppedCanvasData" type="hidden" />
+                            </div>
+                        </div>
+                        <div class="" style="width: 130px; height: 340px; float: left; margin-left: 15px;">
+                            <div class="" style="width: 130px; height: 130px; margin: 50px 0 20px 0;">
+                                <div class="preview"></div>
+                            </div>
+                            <div class="" style="width: 70px; height: 70px; margin-bottom: 20px;">
+                                <div class="preview"></div>
+                            </div>
+                            <div class="" style="width: 50px; height: 50px;">
+                                <div class="preview"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 头像裁剪 -->
+                    <div class="clear"></div>
+                    <div>
+                        <input id="fileId" type="hidden" />
+                        <input class="s_r_f_r05" id="savePicBtn" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_InputSaveButtonText"))" onclick="AC.SavePic('savePicBtn')">
+                        <input class="s_r_f_r05 s_r_f_btn" type="button" id="cancelPic" onclick="AC.ResetPic('savePicBtn', 'diviframe')" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_InputCancelButtonText"))">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="s_r_form03" id="s_r_setform3" style="display: none;">
+
+            <!--安全设置 预览状态-->
+            <div class="security" style="display: block;" id="security_read">
+                <p>
+                    <span>@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowMobileTitle"))</span>
+                    @{
+                        if (!string.IsNullOrWhiteSpace(Model.Phone))
+                        {
+                            <span>@Model.Phone</span><span onclick="AC.Toggle('security_read', 'mobile_edit')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowModifyMobile"))</span>
+                        }
+                        else
+                        {
+                            <span>@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowNoBindMobileTitle"))</span><span onclick="AC.Toggle('security_read', 'mobile_bind')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowBindMobile"))</span>
+                        }
+                    }
+                </p>
+                <p>
+                    <span>@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowEmailTitle"))</span>
+                    @{
+                        if (!string.IsNullOrWhiteSpace(Model.Email))
+                        {
+                            <span>@Model.Email</span><span onclick="AC.Toggle('security_read', 'email_edit')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowModifyEmail"))</span>
+                        }
+                        else
+                        {
+                            <span>@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowNoBindEmailTitle"))</span><span onclick="AC.Toggle('security_read', 'email_bind')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowBindEmail"))</span>
+                        }
+                    }
+                </p>
+                <p><span>@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowModifyIpAddress"))</span><span id="ipcity">@Model.LastLoginIp</span></p>
+                @if (!string.IsNullOrWhiteSpace(Model.Email) && !string.IsNullOrWhiteSpace(Model.Phone))
+                {
+                    <a href="javascript:void(0);" onclick="AC.Toggle('security_read', 'security_edit')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowModifyPassword"))</a>
+                }
+            </div>
+
+            <!--修改密码 编辑状态-->
+            <table id="security_edit" width="580" border="0" id="s_r_mobile1" style="display: none;">
+                <tr>
+                    <td colspan="2">
+                        <span class="s_r_form_span s_r_f_s02">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowNoNeedModifyPassword"))</span>
+                        <a class="s_r_form_upsj" href="javascript:void(0);" onclick="AC.Toggle('security_read', 'security_edit')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ModifyPwdClickGoBack"))</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="116">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowOldPwdTitle"))</td>
+                    <td>
+                        <input id="oldPwd" class="s_r_pass" type="password" name="opwd" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Placeholder_PleaseInputOldPwd"))" onfocus="LR.RemoveErrorClass('oldPwd')" data-style="error" onblur="LR.LoginUserPwdValid('oldPwd',true)">
+                        <span id="spanoldPwd" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowInputIdentityCodeTitle"))</td>
+                    <td>
+                        <input id="setPwdPhone" type="hidden" value="@phone" />
+                        <input id="setPwdCode" class="s_r_pass a_r_02" type="text" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Placeholder_PleaseInputCode"))" onblur="LR.ImgCodeValid('setPwdCode')" onfocus="LR.RemoveErrorClass('setPwdCode')" />
+                        <a class="a_yzm">
+                            <img style="cursor: pointer; width: 88px; height: 36px;"
+                                 src="@ServerHelper.RootPath/Login/GetValidateCode"
+                                 onclick="javascript: $(this).attr('src', '@ServerHelper.RootPath/Login/GetValidateCode?t=' + Math.random());"
+                                 alt="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ImgCodeTip"))" title="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ImgCodeTip"))">
+                        </a>
+                        <span id="spansetPwdCode" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowNewPwdTitle"))</td>
+                    <td>
+                        <input id="newPwd" class="s_r_pass" type="password" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Placeholder_NewPwdTip"))" data-style="error" onfocus="LR.RemoveErrorClass('newPwd')" onblur="LR.PasswordValid('newPwd')">
+                        <span id="spannewPwd" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ShowComfirmPwdTitle"))</td>
+                    <td>
+                        <input id="secondPwd" class="s_r_pass" type="password" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Placeholder_ComfirmPwdTip"))" data-style="error" onfocus="LR.RemoveErrorClass('secondPwd')" onblur="LR.SecPasswordValid('newPwd', 'secondPwd')">
+                        <span id="spansecondPwd" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2">
+                        <input id="setPwdBtn" class="s_r_btn" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_ComfirmButtonModifyText"))"
+                               onclick="AC.ResetPassword('setPwdBtn', 'oldPwd', 'setPwdCode', 'setPwdPhone', 'newPwd', 'secondPwd')">
+                    </td>
+                </tr>
+            </table>
+
+            <!--修改手机号码 编辑状态-->
+            <table id="mobile_edit" width="530" border="0" id="s_r_mobile2" style="display: none;">
+                <tr>
+                    <td colspan="2">
+                        <span class="s_r_form_span s_r_f_s02">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_NoNeedModifyMobile"))</span>
+                        <a class="s_r_form_upsj" href="javascript:void(0);" onclick="AC.Toggle('security_read', 'mobile_edit')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_ClickGoBack"))</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="116">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_LoginPwdTitle"))</td>
+                    <td>
+                        <input id="oldmPwd" class="s_r_pass" type="password" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_Placeholder_InputLoginPwd"))"
+                               onfocus="LR.RemoveErrorClass('oldmPwd')" data-style="error" onblur="LR.LoginUserPwdValid('oldmPwd')">
+                        <span id="spanoldmPwd" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_InputNewMobileTitle"))</td>
+                    <td>
+                        <input id="newPhone" name="newPhone" class="s_r_pass" type="text" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_Placeholder_InputNewMobile"))"
+                               onblur="AC.PhoneValid('newPhone')" onfocus="LR.RemoveErrorClass('newPhone')" autocomplete="off">
+                        <span id="spannewPhone" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_IdentityCodeTitle"))</td>
+                    <td>
+                        <input id="setPhoneCode" class="s_r_pass a_r_02" type="text" onfocus="LR.RemoveErrorClass('setPhoneCode')" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_Placeholder_InputIdentityCode"))" onblur="LR.CodeValid('setPhoneCode', 'newPhone', false, true)">
+                        <input id="btnsPhoneCode" class="s_r_pass a_r_03" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_GetInputIdentityCode"))" onclick="LR.GetSmsCode('btnsPhoneCode', 'setPhoneCode', 'newPhone', true, false,false,true,3)">
+                        <span id="spansetPhoneCode" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2">
+                        <input id="setPhoneBtn" class="s_r_btn" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_ConfirmModify"))" onclick="AC.ResetPhone('setPhoneBtn', 'setPhoneCode', 'newPhone', 'oldmPwd')">
+                    </td>
+                </tr>
+            </table>
+
+            <!--绑定手机 编辑状态-->
+            <table id="mobile_bind" width="580" border="0" class="bindingtel" style="display: none;">
+                <tr>
+                    <td colspan="2">
+                        <span class="s_r_form_span s_r_f_s02">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindMobile_NoNeedModify"))</span>
+                        <a class="s_r_form_upsj" href="javascript:void(0);" onclick="AC.Toggle('security_read', 'mobile_bind')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindMobile_ClickGoBack"))</a>
+                    </td>
+                </tr>
+                <tr>
+                    @if (string.IsNullOrWhiteSpace(Model.Phone) && string.IsNullOrWhiteSpace(Model.Email))
+                    {
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_SetPhonePwd"))</td>
+                        <td>
+                            <input id="setpPwd" class="s_r_pass" type="password" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_Placeholder_PhonePwdTip"))"
+                                   onfocus="LR.RemoveErrorClass('setpPwd')" data-style="error" onblur="LR.PasswordValid('setpPwd')" autocomplete="off" />
+                            <span id="spansetpPwd" class="error"></span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_PhoneLoginPwd"))</td>
+                        <td>
+                            <input id="oldbPwd" class="s_r_pass" type="password" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_Placeholder_InputLoginPwdTip"))"
+                                   onfocus="LR.RemoveErrorClass('oldbPwd')" data-style="error" onblur="LR.LoginUserPwdValid('oldbPwd')">
+                            <span id="spanoldbPwd" class="error"></span>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindMobile__InputMobileTitle"))</td>
+                    <td>
+                        <input id="bindPhone" class="s_r_pass" type="text" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindMobile_Placeholder_InputMobile"))" onfocus="LR.RemoveErrorClass('bindPhone')" onblur="AC.PhoneValid('bindPhone')" autocomplete="off">
+                        <span id="spanbindPhone" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindMobile__InputIndentityCode"))</td>
+                    <td>
+                        <input id="bindPhoneCode" class="s_r_pass a_r_02" type="text" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindMobile_Placeholder_InputIdentityCode"))" onfocus="LR.RemoveErrorClass('bindPhoneCode')" onblur="LR.CodeValid('bindPhoneCode', 'bindPhone', false, true)">
+                        <input id="btnbPhoneCode" class="s_r_pass a_r_03" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindMobile_GetInputIdentityCode"))" onclick="LR.GetSmsCode('btnbPhoneCode', 'bindPhoneCode', 'bindPhone', true, false, false, true,3)">
+                        <span id="spanbindPhoneCode" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2">
+                        <input id="bindPhoneBtn" class="s_r_btn" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindMobile_ConfirmModify"))"
+                               onclick="AC.ResetPhone('bindPhoneBtn', 'bindPhoneCode', 'bindPhone', 'oldbPwd', 'setpPwd')">
+                    </td>
+                </tr>
+            </table>
+
+            <!--修改邮箱 编辑状态-->
+            <table id="email_edit" width="580" border="0" class="changeemail" style="display: none;">
+                <tr>
+                    <td colspan="2">
+                        <span class="s_r_form_span s_r_f_s02">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_NoNeedModify"))</span>
+                        <a class="s_r_form_upsj" href="javascript:void(0);" onclick="AC.Toggle('security_read', 'email_edit')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_ClickGoBack"))</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_LoginPwdTitle"))</td>
+                    <td>
+                        <input id="oldsPwd" class="s_r_pass" type="password" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Placeholder_InLoginPwd"))"
+                               onfocus="LR.RemoveErrorClass('oldsPwd')" data-style="error" onblur="LR.LoginUserPwdValid('oldsPwd')">
+                        <span id="spanoldsPwd" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_EmailTitle"))</td>
+                    <td>
+                        <input id="setEmail" class="s_r_pass" type="text" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Placeholder_InputEmail"))" onfocus="LR.RemoveErrorClass('setEmail')" onblur="LR.EmailValid('setEmail', true, false)" autocomplete="off" maxlength="250" />
+                        <span id="spansetEmail" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_InputIndentityCodeTitle"))</td>
+                    <td>
+                        <input id="setEmailCode" class="s_r_pass a_r_02" type="text" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Placeholder_InputIdentityCode"))" onfocus="LR.RemoveErrorClass('setEmailCode')" onblur="LR.CodeValid('setEmailCode', 'setEmail', true, false)">
+                        <input id="setsEmailCode" class="s_r_pass a_r_03" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_GetInputIdentityCode"))" onclick="LR.GetSmsCode('setsEmailCode', 'setEmailCode', 'setEmail', true, false, true, false,3)">
+                        <span id="spansetEmailCode" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2">
+                        <input id="setEmailBtn" class="s_r_btn" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_ConfirmModify"))" onclick="AC.ResetEmail('setEmailBtn', 'setEmailCode', 'setEmail', 'oldsPwd')">
+                    </td>
+                </tr>
+            </table>
+
+            <!--绑定邮箱 编辑状态-->
+            <table id="email_bind" width="580" border="0" class="bindingemail" style="display: none;">
+                <tr>
+                    <td colspan="2">
+                        <span class="s_r_form_span s_r_f_s02">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Edit_NoNeedModify"))</span>
+                        <a class="s_r_form_upsj" href="javascript:void(0);" onclick="AC.Toggle('security_read', 'email_bind')">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Edit_ClickGoBack"))</a>
+                    </td>
+                </tr>
+                <tr>
+                    @if (string.IsNullOrWhiteSpace(Model.Phone) && string.IsNullOrWhiteSpace(Model.Email))
+                    {
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_SetEmailPwd"))</td>
+                        <td>
+                            <input id="setePwd" class="s_r_pass" type="password" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_ValidateEmail"))"
+                                   onfocus="LR.RemoveErrorClass('setePwd')" data-style="error" onblur="LR.PasswordValid('setePwd')" autocomplete="off" />
+                            <span id="spansetePwd" class="error"></span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Edit_EmailLoginPwd"))</td>
+                        <td>
+                            <input id="oldePwd" class="s_r_pass" type="password" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_Placeholder_InputLoginPwd"))"
+                                   onfocus="LR.RemoveErrorClass('oldePwd')" data-style="error" onblur="LR.LoginUserPwdValid('oldePwd')" autocomplete="off" />
+                            <span id="spanoldePwd" class="error"></span>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Edit_EmailTitle"))</td>
+                    <td>
+                        <input id="bindEmail" class="s_r_pass" type="text" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Edit_Placeholder_InputEmail"))" onfocus="LR.RemoveErrorClass('bindEmail')" onblur="LR.EmailValid('bindEmail', true, false)" autocomplete="off" maxlength="250" />
+                        <span id="spanbindEmail" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Edit_InputIndentityCodeTitle"))</td>
+                    <td>
+                        <input id="bindEmailCode" class="s_r_pass a_r_02" type="text" placeholder="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Edit_Placeholder_InputIdentityCode"))" onfocus="LR.RemoveErrorClass('bindEmailCode')" onblur="LR.CodeValid('bindEmailCode', 'bindEmail', true, false)">
+                        <input id="btnbEmailCode" class="s_r_pass a_r_03" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Edit_GetInputIdentityCode"))" onclick="LR.GetSmsCode('btnbEmailCode', 'bindEmailCode', 'bindEmail', true, false, true, false,3)">
+                        <span id="spanbindEmailCode" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2">
+                        <input id="bindEmailBtn" class="s_r_btn" type="button" value="@(LanguageUtil.Translate("web_Client_Views_UserCenter_AccountSet_BindEmail_Edit_ConfirmModify"))"
+                               onclick="AC.ResetEmail('bindEmailBtn', 'bindEmailCode', 'bindEmail', 'oldePwd', 'setePwd')">
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $.fn.serializeObject = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+    var Uploader = Qiniu.uploader({
+        runtimes: 'html5,flash,html4',
+        browse_button: 'pickfiles',
+        unique_names: true,
+        uptoken: 'null',
+        domain: '@DefaultData.ImageAddress',
+        container: 'container',
+        max_file_size: '5mb',
+        flash_swf_url: 'js/plupload/Moxie.swf',
+        max_retries: 3,
+        dragdrop: true,
+        drop_element: 'container',
+        chunk_size: '4mb',
+        auto_start: false,
+        multi_selection: false,
+        filters: { max_file_size: '5mb', mime_types: [{ title: "Video files", extensions: "*" }] },
+        init: {
+            'FilesAdded': function (up, files) {
+                plupload.each(files, function (file) {
+                    var fileId = $('#fileId').val();
+                    if (fileId.length > 0) { Uploader.removeFile(fileId); }
+                    $('#fileId').val(file.id);
+                    AC.PreviewImage(file, function (imgsrc) {
+                        AC.CropPic(imgsrc);
+                        id$('diviframe').show();
+                        $("#imgUpload").attr("src", imgsrc);
+                    });
+                });
+            },
+            'BeforeUpload': function (up, file) {
+            },
+            'UploadProgress': function (up, file) {
+            },
+            'FileUploaded': function (up, file, info) {
+                var res = $.parseJSON(info), btn = id$('savePicBtn'), picSrc = HeaderBase.GetImgUrlPath(res.key), url = LR.RootPath + '/UserCenter/UpdateUserPic', data = { key: res.key };
+                $.post(url, data, function (d) {
+                    if (d && d.Success) {
+                        id$('diviframe').hide();
+
+                        var imgKey = HeaderBase.GetImgUrlPath(res.key);
+                        clearInterval(interval);
+                        setTimeout(function () {
+                            $('#picImg,#picImg2,#picLeftImg,#imgSrc').attr('src', imgKey);
+                        }, 500);
+                        globalPromptBox.showGeneralMassage(0, Translate('web_Client_Views_UserCenter_AccountSet_Js_FileUploaded_SaveSuccess'), 3000, false);
+                    } else {
+                        globalPromptBox.showGeneralMassage(2, Translate('web_Client_Views_UserCenter_AccountSet_Js_FileUploaded_SaveFail'), 3000, false);
+                    }
+                    btn.val(Translate('web_Client_Views_UserCenter_AccountSet_Js_FileUploaded_SaveHeaderPicture'));
+                    btn.removeAttr('disabled');
+                }, "json");
+            },
+            'Error': function (up, err, errTip) {
+                $('#errortip').html(errTip);
+            },
+            'UploadComplete': function () {
+            },
+            'Key': function (up, file) {
+                var key = "";
+                return key;
+            }
+        }
+    });
+    $(function () {
+        initComplexArea('seachprov', 'seachcity', '', location_array, sublocation_array, '@Model.ProvinceCode', '@Model.CityCode', '0');
+        var zodiac = '@Model.Zodiac' || '', constellation = '@Model.Constellation' || '';
+        $('#zodiac').val(zodiac);
+        var zodiacText = $('#zodiac option:selected').text();
+        if (zodiacText != Translate('web_Client_Views_UserCenter_AccountSet_Js_Init_PleaseSel')) { $('#zodiac_b').text($('#zodiac option:selected').text()); }
+        $('#constellation').val(constellation);
+        var constellationText = $('#constellation option:selected').text();
+        if (constellationText != Translate('web_Client_Views_UserCenter_AccountSet_Js_Init_PleaseSel')) { $('#constellation_b').text($('#constellation option:selected').text()); }
+        AC.oPlay = document.getElementById('s_r_f_l_02');
+        AC.oUl = AC.oPlay.getElementsByTagName('ul')[0];
+        AC.aUlLi = AC.oUl.children;
+        AC.aUlFirstLiW = 120;
+        AC.oNext = document.getElementById('s_r_f_l_next');
+        AC.oUl.innerHTML += AC.oUl.innerHTML;
+        AC.oUl.style.width = (AC.aUlFirstLiW + 36) * AC.aUlLi.length + 'px';
+        AC.oNext.onclick = function () {
+            if (!AC.ready) return;
+            AC.ready = false;
+            AC.now++;
+            AC.Tab();
+        };
+        //选项卡切换
+        $("#menuTab a[itemid]").click(function (e) {
+            var itemid = $(this).attr("itemid");
+            //设置和显示
+            $(this).attr("class", "v_r_ti_cur");
+            $(".view_right div[id=s_r_setform" + itemid + "]").show();
+
+            //清空样式和隐藏
+            $(".view_right div[id^=s_r_setform]").not("[id='s_r_setform" + itemid + "']").hide();
+            $("#menuTab a[itemid]").not("[itemid='" + itemid + "']").removeAttr("class");
+            return false;
+        });
+        if (typeof (remote_ip_info) != "undefined" && remote_ip_info && remote_ip_info.ret > -1) {
+            id$('ipcity').text('@Model.LastLoginIp' + ' ' + remote_ip_info.province + remote_ip_info.city);
+        }
+    });
+    var AC = {
+        PreviewImage: function (file, callback) {
+            if (!file || !/image\//.test(file.type)) return;
+            if (file.type == 'image/gif') {
+                var fr = new mOxie.FileReader();
+                fr.onload = function () {
+                    callback(fr.result);
+                    fr.destroy();
+                    fr = null;
+                }
+                fr.readAsDataURL(file.getSource());
+            } else {
+                var preloader = new mOxie.Image();
+                preloader.onload = function () {
+                    var imgsrc = preloader.type == 'image/jpeg' ? preloader.getAsDataURL('image/jpeg', 80) : preloader.getAsDataURL();
+                    callback && callback(imgsrc);
+                    preloader.destroy();
+                    preloader = null;
+                };
+                preloader.load(file.getSource());
+            }
+        },
+        //--------------------重置密码功能函数--------------------
+        //保存账户资料
+        SaveAccount: function (btnId, formId) {
+            var btn = id$(btnId), url = LR.RootPath + '/UserCenter/SaveAccount', data = id$(formId).serializeObject(), nrst = AC.NickNameChange('nickName'), brst = AC.BardianChange(), nmrst = AC.CheckNickName('nickName');
+            if (!nrst || !brst || !nmrst) {
+                return;
+            }
+            LR.BtnDisable(btn, Translate('web_Client_Views_UserCenter_AccountSet_Js_Init_Saving'));
+            data.Bardian = LR.RemoveSpace(data.Bardian);
+            if (data.City == Translate('web_Client_Views_UserCenter_AccountSet_Js_Init_PleaseSel')) data.City = '';
+            if (data.Province == Translate('web_Client_Views_UserCenter_AccountSet_Js_Init_PleaseSel')) data.Province = '';
+            $.post(url, data, function (d) {
+                if (d && d.Success) {
+                    globalPromptBox.showGeneralMassage(0, Translate('web_Client_Views_UserCenter_AccountSet_Js_Init_SaveSuccess'), 1000, true);
+                } else {
+                    globalPromptBox.showGeneralMassage(2, Translate('web_Client_Views_UserCenter_AccountSet_Js_Init_SaveFail'), 3000, false);
+                }
+                LR.BtnActive(btn, Translate('web_Client_Views_UserCenter_AccountSet_Js_Init_SaveModify'));
+            }, "json");
+        },
+        //保存个人头像
+        SavePic: function (btnId) {
+            var btn = id$(btnId);
+            btn.attr('disabled', 'disabled');
+            btn.val(Translate('web_Client_Views_UserCenter_AccountSet_Js_SavePic_Saving'));
+            //获取iframe页面的偏移量 加上key拼成完整的参数传给七牛
+            var canvasWidth = parseInt(id$('canvasWidth').val()) || 0, /*画布的宽度*/
+                picLeft = parseInt(id$('picLeft').val()) || 0, /*左边偏移量*/
+                picTop = parseInt(id$('picTop').val()) || 0, /*顶部偏移量*/
+                picWidth = parseInt(id$('picWidth').val()) || 0, /*裁剪后的图片宽度*/
+                picHeight = parseInt(id$('picHeight').val()) || 0; /*裁剪后的图片宽度*/
+            var imageMogr = 'imageMogr2/thumbnail/' + canvasWidth + '/crop/!' + picWidth
+                + 'x' + picHeight + 'a' + picLeft + 'a' + picTop;
+            var tokenUrl = LR.RootPath + '/UserCenter/GetUploadToken?imgPara=' + imageMogr;
+            $.get(tokenUrl, function (d) {
+                var res = $.parseJSON(d);
+                if (res.Success) {
+                    Qiniu.token = res.token;
+                    Uploader.start();
+                }
+            });
+        },
+        //保存系统预定义头像
+        SaveSystemPic: function (e, liId) {
+            var imgSrc = $(e).attr('src'), $inputs = $('#' + liId + ' input'), url = LR.RootPath + '/UserCenter/UpdateUserPic', data = { key: imgSrc.substring(imgSrc.indexOf('Content') - 1) };
+            $inputs.attr('disabled', 'disabled');
+            $.post(url, data, function (d) {
+                if (!d || !d.Success) {
+                    globalPromptBox.showGeneralMassage(2, Translate('web_Client_Views_UserCenter_AccountSet_Js_SaveSystemPic_SaveFail'), 3000, false);
+                } else {
+                    globalPromptBox.showGeneralMassage(0, Translate('web_Client_Views_UserCenter_AccountSet_Js_SaveSystemPic_SaveSuccess'), 1000, false);
+                    AC.BindSystemPicture(imgSrc);
+                }
+                $inputs.removeAttr('disabled');
+            }, "json");
+        },
+        //绑定系统预定义头像
+        BindSystemPicture: function (src) {
+            //页面上头像imgId
+            $('#picImg,#picImg2,#picLeftImg,#imgSrc').attr('src', src);
+        },
+        //取消个人头像
+        ResetPic: function (savePicBtn, divIframeId) {
+            var btn = id$(savePicBtn);
+            btn.val(Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPic_SaveHeaderPicture'));
+            btn.removeAttr('disabled');
+            id$(divIframeId).hide();
+            Uploader.removeFile($('#fileId').val());
+        },
+        //重置密码
+        ResetPassword: function (btnId, oldpwdId, codeId, accountId, firstpwdId, secpwdId) {
+            var pvrst = LR.PasswordValid(oldpwdId), lpvrst = LR.LoginUserPwdValid(oldpwdId, true), cvrst = LR.ImgCodeValid(codeId), pvdrst = LR.PasswordValid(firstpwdId), spvrst = LR.SecPasswordValid(firstpwdId, secpwdId);
+            if (!pvrst || !lpvrst || !cvrst || !pvdrst || !spvrst) { return; }
+            var btn = id$(btnId), pwd = $.trim(id$(secpwdId).val()), url = LR.RootPath + '/UserCenter/SetPassword', data = { pwd: pwd }
+            LR.BtnDisable(btn, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPassword_SavingModify'));
+            $.post(url, data, function (d) {
+                if (d && d.Success) {
+                    globalPromptBox.showGeneralMassage(0, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPassword_SaveSuccess'), 1000, true);
+                    LR.RestSmsCodeBtn();
+                } else {
+                    globalPromptBox.showGeneralMassage(2, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPassword_SaveFail'), 3000, false);
+                }
+                id$(oldpwdId).val();
+                id$(codeId).val();
+                id$(firstpwdId).val();
+                id$(secpwdId).val();
+                LR.BtnActive(btn, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPassword_ConfirmModify'));
+            }, "json");
+        },
+        //重置手机号码
+        ResetPhone: function (btnId, codeId, newPhoneId, oldPwdId, setPwdId) {
+            var lpvrst, pvrst = AC.PhoneValid(newPhoneId), cvrst = LR.CodeValid(codeId, newPhoneId, false, true), $opwd = id$(oldPwdId);
+            if ($opwd[0]) {
+                lpvrst = LR.LoginUserPwdValid(oldPwdId);
+            } else {
+                lpvrst = LR.PasswordValid(setPwdId);
+            }
+            if (!pvrst || !lpvrst || !cvrst) { return; }
+            var btn = id$(btnId), phone = $.trim(id$(newPhoneId).val()), pwd = $.trim(id$(setPwdId).val()),
+                url = LR.RootPath + '/UserCenter/SetPhone', data = { phone: phone, pwd: pwd }
+            LR.BtnDisable(id$(btnId), Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPhone_Modifying'));
+
+            $.post(url, data, function (d) {
+                if (d && d.Success) {
+                    globalPromptBox.showGeneralMassage(0, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPhone_ModifySuccess'), 1000, true);
+                    LR.RestSmsCodeBtn();
+                } else {
+                    globalPromptBox.showGeneralMassage(2, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPhone_ModifyFail'), 3000, false);
+                }
+                LR.BtnActive(btn, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetPhone_ConfirmModify'));
+            }, "json");
+        },
+        //绑定邮箱
+        ResetEmail: function (btnId, codeId, emailId, oldPwdId, setPwdId) {
+            var lpvrst, pvrst = LR.EmailValid(emailId, true, false), cvrst = LR.CodeValid(codeId, emailId, true, false), $opwd = id$(oldPwdId);
+            if ($opwd[0]) {
+                lpvrst = LR.LoginUserPwdValid(oldPwdId);
+            } else {
+                lpvrst = LR.PasswordValid(setPwdId);
+            }
+            if (!pvrst || !cvrst || !lpvrst) { return; }
+            var btn = id$(btnId), email = $.trim(id$(emailId).val()), pwd = $.trim(id$(setPwdId).val()),
+                url = LR.RootPath + '/UserCenter/SetEmail', data = { email: email, pwd: pwd }
+            LR.BtnDisable(id$(btnId), Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetEmail_Binding'));
+            $.post(url, data, function (d) {
+                if (d && d.Success) {
+                    globalPromptBox.showGeneralMassage(0, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetEmail_BindingSuccess'), 1000, true);
+                    LR.RestSmsCodeBtn();
+                } else {
+                    globalPromptBox.showGeneralMassage(2, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetEmail_BindingFail'), 3000, false);
+                }
+                id$(codeId).val('');
+                id$(emailId).val('');
+                LR.BtnActive(btn, Translate('web_Client_Views_UserCenter_AccountSet_Js_ResetEmail_ConfirmBinded'));
+            }, "json");
+        },
+        //验证手机号码
+        PhoneValid: function (id) {
+            var $phone = id$(id), phoneVal = $.trim($phone.val()), $spanError = span$(id);
+            if (!LR.CheckText(phoneVal, id)) { return false; }
+            if (!new RegExp(/^1[3|4|5|6|7|8|9][0-9]\d{8}$/).test(phoneVal)) {
+                $spanError.show().text(Translate('web_Client_Views_UserCenter_AccountSet_Js_PhoneValid_PleaseInputCorrectPhone'));
+                LR.AddErrorClass(id);
+                return false;
+            }
+            if (!LR.CheckText(phoneVal, id)) return false;
+            if (!LR.PhoneExistValid(id, false)) return false;
+            return true;
+        },
+        //--------------------功能函数--------------------
+        CheckNickName: function (id) {
+            var name = LR.RemoveSpace(id$(id).val()), $spanError = span$(id), url = LR.RootPath + '/UserCenter/CheckNickName?name=' + name + '&v=' + Math.random(), result = false, nrst = AC.NickNameChange('nickName');
+            if (!nrst) { return false; }
+            $.ajaxSettings.async = false;
+            $.getJSON(url, function (d) {
+                if (d && !d.Success) {
+                    $spanError.show().text(Translate('web_Client_Views_UserCenter_AccountSet_Js_CheckNickName_NickNameUsed'));
+                    LR.AddErrorClass(id);
+                    result = false;
+                } else if (d && d.Success) {
+                    $spanError.hide();
+                    LR.RemoveErrorClass();
+                    result = true;
+                }
+            });
+            $.ajaxSettings.async = true;
+            return result;
+        },
+        //签名字数限制变化
+        BardianChange: function () {
+            var b = id$('bardian'), bleng = LR.RemoveSpace(b.val()).length, p = id$('pbardian');
+            if (bleng <= 30) {
+                p.text(bleng + '/' + Translate('web_Client_Views_UserCenter_AccountSet_Js_BardianChange_CharLimit'));
+                return true;
+            } else {
+                return false;
+            }
+        },
+        //昵称
+        NickNameChange: function (id) {
+            var $ipt = id$(id), $spanError = span$(id), name = LR.RemoveSpace($ipt.val());
+            if (name.length < 1) {
+                $spanError.text(Translate('web_Client_Views_UserCenter_AccountSet_Js_NickNameChange_InputNickName')).show();
+                LR.AddErrorClass(id);
+                return false;
+            }
+            else if ($ipt && name.length >= 13) {
+                $spanError.text(Translate('web_Client_Views_UserCenter_AccountSet_Js_NickNameChange_NickNameLength')).show();
+                LR.AddErrorClass(id);
+                return false;
+            } else {
+                $spanError.hide();
+                LR.RemoveErrorClass(id);
+                return true;
+            }
+        },
+        //星座生肖联动
+        BirthdateChange: function () {
+            var date = new Date($dp.cal.getDateStr()), y = date.getFullYear(), m = date.getMonth() + 1, d = date.getDate(),
+                xzdict = Translate('web_Client_Views_UserCenter_AccountSet_Js_BirthdateChange_XinZuo'),
+                sxdict = Translate('web_Client_Views_UserCenter_AccountSet_Js_BirthdateChange_ShuXiang');
+            var xz = xzdict.substr(m * 2 - (d < "102223444433".charAt(m - 1) - -19) * 2, 2) + Translate('web_Client_Views_UserCenter_AccountSet_Js_BirthdateChange_Zuo');
+            $('#constellation option[text=' + xz + ']').attr("selected", true);
+            var sx = sxdict.charAt((y - 4) % 12);
+            $('#zodiac option[text=' + sx + ']').attr("selected", true);
+        },
+        //图片跳转
+        oPlay: null,
+        oUl: null,
+        aUlLi: null,
+        aUlFirstLiW: null,
+        oNext: null,
+        now: 0,
+        ready: true,
+        GetStyle: function (obj, name) {
+            return (obj.currentStyle || getComputedStyle(obj, null))[name];
+        },
+        Move: function (obj, json, options) {
+            options = options || {};
+            options.duration = options.duration || 700;
+            options.easing = options.easing || "ease-out";
+            var start = {}, dis = {};
+            for (var name in json) {
+                if (json.hasOwnProperty(name)) {
+                    start[name] = parseFloat(AC.GetStyle(obj, name));
+                    dis[name] = json[name] - start[name];
+                }
+            }
+            var n = 0, count = Math.round(options.duration / 30);
+            clearInterval(obj.timer);
+            obj.timer = setInterval(function () {
+                n++;
+                for (var name in json) {
+                    switch (options.easing) {
+                        case "linear":
+                            var a = n / count,
+                                cur = start[name] + dis[name] * a;
+                            break;
+                        case "ease-in":
+                            var a = n / count,
+                                cur = start[name] + dis[name] * Math.pow(a, 3);
+                            break;
+                        case "ease-out":
+                            var a = 1 - n / count,
+                                cur = start[name] + dis[name] * (1 - Math.pow(a, 3));
+                            break;
+                    }
+                    if (name == "opacity") {
+                        obj.style.opacity = cur;
+                        obj.style.filter = "alpha(opacity:" + cur * 100 + ")";
+                    } else {
+                        obj.style[name] = cur + "px";
+                    }
+                }
+                if (n == count) {
+                    clearInterval(obj.timer);
+                    options.complete && options.complete();
+                }
+            }, 30);
+        },
+        Tab: function () {
+            AC.Move(AC.oUl, { 'left': -AC.now * (AC.aUlLi[0].offsetWidth + 36) }, {
+                complete: function () {
+                    AC.ready = true;
+                    if (AC.now == AC.aUlLi.length / 2) {
+                        AC.oUl.style.left = 0;
+                        AC.now = 0;
+                    }
+                }
+            });
+        },
+        ToggleMobile: function () {
+            $("#s_r_mobile1").toggle();
+            $("#s_r_mobile2").toggle();
+        },
+        CropPic: function (src) {
+            var $img = $('#image'), $naturalRatio = $('#naturalRatio'), $left = $('#picLeft'), $top = $('#picTop'), $width = $('#picWidth'), $height = $('#picHeight'), $canvasWidth = $('#canvasWidth'), $croppedCanvasData = $('#croppedCanvasData');
+            $img.cropper('destroy');
+            $img.attr('src', src);
+            var $previews = $('.preview');
+            $img.cropper({
+                aspectRatio: 1 / 1,
+                movable: false,
+                zoomable: false,
+                rotatable: false,
+                autoCropArea: 0.7,
+                dragCrop: false,
+                build: function (e) {
+                    var $clone = $(this).clone();
+                    $clone.css({
+                        display: 'block',
+                        width: '100%',
+                        minWidth: 0,
+                        minHeight: 0,
+                        maxWidth: 'none',
+                        maxHeight: 'none'
+                    });
+                    $previews.css({
+                        width: '100%',
+                        overflow: 'hidden'
+                    }).html($clone);
+                },
+                crop: function (e) {
+                    var imageData = $(this).cropper('getImageData'),
+                        cropBoxData = $(this).cropper('getCropBoxData'),
+                        canvasData = $(this).cropper("getCanvasData"),
+                        croppedCanvasData = $(this).cropper("getCroppedCanvas").toDataURL(),//base64编码
+                        previewAspectRatio = e.width / e.height;
+                    var naturalRatio = imageData.width / imageData.naturalWidth;
+
+                    $left.val(cropBoxData.left - canvasData.left);
+                    $top.val(cropBoxData.top - canvasData.top);
+                    $width.val(cropBoxData.width);
+                    $height.val(cropBoxData.height);
+                    $naturalRatio.val(naturalRatio);
+                    $canvasWidth.val(canvasData.width);
+                    $croppedCanvasData.val(croppedCanvasData);
+
+                    $previews.each(function () {
+                        var $preview = $(this),
+                            previewWidth = $preview.width(),
+                            previewHeight = previewWidth / previewAspectRatio,
+                            imageScaledRatio = e.width / previewWidth;
+
+                        $preview.height(previewHeight).find('img').css({
+                            width: imageData.naturalWidth / imageScaledRatio,
+                            height: imageData.naturalHeight / imageScaledRatio,
+                            marginLeft: -e.x / imageScaledRatio,
+                            marginTop: -e.y / imageScaledRatio
+                        });
+                    });
+                }
+            });
+        },
+        Toggle: function (fid, nid) {
+            id$(fid).toggle();
+            id$(nid).toggle();
+            id$(nid).find('.error').each(function (e) {
+                $(this).text('');
+            });
+            id$(nid).find('input[type=text],input[type=password]').each(function (e) {
+                var $o = $(this), id = $o.attr('id');
+                LR.RemoveErrorClass(id);
+                if (id != 'nickName' && id != 'birthdate') $o.val('');
+            });
+        }
+    };
+</script>

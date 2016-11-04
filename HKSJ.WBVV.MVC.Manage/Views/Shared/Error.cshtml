@@ -1,0 +1,45 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@LanguageUtil.Translate("admin_Views_Shared_Error_pageTitle")</title>
+    <script type="text/javascript" src="@ServerHelper.RootPath//Scripts/jquery-1.8.2.min.js"></script>
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        var page = {
+            dosubmit: function () {
+                alert(Translate("admin_Views_Shared_Error_js_alert_NotOpen"));
+                return;
+                var url = api + "Error/SubmitErrorMassage"
+                var ipAddress = "";
+                var userId = 0;
+                var data = { errorMessage: $('#txtErrorMessage').val(), ipAddress: ipAddress, userId: userId };
+                $.post(url, data, function (data) {
+                    if (data.Success)
+                        alert(Translate("admin_Views_Shared_Error_js_alert_ThanksForYourSubmit"));
+                    else
+                        alert(data.ExceptionMessage);
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <hgroup>
+        <h1>@LanguageUtil.Translate("admin_Views_Shared_Error_js_h1_error")</h1>
+        @*<h2>处理你的请求时出错。</h2>
+    <h2>@LanguageUtil.Translate("admin_Views_Shared_Error_js_h1_PleaseSubmiterrorReport")</h2>*@
+    </hgroup>
+    <textarea id="txtErrorMessage" style="width:99%;height:300px;">@Model</textarea>
+    <br /><br />
+    @*<input type="button" value="提交错误报告" onclick="javascript:page.dosubmit();" />*@
+</body>
+</html>

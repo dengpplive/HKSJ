@@ -1,0 +1,148 @@
+/*	--------------------------------------------------
+Reveal Modals
+-------------------------------------------------- */
+
+.reveal-modal-bg { 
+	position: fixed; 
+	height: 100%;
+	width: 100%;
+	background: #fff;
+	opacity:0.5;
+	z-index: 100;
+	display: none;
+	top: 0;
+	left: 0; 
+}
+
+.reveal-modal {
+	visibility: hidden;
+	top: 200px; 
+	left: 50%;
+	margin-left: -300px;
+	width: 480px;
+	background: #fff;
+	position: absolute;
+	z-index: 101;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0px 0px 12px rgba(0,0,0,.4);
+	-webkit-box-shadow: 0px 0px 12px rgba(0,0,0,.4);
+	-box-shadow: 0px 0px 12px rgba(0,0,0,.4);
+	box-shadow: 0px 0px 12px rgba(0,0,0,.4);
+}
+
+.reveal-modal.small 		{ width: 200px; margin-left: -140px;}
+.reveal-modal.medium 		{ width: 400px; margin-left: -240px;}
+.reveal-modal.large 		{ width: 600px; margin-left: -340px;}
+.reveal-modal.xlarge 		{ width: 800px; margin-left: -440px;}
+
+.reveal-modal .close-reveal-modal {
+	font-size: 22px;
+	line-height: .5;
+	position: absolute;
+	top: 11px;
+	right: 7px;
+	color: #059ff7;
+	text-shadow: 0 -1px 1px rbga(0,0,0,.6);
+	font-weight: bold;
+	cursor: pointer;
+} 
+
+
+/* 删除弹框 */
+.rev_modeal_shanchu {
+	visibility: hidden;
+	top: 300px; 
+	left: 50%;
+	margin-left: -175px;
+	width: 350px;
+
+}
+.rev_modeal_shanchu .my_m_nrong { padding:30px 25px 25px; }
+
+.my_m_nr_ts_shanc_wz { font-size:14px; font-weight:bold; color:#333; margin-bottom:18px; height:26px; line-height:28px; background:url(../images/icon_img/add_tishi_hong.png) no-repeat 42px center; padding-left:90px;}
+
+/* 添加视频 */
+.rev_modeal_add {
+	visibility: hidden;
+	top: 200px; 
+	left: 50%;
+	margin-left: -365px;
+	width: 750px;
+	
+
+	}
+.rev_modeal_add .my_m_nrong { padding:20px 25px 25px; }
+.my_m_nr_tshiwz { color:#999; font-size:14px;}
+.my_m_nr_zhans_img {width: 750px; padding-top:20px;}
+.my_m_nr_zhans_img li { width:160px; height:150px; margin-right:20px; float:left; position:relative;}
+.my_m_nr_zs_i_dhao {
+	position: absolute;
+	width: 160px;
+	height: 120px;
+	background: url(../images/icon_img/add_bai_duih.png) no-repeat center center;
+	left: 0px;
+	top: 0px;
+}
+.my_m_nr_zs_i_dhao:hover { background:url(../images/icon_img/add_bai_duih_ls.png) no-repeat center center; cursor:pointer;}
+.my_m_nr_zs_i_dhao:hover i { display:block; background-color: #000; opacity:0.3;width: 160px;height: 120px;}
+
+.my_m_nr_zs_i_dhao:visited { background:url(../images/icon_img/add_bai_duih_ls.png) no-repeat center center;}
+
+.my_m_nr_zhans_i_tup { width:160px; height:120px;}
+.my_m_nr_zhans_i_tup img{ width:160px; height:120px;}
+.my_m_nr_zhans_i_wz { line-height:24px; color:#333; font-size:14px; width:160px; overflow: hidden; /*自动隐藏文字*/ text-overflow: ellipsis;/*文字隐藏后添加省略号*/  white-space: nowrap;/*强制不换行*/}
+
+.my_m_nr_fan { border-top:1px solid #e1e1e1; margin-top:5px; padding-top:6px;}
+.my_m_nr_fan a { float:right; color:#333; display:block; padding:1px 3px; margin-left:2px; height:22px; line-height:22px; font-size:14px; text-align:center;}
+.my_m_nr_fan a:hover {color: #059ff7;}
+.my_m_nr_fan .my_m_n_f_curr { color:#999;}
+
+
+/* 添加到专辑 */	
+.rev_modeal_zhaunji_add {
+	visibility: hidden;
+	top: 220px; 
+	left: 50%;
+	margin-left: -212px;
+	width: 425px;
+}	
+.rev_modeal_zhaunji_add .my_m_nrong { padding:20px 25px 25px; }
+.my_nr_zj_add_line { margin-bottom:20px;}
+.my_nr_zj_add_line ul {}
+.my_nr_zj_add_line ul li { display:block; height:24px; margin:10px auto 0px;}
+.my_nr_zj_add_line ul li:hover label{ cursor:pointer; }
+.my_nr_zj_add_line ul li:hover .my_nrzj_add_l_bti {color: #059ff7;}
+.my_nr_zj_add_line ul li span { float:left; display:block; width:15px; margin-right:5px;}
+.my_nrzj_add_l_bti { float:left; font-size:14px; color:#333;}
+
+/* 封面编辑 */
+.my_m_biaoti { background-color:#f4f4f4; font-size:16px; padding-left:12px; line-height:38px; color:#333; height:38px; border-top-right-radius:5px; border-top-left-radius:5px;}
+.my_m_nrong { padding:32px 35px 25px;}
+
+.my_m_nr_img { margin-bottom:5px;}
+
+.my_m_nr_i_tu { float:left; width:202px; margin-right:30px; margin-top:3px; position:relative;}
+.my_m_nr_i_t_img { width:200px; height:150px; border:1px solid #dcdcdc; border-radius:2px; }
+.my_m_nr_i_t_img p { padding:0px 5px 20px 12px; color:#999; line-height:22px; font-size:12px;}
+.my_m_nr_i_t_img a { width:84px; color:#666; font-size:16px; background:url(../images/icon_img/zhuanj_jiah.png) no-repeat left center; padding-left:8px; text-align:center; margin:45px 0 22px 60px; display:block;}
+.my_m_nr_i_t_img a:hover { background:url(../images/icon_img/zhuanj_jiah_ls.png) no-repeat left center; color:#059ff7;}
+.my_i_sc_tishik { font-size:12px; width:200px; right:0px; top:152px; text-align:right; padding:5px 2px 0 0; color:#F00; position:absolute;}
+
+.my_m_nr_i_tu01 { float:left; width:202px;  margin-right:30px; margin-top:3px;position:relative;}
+.my_m_nr_i_t_img01 { width:202px; height:152px;  }
+.my_m_nr_i_t_img01 img { width:200px; height:150px; border:1px solid #dcdcdc; border-radius:2px;}
+.my_m_nr_i_wz { color:#059ff7; font-size:14px; line-height:28px; background:url(../images/icon_img/per_fenm_wenj.png) no-repeat 1px 7px; padding-left:16px; cursor:pointer;}
+
+.my_m_nr_i_tu02 { float:left; font-size:14px; color:#999;}
+.my_m_nr_i_tu02 p {}
+.my_m_nr_i_t_img02 { width:178px; height:134px; margin:2px 0;}
+.my_m_nr_i_t_img02 img { width:176px; height:132px; border:1px solid #dcdcdc; border-radius:2px;}
+
+/* 按钮单独 */
+.per_ann_tank { width:128px; margin:20px auto 0;}
+.per_ann_tank a { float:right; text-align:center;  display:block; width:54px;  font-size:14px; background-color:#c5c3c3; color:#fff; height:28px; line-height:29px; border-radius:2px;}
+.per_ann_tank .sure{ height:28px; line-height:29px; margin-right:20px; background-color:#43bafd; color:#fff; border-radius:2px; width:54px; border:0px; float:right;}
+.per_ann_tank a:hover { background-color:#b3b3b3; color:#fff;}
+.per_ann_tank .sure:hover { background-color:#059ff7; color:#fff;}

@@ -1,0 +1,28 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    ViewBag.Title = LanguageUtil.Translate("web_View_Plate_Index_title");
+}
+
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/video_funny.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/paging.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/playease.css" />
+}
+
+
+@Html.Partial("_Menu")
+<div class="v_funney wrap" style=" margin-top:10px;">
+    @Html.Partial("List")
+</div>
+
+
+
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/js/common.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/header.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/plate.js" type="text/javascript"></script>
+}

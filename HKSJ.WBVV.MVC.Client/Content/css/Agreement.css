@@ -1,0 +1,512 @@
+
+/* CSS Document */
+ body, h1, h2, h3, h4, h5, h6, hr, div, img, label, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        html, body {
+            font-family: "Microsoft Yahei";
+            background: #F4F4F4;
+            font-size: 14px;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-size: 100%;
+            font-weight: normal;
+        }
+        address, cite, dfn, em, var {
+            font-style: normal;
+        }
+        ul, ol {
+            list-style: none;
+        }
+        em, i {
+            font-style: normal;
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+        a:hover {
+            text-decoration: none;
+            color: #fd8d4e;
+        }
+        .active {
+            text-decoration: none;
+            color: #fd8d4e;
+        }
+        img {
+            display: block;
+        }
+        button, input, select, textarea, option {
+            font-size: 100%;
+            outline: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        input {
+            line-height: normal;
+        }
+        input[type="checkbox"], input[type="radio"] {
+            box-sizing: border-box;
+            padding: 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            width: auto\9; 
+            -ms-interpolation-mode: bicubic;
+        }
+        .f14 {
+            font-size: 14px;
+        }
+        .f16 {
+            font-size: 16px;
+        }
+        .f18 {
+            font-size: 18px;
+        }
+        .f20 {
+            font-size: 20px;
+        }
+        .f24 {
+            font-size: 24px;
+        }
+        .f32 {
+            font-size: 32px;
+        }
+        .fl {
+            float: left !important;
+        }
+        .fr {
+            float: right !important;
+        }
+        .clearfix:after {
+            content: "";
+            display: block;
+            visibility: hidden;
+            height: 0;
+            clear: both;
+        }
+        .clearfix {
+            zoom: 1;
+        }
+        .clear {
+            clear: both;
+        }
+        .tl {
+            text-align: left;
+        }
+        .blue {
+            color: #00a0e9;
+        }
+
+        .orange {
+            color: #fd8d4e;
+        }
+        .orange1 {
+            display: inline-block;
+            height: 31px;
+            line-height: 31px;
+            vertical-align: middle;
+        }
+        .orange2 {
+            display: inline-block;
+            height: 38px;
+            line-height: 38px;
+            vertical-align: middle;
+        }
+        .orange3 {
+            display: inline-block;
+            height: 60px;
+            line-height: 61px;
+            vertical-align: middle;
+        }
+        .orange4 {
+            display: inline-block;
+            height: 60px;
+            line-height: 61px;
+            vertical-align: middle;
+        }
+        .Bgorange {
+            background: #f78342;
+        }
+        .blackColor {
+            color: #333;
+        }
+        .mores {
+            color: #00a0e9;
+            display: inline-block;
+            margin-top: 21px;
+            position: absolute;
+            right: 0;
+            top: 37px;
+        }
+        .mt5 {
+            margin-top: 5px;
+        }
+
+        .mt51 {
+            margin-top: 5px;
+            *margin-top: 0px;
+        }
+
+        .mt8 {
+            margin-top: 8px;
+        }
+
+        .mt10 {
+            margin-top: 10px;
+        }
+
+        .mt15 {
+            margin-top: 15px;
+        }
+
+        .mt20 {
+            margin-top: 20px;
+        }
+
+        .mt25 {
+            margin-top: 25px;
+        }
+
+        .mt30 {
+            margin-top: 30px;
+        }
+
+        .mt40 {
+            margin-top: 40px;
+        }
+
+        .mt60 {
+            margin-top: 60px;
+        }
+
+        .mt80 {
+            margin-top: 80px;
+        }
+
+        .mt100 {
+            margin-top: 100px;
+        }
+
+        .mb5 {
+            margin-bottom: 5px;
+        }
+
+        .mb10 {
+            margin-bottom: 10px;
+        }
+
+        .mb15 {
+            margin-bottom: 15px;
+        }
+
+        .mb19 {
+            margin-bottom: 19px !important;
+        }
+
+        .mb30 {
+            margin-bottom: 30px;
+        }
+
+        .mb40 {
+            margin-bottom: 40px;
+        }
+
+        .mb50 {
+            margin-bottom: 50px;
+        }
+
+        .mb100 {
+            margin-bottom: 100px;
+        }
+
+        .ml5 {
+            margin-left: 5px;
+        }
+
+        .ml10 {
+            margin-left: 10px;
+        }
+
+        .ml15 {
+            margin-left: 15px;
+        }
+
+        .ml20 {
+            margin-left: 20px;
+        }
+
+        .ml30 {
+            margin-left: 30px;
+        }
+
+        .ml40 {
+            margin-left: 40px;
+        }
+
+        .ml300 {
+            margin-left: 300px;
+        }
+
+        .ml50 {
+            margin-left: 50px;
+        }
+
+        .ml100 {
+            margin-left: 100px;
+        }
+
+        .ml120 {
+            margin-left: 120px;
+        }
+
+        .ml150 {
+            margin-left: 150px;
+        }
+
+        .mr5 {
+            margin-right: 5px;
+        }
+
+        .mr10 {
+            margin-right: 10px;
+        }
+
+        .mr15 {
+            margin-right: 15px;
+        }
+
+        .mr20 {
+            margin-right: 20px;
+        }
+
+        .mr28 {
+            margin-right: 28px;
+        }
+
+        .mr40 {
+            margin-right: 40px;
+        }
+
+        .mr50 {
+            margin-right: 50px;
+        }
+        .pt5 {
+            padding-top: 5px;
+        }
+
+        .pt10 {
+            padding-top: 10px;
+        }
+
+        .pt15 {
+            padding-top: 15px;
+        }
+
+        .pt20 {
+            padding-top: 20px;
+        }
+
+        .pt30 {
+            padding-top: 30px;
+        }
+
+        .pt40 {
+            padding-top: 40px;
+        }
+
+        .pt50 {
+            padding-top: 50px;
+        }
+
+        .pt60 {
+            padding-top: 45px;
+        }
+
+        .pb5 {
+            padding-bottom: 5px;
+        }
+
+        .pb10 {
+            padding-bottom: 10px;
+        }
+
+        .pb15 {
+            padding-bottom: 15px;
+        }
+
+        .pb20 {
+            padding-bottom: 20px;
+        }
+
+        .pb30 {
+            padding-bottom: 30px;
+        }
+
+        .pb40 {
+            padding-bottom: 40px;
+        }
+
+        .pb50 {
+            padding-bottom: 50px;
+        }
+        .pl5 {
+            padding-left: 5px;
+        }
+        .pl10 {
+            padding-left: 10px;
+        }
+        .pl15 {
+            padding-left: 15px;
+        }
+        .pl20 {
+            padding-left: 20px;
+        }
+        .pl30 {
+            padding-left: 30px;
+        }
+        .pl40 {
+            padding-left: 40px;
+        }
+        .pl50 {
+            padding-left: 50px;
+        }
+        .pl80 {
+            padding-left: 80px;
+        }
+        .pl100 {
+            padding-left: 100px;
+        }
+        .pr5 {
+            padding-right: 5px;
+        }
+        .pr10 {
+            padding-right: 10px;
+        }
+        .pr15 {
+            padding-right: 15px;
+        }
+        .pr20 {
+            padding-right: 20px;
+        }
+        .pr30 {
+            padding-right: 30px;
+        }
+        .pr40 {
+            padding-right: 40px;
+        }
+        .main_ct {
+            width: 1240px;
+            margin: 0 auto;
+        }
+        .user_ct {
+            width: 1000px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+        .mr_0 {
+            margin-right: 0 !important;
+        }
+        .mr_l {
+            margin-left: 0 !important;
+        }
+        .mr_b {
+            margin-bottom: 0 !important;
+        }
+        .pr_b {
+            padding-bottom: 0 !important;
+        }
+        .pt_0 {
+            padding-top: 0 !important;
+        }
+        .mt_0 {
+            margin-top: 0 !important;
+        }
+        .pl_0 {
+            padding-left: 0 !important;
+        }
+        .pr_0 {
+            padding-right: 0 !important;
+        }
+        .bbtom {
+            border-bottom: 0 !important;
+        }
+        .brtom {
+            border-right: 0 !important;
+        }
+        .Pic {
+            position: relative;
+        }
+        .Pic:hover .bg {
+            display: block;
+        }
+        .user_agreement {
+            width: 45%;
+			min-width:280px;
+            margin: 10px auto;
+            border: 1px solid #d8d8d8;
+            min-height: 900px;
+            box-shadow: 0 3px 4px;
+            padding: 28px;
+			position:relative;
+        }
+        .user_agreement .agr_tit {
+            font-size: 30px;
+            color: #666666;
+            text-align: center;
+            border-bottom: 1px solid #cccccc;
+            padding-bottom: 20px;
+        }
+        .user_agreement p {
+            font-size: 14px;
+            color: #666666;
+            line-height: 24px;
+            margin-bottom: 20px;
+        }
+        .user_agreement p.txt_id {
+            text-indent: 2em;
+        }
+        .user_agreement .agr_tit_1 {
+            color: #666666;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .lt_cate {
+            position: fixed;
+            top: 100px;
+            left: 160px;
+            z-index: 10;
+        }
+        .lt_cate li {
+            margin: 0;
+            padding: 0px 0px 0px 20px;
+            height: 16px;
+            line-height: 16px;
+            vertical-align: middle;
+        }
+            .lt_cate li.cur {
+                background: url("../../Content/images/icon_img/5BVV_Agreement_02.png") no-repeat left center;
+            }
+        .lt_cate li a {
+            color: #666;
+            font-size: 12px;
+            vertical-align: middle;
+            height: 16px;
+            line-height: 16px;
+        }
+            .lt_cate li.bt_zi {
+                background: url("../../Content/images/icon_img/5BVV_Agreement_01.png") no-repeat left center;
+                width: 5px;
+                height: 17px;
+                padding: 0;
+                position: relative;
+                left: 5px;
+                top: 0;
+                *top: -1px;
+            }

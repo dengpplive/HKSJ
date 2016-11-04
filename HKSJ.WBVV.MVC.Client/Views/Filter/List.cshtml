@@ -1,0 +1,53 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<style>
+    .show {
+        display: block;
+    }
+</style>
+
+<div class="v_fun_wz01 v_funney_wz" id="filteropt">
+    <ul>
+        <li>@LanguageUtil.Translate("web_View_Filter_List_paixu")</li>  
+        <li>
+            <label onclick="doOrderList('hot')" style="cursor:pointer;">
+                <input type="checkbox" name="CheckboxGroup1" value="hot" id="CheckboxGroup_hot"><span>@LanguageUtil.Translate("web_View_Filter_List_hot")</span>
+            </label><div class="clear"></div>
+        </li>
+        <li>
+            <label onclick="doOrderList('time')" style="cursor:pointer;">
+                <input type="checkbox" name="CheckboxGroup1" value="time" id="CheckboxGroup_time"><span>@LanguageUtil.Translate("web_View_Filter_List_time")</span>
+            </label><div class="clear"></div>
+        </li>
+    </ul>
+    <div class="clear"></div>
+</div>
+
+<div class="v_funney_img" id="divList">
+    <ul>
+
+        <div data-bind="visible:CheckVisible">
+            <div class="tis_ku_wa"><img src="@ServerHelper.RootPath/Content/images/icon_img/ku_wa.png" width="500" height="380"></div>
+            <div class="tis_ku_wa_wz">@LanguageUtil.Translate("web_View_Filter_List_tiskuwa")</div>
+        </div>
+        <!--ko foreach:{data:listData,as:'item'}-->
+        <li>
+            <a data-bind="attr:{href:$root.goPlayer($data.Id)}" target="_blank">
+                <div class="play_img">
+                    <i data-bind="attr:{title:Title}"></i>
+                    <img data-bind="attr:{src:SmallPicturePath}">
+                </div>
+            </a>
+            <p class="v_fun_i_duan_bit"><a data-bind="text:Title,attr:{href:$root.goPlayer($data.Id),title:Title}" target="_blank"></a></p>
+            <p >@LanguageUtil.Translate("web_View_Filter_List_fabu")：<span data-bind="text:TimeSpan"></span></p>
+            <p>@LanguageUtil.Translate("web_View_Filter_List_bofang")：<span data-bind="text:PlayCount">0</span></p>
+        </li>
+        <!--/ko-->
+
+    </ul>
+    <div class="clear"></div>
+</div>

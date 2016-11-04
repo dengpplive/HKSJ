@@ -1,0 +1,307 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_PageTitle")</title>
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/select2_metro.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" />
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery-1.10.1.min.js")" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/tree/css/zTreeStyle/zTreeStyle.css")" />
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.core-3.5.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.excheck-3.5.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.exedit-3.5.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+
+    <script src="~/Scripts/jBox/jquery.jBox-2.3.min.js"></script>
+    <script src="~/Scripts/jBox/i18n/jquery.jBox-zh-CN.js"></script>
+    <link href="~/Scripts/jBox/Skins/Green/jbox.css" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/ajax.js")" type="text/javascript"></script>
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+    <script>
+    var model =  @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+    var api = model.api;
+    var single=1;
+
+    $(function(){
+        loadCategory();
+        $(".xClass").live("click",function(){
+            deleteLi(this);
+        });
+
+        $("input[type=radio][name=plateType]").bind("click",function(){
+            if ($(this).val()==0) {
+                $("#selPlate").val(0);
+                $("#selCategory").next().text(Translate("admin_Views_PlateVideo_PlateVideoAdd_Root_selectFirst"));
+                $("#selCategory").after("<span style='color:red;' id='cateSpan'>*<span>");;
+                $(this).parent().next().attr("style","display:none");
+            }else {
+                $(this).parent().next().removeAttr("style");
+                $("#cateSpan").remove();
+                $("#selCategory").next().text(Translate("admin_Views_PlateVideo_PlateVideoAdd_Root_selectFirstTips"));
+            }
+        });
+    });
+
+    //删除视频显示
+    function deleteLi(obj){
+        $(obj).parent().remove();
+    }
+
+    //新增视频显示
+    function add(src,v){
+        if ($("#"+v).html()==undefined) {
+            var li="<li id=\""+v+"\">";
+            li+="<img src=\""+src+"\" /><span class='vClass'>"+getStr(imgTitle,8)+"</span><span class='xClass'>X</span>";
+            li+="</li>";
+            $("#ulVideo").append(li);
+        }
+    }
+
+    //板块视频信息保存
+    function save() {
+        var createManageId='@HKSJ.WBVV.MVC.Manage.Common.WebContext.Manage.Id';
+        var isHot=$("input[type=radio][name=IsHot]:checked").val();
+        var isRecommend=$("input[type=radio][name=IsRecommend]:checked").val();
+        var data={cid:createManageId,caid:$("#selCategory").val(),pid:$("#selPlate").val(),sNum:$.trim($("input[name=sortNum]").val())||0,vid:getVideoId(),isHot:isHot,isRcd:isRecommend};
+        if (!check(data)) { return; }
+        var url=rootPath+"/PlateVideo/CreatePlateVideo?v="+Math.random();
+        var obj = { url: url, data: data, async: false, type: "post", dataType: "json" };
+        var result = getAjax(obj);
+        if (result.Success) {
+            alert(Translate("admin_Views_PlateVideo_PlateVideoAdd_Save_saveSuccess"));
+            window.location.href="@Url.Content("~/PlateVideo/PlateVideoManage")";
+        }else{
+            alert(result.ExceptionMessage);
+        }
+    }
+
+    //获取视频ID-------------------------------(模拟视频ID,后续需要弹出列表框，通过点击复选框把值返回给父级窗体)
+    function getVideoId(){
+        var ids="";
+        $("#ulVideo li").each(function(){
+            ids+=$(this).attr("id")+",";
+        });
+        if (ids.length>0) {
+            ids=ids.substring(0,ids.length-1);
+        }
+        return ids;
+    }
+
+    //加载一级分类(ok)
+    function loadCategory() {
+        var url=api+"Category/GetOneCategoryViewList?v="+Math.random();
+        var obj = { url: url, data: {}, async: false, type: "get", dataType: "json" };
+        var result = getAjax(obj);
+        var option="<option value='0'>--"+Translate("admin_Views_PlateVideo_PlateVideoAdd_loadCategory_PleaseSelect")+"--</option>";
+        if (result!=null) {
+            $(result).each(function(i,o){
+                option+="<option value='"+o.id+"'>"+o.name+"</option>";
+            });
+        }
+        $("#selCategory").empty().html(option);
+        $("#selPlate").empty().html("<option value='-1'>--"+Translate("admin_Views_PlateVideo_PlateVideoAdd_loadCategory_PleaseSelPlate")+"--</option>");
+        loadPlate($("#selCategory"));
+    }
+
+    //根据一级分类加载板块列表
+    function loadPlate(o){
+        var methodName="GetPlateViewByCategoryIdList";
+        if ($(o).val()=="0") {
+            methodName="GetPlateViewByHomeList";
+        }
+        var url=api+"Plate/"+methodName+"?cid="+$(o).val()+"&v="+Math.random();
+        var obj = { url: url, data: {}, async: false, type: "get", dataType: "json" };
+        var result = getAjax(obj);
+        var option="<option value='0'>--"+Translate("admin_Views_PlateVideo_PlateVideoAdd_loadPlate_PleaseSelPlate")+"--</option>";
+        if (result!=null) {
+            $(result).each(function(i,o){
+                option+="<option value='"+o.Id+"'>"+o.Name+"</option>";
+            });
+        }
+        $("#selPlate").empty().html(option);
+        $("#ulVideo").html("");
+    }
+
+    //加载所有视频
+    function loadVideo(){
+        var url=api+"Category/GetOneCategoryViewList?v="+Math.random();
+        var obj = { url: url, data: {}, async: false, type: "get", dataType: "json" };
+        var result = getAjax(obj);
+        var option="<option value='-1'>--"+Translate("admin_Views_PlateVideo_PlateVideoAdd_loadVideo_PleaseSelvideo")+"--</option>";
+        if (result!=null) {
+            $(result).each(function(i,o){
+                option+="<option value='"+o.id+"'>"+o.name+"</option>";
+            });
+        }
+        $("#selCategory").empty().html(option);
+    }
+
+    //验证非空数据
+    function check(obj){
+        var isTrue=false;
+        if (obj.pid==0 && $("input[type=radio][name=plateType]:checked").val()==1) {
+            alert(Translate("admin_Views_PlateVideo_PlateVideoAdd_check_PleaseSelPlate"));
+        }
+        else if (obj.caid==0 && $("input[type=radio][name=plateType]:checked").val()==0) {
+            alert(Translate("admin_Views_PlateVideo_PlateVideoAdd_check_PleaseSelFirstCategory"));
+        }
+        else if (obj.vid=="") {
+            alert(Translate("admin_Views_PlateVideo_PlateVideoAdd_check_PleaseSelVideo"));
+        }
+        else {
+            isTrue=true;
+        }
+        return isTrue;
+    }
+
+    function childValue(v,t,src){
+        if (t) {
+            add(src,v);
+        }else {
+            deleteLi(v);
+        }
+    }
+
+    function openDialog(){
+        if ($("#selCategory").val()==-1) {
+            alert(Translate("admin_Views_PlateVideo_PlateVideoAdd_openDialog_alert_PleaseSelectFirst"));
+            return;
+        }
+
+        var url="@Url.Content("~/PlateVideo/VideoList")";
+        $.jBox("iframe:"+url, {
+            title: " @LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_jBox_TitleVideoList")",
+                top:50,
+                width: 700,
+                height: 550,
+                buttons:{"@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_jBox_ButtonConfirm")":true},
+                submit: function (v, h, f) {
+                    if (imgId>0) {
+                        $("#ulVideo").html("");
+                        childValue(imgId,true,imgSrc);
+                    }
+                    $("input[type=text]:eq(0)").focus();
+                    return true;
+                }
+            });
+            $("#jbox-iframe").css({height:"98%"});
+        }
+        var imgSrc = "";
+        var imgId = 0;
+        var imgTitle="";
+    </script>
+    <style>
+        #ulVideo ul {
+            width: 500px;
+        }
+
+        ul, ol {
+            margin: 10px 10px 30px 1px;
+            padding: 0;
+        }
+
+        #ulVideo ul, li {
+            margin-left: 0px;
+            padding-left: 0px;
+            border: solid 1px #ccc;
+        }
+
+        #ulVideo li {
+            list-style: none;
+            float: left;
+            margin-right: 5px;
+            width: 150px;
+        }
+
+        #ulVideo img {
+            float: left;
+            width: 150px;
+            height: 150px;
+        }
+
+        .vClass {
+            float: left;
+            width: 80%;
+            border-top: solid 1px #ccc;
+        }
+
+        .xClass {
+            width: 20%;
+            float: left;
+            color: red;
+            background-color: gray;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        div label {
+            width: 100px;
+        }
+    </style>
+</head>
+<body style="background-color: #FFF !important;">
+    <div style=" background-color:white; padding:10px 10px 10px 10px;">
+        <ul class="breadcrumb">
+            <li>
+                <span><strong>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_nav_Manage")</strong></span>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li>
+                <a href="@Url.Content("~/PlateVideo/PlateVideoManage")">@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_nav_ManagePlateVideo")</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li>
+                <span><strong>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_nav_AddPlateVideo")</strong></span>
+            </li>
+        </ul>
+        <div>
+            <label>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_label_FirstCategory")</label><select id="selCategory" onchange="loadPlate(this)"></select>&nbsp;<span style="color:gray;">@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_span_FirstCategoryTips")
+</span>
+        </div>
+        <div><input type="radio" name="plateType" value="0" />@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_SystemPlate") <input type="radio" name="plateType" value="1" checked="checked" />>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_CustomPlate")</div>
+        <div>
+            <label>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_labelPlate")</label><select id="selPlate"></select><span style="color:red;">*</span>
+        </div>
+        <div><label>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_labelRecommend")</label><span><input type="radio" name="IsRecommend" value="1" checked="checked" />@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_labelRecommend_input_yes")<input type="radio" name="IsRecommend" value="0" />@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_labelRecommend_input_no")</span></div>
+        <div><label>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_labelHot")</label><span><input type="radio" name="IsHot" value="1" />@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_labelHot_input_yes")
+<input type="radio" name="IsHot" value="0" checked="checked" />@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_labelHot_input_no")</span></div>
+        <div>
+            <button onclick="openDialog()">@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_button_PleaseSelectVideo")
+</button>
+        </div>
+        <div>
+            <table cellpadding="0" border="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <ul id="ulVideo"></ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <label>@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_label_PlateVideoSort")
+</label><input type="text" name="sortNum" onkeyup="num(this)" /><span style="color:gray;">&nbsp;@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_span_PlateVideoSortTips")</span>
+        </div>
+        <div style=" width:1000px; float:left;">
+            <button onclick="save()">@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_buttonCommit")
+</button>&nbsp;<button onclick="javascript:history.back(-1)">@LanguageUtil.Translate("admin_Views_PlateVideo_PlateVideoAdd_buttonBack")</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+E:\project\2015-12-19\web\trunk\HKSJ.Cache\bin\Debug\HKSJ.Cache.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Cache\bin\Debug\HKSJ.Cache.pdb
+E:\project\2015-12-19\web\trunk\HKSJ.Cache\obj\Debug\HKSJ.Cache.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Cache\obj\Debug\HKSJ.Cache.pdb
+E:\project\2015-12-19\web\trunk\HKSJ.Cache\obj\Debug\HKSJ.Cache.csprojResolveAssemblyReference.cache

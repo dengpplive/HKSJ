@@ -1,0 +1,201 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" rel="stylesheet" type="text/css" />
+        <link href="~/Content/tags/infotag.css" rel="stylesheet" />
+        <style>
+            .modalcss {
+                position: relative;
+                max-height: 1200px;
+                padding: 15px;
+                overflow-y: initial;
+                height: 950px;
+                background-color: #ffffff;
+                /* background: #ffffff; */
+            }
+        </style>
+        <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+        <script src="~/Content/videoplayer/flash/swfobject.js"></script>
+        <script src="~/Content/videoplayer/javascript/common.js"></script>
+        <script src="~/Content/videoplayer/javascript/video.js"></script>
+        <script src="~/Content/videoplayer/javascript/videoPlayerInit.js"></script>
+    </head>
+<body>
+<div id="approve" class="" tabindex="-1" style="margin-top: 0px;">
+    
+    <div class="modal-body modalcss">
+        <div id="divFlashPlayer">
+
+        </div>
+        <div class="row-fluid margin-bottom-10">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_UsingApprove_label_AuditContent")</label>
+            <div class="controls">
+                <select class="per_a_add_nr_l_sort" style="float: left" id="approveContent">
+                    <option value="-1">@LanguageUtil.Translate("admin_Views_Video_UsingApprove_option_AuditPass")</option>
+                    <option value="0">@LanguageUtil.Translate("admin_Views_Video_UsingApprove_option_notPasscontainsIllegalInfo")</option>
+                    <option value="1">@LanguageUtil.Translate("admin_Views_Video_UsingApprove_option_notPassVideoisnotClear")</option>
+                    <option value="2">@LanguageUtil.Translate("admin_Views_Video_UsingApprove_option_notPassVideoTimeisnotenough")</option>
+                    <option value="3">@LanguageUtil.Translate("admin_Views_Video_UsingApprove_option_notPassOthers")</option>
+                </select>
+            </div>
+        </div>
+        <div class="row-fluid margin-bottom-10">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_UsingApprove_label_Remarks")</label>
+            <div class="controls">
+                <textarea placeholder="@LanguageUtil.Translate("admin_Views_Video_UsingApprove_textarea_Remarks")" id="ApproveRemark" class="large m-wrap" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="row-fluid margin-bottom-10">
+            <button type="submit" class="btn blue" id="approvePass" onclick="ApproveVideo(false)"><i class="icon-ok"></i>@LanguageUtil.Translate("admin_Views_Video_UsingApprove_button_Pass")</button>
+            <button type="button" class="btn blue" id="approveNoPass" onclick="ApproveVideo(true)">@LanguageUtil.Translate("admin_Views_Video_UsingApprove_button_NotPass")</button>
+        </div>
+    </div>
+   
+</div>
+
+   </body>
+</html>
+<input type="hidden" id="videoPath" />
+<script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="@Url.Content("~/Content/bootstrap/js/excanvas.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/respond.min.js")" type="text/javascript"></script>
+    <![endif]-->
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.uniform.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.blockui.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/pageCommon.js")" type="text/javascript"></script>
+<script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+<script>
+    var vid='@ViewBag.vid';
+    var videoState = '@ViewBag.videoState';
+    $(function() {
+        LoadData(vid, videoState);
+    });
+
+    function LoadData(vid, videoState) {
+       // $("#vid").val(vid);
+        //$("#approve").modal({ backdrop: 'static' }).css({
+        //    width: 920,
+        //    'margin-left': function () {
+        //        return -($(this).width() / 2);
+        //    },
+        //    height: 800,
+        //});
+        if (videoState == 3) {
+            $("#approvePass").hide();
+            $("#approveNoPass").show();
+        } else if (videoState == 4) {
+            $("#approvePass").show();
+            $("#approveNoPass").hide();
+        } else {
+            $("#approvePass").show();
+            $("#approveNoPass").show();
+        }
+        var url = api + 'Video/GetAVideoById?id=' + vid;
+        $.ajax({
+            type: "get",
+            url: url,
+            dataType: "json",
+            success: function (data) {
+                playVedio(data);
+            },
+            error:function() {
+
+            }
+
+        });
+
+    }
+
+    //审核
+    function ApproveVideo(status) {
+       // var vid = $("#vid").val();
+        if (status == true) {
+            if ($("#approveContent").val() == -1) {
+                alert(Translate("admin_Views_Video_UsingApprove_ApproveVideo_if_ContentnotRight"));
+                return;
+            }
+        } else {
+            if ($("#approveContent").val() > -1) {
+                alert(Translate("admin_Views_Video_UsingApprove_ApproveVideo_else_ContentnotRight"));
+                return;
+            }
+        }
+        var approveContent = $("#approveContent").find("option:selected").text();
+        var approveRemark = $("#ApproveRemark").val();
+        var dataPara = {
+            ApproveContent: approveContent,
+            ApproveRemark: approveRemark,
+            VideoId: vid,
+            Status: status,
+            CreateAdminId: '@WebContext.Manage.Id'
+        };
+        var url = rootPath + '/Video/AddApproveInfo';
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {
+                dataModel: dataPara
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.Success) {
+                    if (data.Data) {
+                        alert("OK");
+                        // $('#approve').modal('hide');
+                        $('#approveContent').val(-1);
+                        //viewModel.initData();
+                        opener.viewModel.initData();
+                        close();
+                    } else {
+                        alert(Translate("admin_Views_Video_UsingApprove_alert_VideoTitleTagsIsnotNull"));
+                    }
+                } 
+            },
+            error: function (err) {
+
+            }
+        });
+    }
+    
+
+    //---------------------------------------------begin 调用播放器--------------------------------//
+    //页面数据初始化完毕会加载该函数
+    function playVedio(videoDetailData) {
+        var videoInfo = function () {
+            self = this;
+            self.id = "divFlashPlayer";
+            self.videoPathInfo = "0" + "," + "0" + "," + "" + "," + videoDetailData.VideoPath;
+            self.advertPathInfo = "http://7xliow.com2.z0.glb.qiniucdn.com/1441172688325_600x480.mp4" + "," + "10" + "," + "http://1.178pb.com" + "#";
+        };
+        doInit(new videoInfo());
+    }
+    //---------------------------------------------end 调用播放器--------------------------------//
+</script>

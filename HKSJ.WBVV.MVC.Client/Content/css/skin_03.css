@@ -1,0 +1,39 @@
+/* BOLG皮肤（3列绿色）*/
+
+/* 通用样式表 */
+
+.clear{clear: both; font-size:1px; visibility: hidden;}
+
+/* 空格样式 */
+
+
+body { width:100%; font-family:"Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;}
+
+#page_options{  position: relative;  }
+
+a#editpage{
+font:normal 11px ; font-family:"Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+padding-right:15px;}
+
+/*    换肤  */
+
+.wrap_bg { width:1200px; height:328px; background:url(../images/pifu_img/banner3.png) no-repeat center center;}
+
+#page_options { position:relative;}
+
+/* .wrap_Per_hf { position: absolute; right: 0px; top: 0px; width: 63px;height: 62px; display:block; background:url(../images/pifu_img/banner_XJ.png) no-repeat right top;} */
+
+.wrap_Per_hf { float:right; width: 63px;height: 62px; display:block; background:url(../images/pifu_img/banner_XJ.png) no-repeat right top;}
+.wrap_Per_hf:hover {width: 63px;height: 62px; background:url(../images/pifu_img/banner_DJ.png) no-repeat right top;}
+
+.page_pifu {position:absolute; right:0px; top:45px; width:350px; height:100px; padding-top:10px; background:url(../images/pifu_img/pifu_bg.png) repeat center center; border:1px solid #c2c2c2; font-size:12px; font-weight: bold;  display:none; z-index:999999;  background-color:#fff; }
+
+.page_pifu p { color:#059ff7; text-align:left; margin:0 10px; height:30px; line-height:24px; margin-bottom:5px;}
+.P_pifu_nav { float:right;background-color:#059ff7; font-weight:normal; text-align:center; color:#fff; width:50px; height:24px; line-height:24px; border-radius:3px;}
+.P_pifu_nav:hover { color:#fff;}
+
+.page_pifu_tup { width:350px; height:100px;}
+.page_pifu .page_pifu_tup .pifu_tp { width:60px; height:80px; text-align:center; float:left; margin-left:8px;}
+.page_pifu .page_pifu_tup .pifu_tp .pifu_t_img { width:60px; height:26px; text-align:center; display:block; margin-bottom:5px;}
+.page_pifu .page_pifu_tup img {width:60px; height:26px; margin-bottom:5px;}
+.page_pifu .page_pifu_tup img:hover { border:1px solid #36b2f9;}

@@ -1,0 +1,58 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+@*分页*@
+<style type="text/css">
+    .page {
+        margin: 10px 0px;
+    }
+
+        .page .pageinfo {
+            float: left;
+            line-height: 40px;
+        }
+
+        .page ul {
+            float: right;
+        }
+
+            .page ul li {
+                float: left;
+                border: 1px solid #999999;
+                margin: 5px;
+                text-align: center;
+            }
+
+    .disable {
+        border: 1px solid #d8d8d8 !important;
+        background: #d8d8d8 !important;
+    }
+
+    .page ul li a {
+        display: block;
+        cursor: pointer;
+        padding: 5px 10px;
+    }
+
+        .page ul li a:hover, .active {
+            background: #059ff7;
+            color: #ffffff;
+        }
+</style>
+<!--ko if:totalindex()>1-->
+<div class="page">
+    <div class="pageinfo">
+        @LanguageUtil.Translate("web_Views_Shared_Page_currentDisplay")<span style="color: red" data-bind="text:pageindex"></span>@LanguageUtil.Translate("web_Views_Shared_Page_Showing")<span style="color: red" data-bind="text:pagesize"></span>@LanguageUtil.Translate("web_Views_Shared_Page_Showing2")@LanguageUtil.Translate("web_Views_Shared_Page_articleNumber")<span style="color: red" data-bind="text:totalcount"></span>@LanguageUtil.Translate("web_Views_Shared_Page_altogether")
+    </div>
+    <ul>
+        <li data-bind="css:{disable:pageindex()<=1}"><a data-bind="click:pre">@LanguageUtil.Translate("web_Views_Shared_Page_Previous")</a></li>
+        <!--ko foreach:page()-->
+        <li><a data-bind="css:{active:active},text:text,click:goPage"></a></li>
+        <!--/ko-->
+        <li><a data-bind="click:next,css:{disable:pageindex()>=totalindex()}">@LanguageUtil.Translate("web_Views_Shared_Page_Next")</a></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<!--/ko-->

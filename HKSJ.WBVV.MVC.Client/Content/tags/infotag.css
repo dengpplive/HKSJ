@@ -1,0 +1,18 @@
+
+h1, h2, h3, h4, h5, h6 {margin:0; padding:0;font-weight: 400;font-size:12px;}
+.tag-container, .row {zoom: 1;}
+.tag-container:after, .row:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+.info-item {min-height: 30px;margin: 0 0 10px;clear: both;position: relative;}
+.info-item .tag-container {border: 1px solid #dee2e5;position: relative;}
+.info-item .tag-container h3 {float: left;width: 32px;height: 28px;padding: 0 0 0 9px; color:red;line-height: 28px;cursor: default;}
+.info-tags {padding: 3px 0 0;overflow: hidden;}
+.info-item .tag-container input {float: left;border: 0;width: 120px;height: 22px;line-height: 22px;padding: 0 0 0 2px;border: 0;background: 0;outline:none;}
+.info-item .message {padding: 5px 3px 0 0;text-align: right;color: #949ba1;font-size:12px;}
+.info-item .message .message_span{ float:left; color:#F00; display:none;}
+.info-item .smark {font-weight: 400;font-style: normal;font-size: 14px;position: absolute;top: 5px;left: 3px;color: #ff6a6e;}
+#info-box .info-recom-tag h3 {float: left;width: 60px;height: 25px;line-height: 25px;color: #4a5159;font-size:14px;}
+.info-recom-tag .tag-list {margin-left: 60px;overflow: hidden;font-size:12px;}
+.info-recom-tag span {float: left;height: 20px;line-height: 20px;padding: 0 5px; margin: 0 3px 3px 0;text-decoration: none;border: 1px solid #dee2e5;border-radius: 2px;color: #666;text-align: center;cursor: pointer;position: relative;white-space: nowrap;}
+.info-tags .tag-item {float: left;height: 20px;line-height: 20px;padding: 0 19px 0 7px;margin: 0 3px 3px 0;border: 1px solid #dee2e5;border-radius: 2px;color: #666;text-align: center;cursor: default;position: relative;white-space: nowrap;font-size:12px;}
+.tag-cont i{ position:absolute; right:0; top:0;width: 20px;height: 20px;line-height: 20px;cursor: pointer; font-style:normal; background:url(tag_close.png) no-repeat;}
+.info-recom-tag{ margin-left: -60px;}

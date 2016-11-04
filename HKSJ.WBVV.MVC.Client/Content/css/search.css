@@ -1,0 +1,63 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/* 视频简介 */
+.search_title{width:1200px; margin:0 auto;  margin-top:28px; }
+.seach_bx{width:1200px;border-bottom:1px solid #ccc;}
+.search_t_img{width:168px; margin-bottom:20px; float:left;}
+.search_t_img img{width:168px; height:224px;}
+.search_t_c{width:802px; margin-left:34px; float:left; line-height:23px;}
+.search_t_name{font-size:18px; color:#059ff7; margin-bottom:5PX;}
+.search_t_yy{font-size:14px; color:#2c2b2b;}
+.search_t_d{font-size:14px; width:600px;}
+.search_t_ton{margin-top:30px;}
+.search_t_ton a:hover{color:#fff;}
+.search_t_btn{ border:none; background-color:#059ff7; padding:12px 30px 12px 30px; font-size:18px; color:#ffffff; border-radius: 4px;cursor: pointer;}
+
+/* 搜索到的视频 */
+.search_center{width:1200px; padding:0px; margin:0 auto;}
+.search_c_sou{width:1200px;  display:block; font-size:14px; margin-top:30px;}
+.search_c_01{width:155px; float:left;}
+.search_c_01 input{margin-right:10px;}
+.search_c_01 span{margin-right:10px; color:#272727; cursor:pointer;}
+.search_c_02{width:1045px; float:left; text-align:right;}
+.search_c_list{width:1200px; margin-top:13px; font-size:14px; text-align:left; margin-bottom:30px;min-height:500px;}
+.search_c_list #search_list li{width:200px; height:220px; line-height:23px; margin-right:50px; float:left; margin-top:23px;}
+.search_c_list #search_list li img{width:200px; height:150px;}
+.search_c_list #search_list li p{color:#7e7e7e;}
+.search_c_list .search_ss{margin-right:0px!important;}
+.search_c_list li h6 { width:200px;font-weight:normal; font-size:14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.search_c_list .w_tuij_img li h6  { width:176px;font-weight:normal; font-size:14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.search_c_ti { width:200px;font-weight:normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;display:block;}
+.search_c_list .search_c_ti {display:inline;}
+
+/*  页码 */
+
+.v_funney_wz {width:1200px;}
+.v_funney_wz ul li{ float:left;}
+
+
+.v_fun_wz02 { margin-bottom:50px; }
+.v_fun_wz02 ul { width:500px; padding-left:7px; margin:0 auto;}
+
+.v_fun_wz02 ul li {margin-right:5px;}
+.v_fun_wz02 ul li a { border:1px solid #999999; padding:5px 12px;}
+
+.v_fun_wz02 ul .v_fun_dhs { border:1px solid #c9c9c9; }
+.v_fun_wz02 ul li a:hover { color:#fff; border:1px solid #e3e3e3; background-color:#059ff7;}
+
+
+/*   //////////////////////////////  首页-专辑   /////////////////////////////   */
+
+.album{width:1200px; margin:0 auto; padding:0px;}
+.album_title{font-size:16px;}
+
+.album_t_h{color:#059ff7; font-size:24px; margin-bottom:24px;}
+.album_jianjie{height:auto; min-height:28px; color:#7e7e7e; margin-bottom:20px;}
+
+.album_title span{font-size:16px; margin-right:16px; cursor:pointer;}
+.album_title input{margin-right:10px;}
+.al_list{margin-top:0px;}
+.al_list ul{width:1250px;}
+.al_list li{margin-right:50px; width:200px; height:228px;line-height:23px; margin-right:50px; float:left; margin-top:23px;}
+.al_list li img{ display:block; width:200px; height:150px;}

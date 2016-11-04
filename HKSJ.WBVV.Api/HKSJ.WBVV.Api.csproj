@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D51DB4E1-E43F-428B-B16B-A33FCBECC600}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HKSJ.WBVV.Api</RootNamespace>
+    <AssemblyName>HKSJ.WBVV.Api</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\HKSJ.WBVV.Api.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\HKSJ.WBVV.Api.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.1.0.10\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.Http.0.7.0\lib\net45\Flurl.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppController\AppChannelController.cs" />
+    <Compile Include="AppController\AppChoicenessController.cs" />
+    <Compile Include="AppController\AppHotListController.cs" />
+    <Compile Include="AppController\AppLoginController.cs" />
+    <Compile Include="AppController\AppSmsController.cs" />
+    <Compile Include="AppController\AppUserCollectController.cs" />
+    <Compile Include="AppController\AppUserController.cs" />
+    <Compile Include="AppController\AppUserSpaceController.cs" />
+    <Compile Include="AppController\Base\AppApiControllerBase.cs" />
+    <Compile Include="BannerVideoController.cs" />
+    <Compile Include="DocumentController\APIDocumentController.cs" />
+    <Compile Include="DocumentController\XmlDocumentationProvider.cs" />
+    <Compile Include="Extend\HttpRequestMessageExtensions.cs" />
+    <Compile Include="LanguageController.cs" />
+    <Compile Include="Language\Language.cs" />
+    <Compile Include="MessageController.cs" />
+    <Compile Include="QiniuUploadController.cs" />
+    <Compile Include="SMSController.cs" />
+    <Compile Include="KeyWordController .cs" />
+    <Compile Include="TagsController.cs" />
+    <Compile Include="UserLevelController.cs" />
+    <Compile Include="UserSkinController.cs" />
+    <Compile Include="AuthKeysController.cs" />
+    <Compile Include="UserBindController.cs" />
+    <Compile Include="VideoPlayRecordController.cs" />
+    <Compile Include="VideoApproveController.cs" />
+    <Compile Include="SystemMessageController.cs" />
+    <Compile Include="UserMessageController.cs" />
+    <Compile Include="UserSpecialController.cs" />
+    <Compile Include="UserRecommendController.cs" />
+    <Compile Include="UserVisitLogController.cs" />
+    <Compile Include="UserFansController.cs" />
+    <Compile Include="UserRoomChooseController.cs" />
+    <Compile Include="ManageController.cs" />
+    <Compile Include="UserCollectController.cs" />
+    <Compile Include="OpenPlatForm\Common\AuthOption.cs" />
+    <Compile Include="OpenPlatForm\Common\AuthToken.cs" />
+    <Compile Include="OpenPlatForm\Common\RequestOption.cs" />
+    <Compile Include="OpenPlatForm\Common\UserProfile.cs" />
+    <Compile Include="OpenPlatForm\IOAuthClient.cs" />
+    <Compile Include="OpenPlatForm\IUserInterface.cs" />
+    <Compile Include="OpenPlatForm\OauthClient\OAuthClient.cs" />
+    <Compile Include="OpenPlatForm\OauthClient\SinaWeiBo\SinaWeiBoClient.cs" />
+    <Compile Include="OpenPlatForm\OauthClient\SinaWeiBo\SinaWeiBoUserImpl.cs" />
+    <Compile Include="OpenPlatForm\OauthClient\TencentQQ\TencentQQClient.cs" />
+    <Compile Include="OpenPlatForm\OauthClient\TencentQQ\TencentQQUserImpl.cs" />
+    <Compile Include="OpenPlatForm\Utils\DynamicHelper.cs" />
+    <Compile Include="OpenPlatForm\Utils\HttpWebClient.cs" />
+    <Compile Include="PlateController.cs" />
+    <Compile Include="PlateVideoController.cs" />
+    <Compile Include="PraiseController.cs" />
+    <Compile Include="RegisterController.cs" />
+    <Compile Include="LoginController.cs" />
+    <Compile Include="OAuthController.cs" />
+    <Compile Include="CategoryController.cs" />
+    <Compile Include="CommentController.cs" />
+    <Compile Include="DictionaryController.cs" />
+    <Compile Include="DictionaryItemController.cs" />
+    <Compile Include="Filters\AuthCodeAttribute.cs" />
+    <Compile Include="Base\ApiControllerBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\ApplicationOAuthProvider.cs" />
+    <Compile Include="UserController.cs" />
+    <Compile Include="VideoController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HKSJ.Utilities\HKSJ.Utilities.csproj">
+      <Project>{fae073d8-95e2-45a8-bbac-3e13439b3f3f}</Project>
+      <Name>HKSJ.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Business.Interface\HKSJ.WBVV.Business.Interface.csproj">
+      <Project>{1a2b6ee9-a295-4120-9019-adc893837a89}</Project>
+      <Name>HKSJ.WBVV.Business.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Common\HKSJ.WBVV.Common.csproj">
+      <Project>{e615a07f-9e1b-4dc8-9156-4753537e6ce4}</Project>
+      <Name>HKSJ.WBVV.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Entity\HKSJ.WBVV.Entity.csproj">
+      <Project>{a1173f2f-1e49-4d67-b65c-ae8a116310e8}</Project>
+      <Name>HKSJ.WBVV.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Model\HKSJ.WBVV.Model.csproj">
+      <Project>{5171fc5b-78c9-4776-abd3-28c2d46d8cf5}</Project>
+      <Name>HKSJ.WBVV.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Repository.Interface\HKSJ.WBVV.Repository.Interface.csproj">
+      <Project>{1a6d040c-fd3e-4658-a47e-1f2523e63797}</Project>
+      <Name>HKSJ.WBVV.Repository.Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

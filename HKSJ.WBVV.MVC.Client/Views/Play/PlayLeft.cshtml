@@ -1,0 +1,296 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!-- 分类 11-23 -->
+<div class="play_type">
+    <a href="@ServerHelper.RootPath/Home/index" target="_blank">@LanguageUtil.Translate("web_View_Play_PlayLeft_shouye") </a><span>&gt;</span>
+    <!-- ko if:ParentCatagoryId -->
+    <a data-bind="attr:{href: $root.SecondCategoryUrl()}" target="_blank">
+        <!--ko text:ParentCatagoryName--><!--/ko-->
+    </a><span>&gt;</span>
+    <!-- /ko -->
+    <a data-bind="attr:{href: $root.ThirdCategoryUrl()}" target="_blank">
+        <!--ko text:CategoryName--><!--/ko-->
+    </a>
+</div>
+<!-- 分类 end -->
+<div class="play_left" id="divPlayLeft">
+    <div class="play_title" id="divTitle">
+        <p data-bind="text:title"></p>
+        <input type="hidden" id="hiddenPictureId" data-bind="value:SmallPicturePath">
+    </div>
+    <div class="divFlash_box">
+    <div class="divFlash">
+            <h2 class="follow_h2">按住拖动<a id="follow_close" href="javascript:;"></a></h2>
+        <div class="divFlashLeft" id="setupFlash" style="display:none">
+           @LanguageUtil.Translate("web_View_Play_PlayLeft_flashmessageone") <a class="blue" style="display: inline-block; color:#00a0e9;" href="javascript:void(0);" onclick="toDownLoadFlash();">@LanguageUtil.Translate("web_View_Play_PlayLeft_flashmessagetwo")</a>@LanguageUtil.Translate("web_View_Play_PlayLeft_flashmessagethree")
+        </div>
+        <div class="divFlashCenter" id="divFlashPlayer">
+
+        </div>
+                </div>
+    </div>
+    <div class="play_left_pl">
+        <div class="play_pl_name">
+            <div class="play_pl_01"><img userimg="1" data-bind="attr:{src: $root.userPicture},click:function(){if($root.isShowUserCenter())$root.doUserSpace()}" width="48" height="40" onmouseover="this.style.cursor = 'pointer'"></div>
+            <div class="play_pl_02">
+                <input type="hidden" id="videoOwnUserId" data-bind="value:videoOwnUserId" />
+                <span class="comment"><a href="#" data-bind="text:nickName,click:function(){ if($root.isShowUserCenter())$root.doUserSpace()},attr:{title:nickName}"></a></span>
+
+                 @*修改取消订阅按钮样式 2015-12-02*@ 
+                <span data-bind="visible:$root.isShowSub()">
+                    <!--ko if:!$root.IsDingYue()-->
+                    <div class="play_pl_03"><span data-bind="click:function(){if(!$root.IsDingYue()){$root.subUser()}else{$root.subUser();}}">@LanguageUtil.Translate("web_View_Play_PlayLeft_dingyue")</span></div>
+                    <!--/ko-->
+                    <!--ko if:$root.IsDingYue()-->
+                    <div class="play_pl_03 play_dy" data-bind="event:{mouseover:function(){$('#cancel').show();$('#subed').hide();},mouseout:function(){$('#cancel').hide();$('#subed').show();}}">
+                        <a href="javascript:void(0)" class="play_ydy" id="subed">@LanguageUtil.Translate("web_View_Play_PlayLeft_yidingyue")</a>
+                        <a href="javascript:void(0)" class="play_qxdy" id="cancel" data-bind="click:function(){if(!$root.IsDingYue()){$root.subUser()}else{$root.subUser();}}"> @LanguageUtil.Translate("web_View_Play_PlayLeft_cancledingyue")</a>
+                    </div>
+                    <!--/ko-->
+                </span>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!-- 分享 -->
+        <div class="play_pl_fx">
+            <label class="play_pl_f01">@LanguageUtil.Translate("web_View_Play_PlayLeft_share")</label>
+            <div class="play_pl_f02">
+                <div class="bdsharebuttonbox" data-tag="share_1">
+                    <a class="bds_tsina" data-cmd="tsina"></a>
+                    <a class="bds_qzone" data-cmd="qzone"></a>
+                    <a class="bds_weixin" data-cmd="weixin"></a>
+                    <a class="bds_sqq" data-cmd="sqq"></a>
+                    <a class="bds_mshare" data-cmd="mshare"></a>
+                    <a class="bds_more" data-cmd="more"></a>
+                </div>
+                <script type="text/javascript">
+                    var ShareUserId = "";
+                    var ShareIpaddress = "";
+                    var videoId = "";
+                    var picUrl = "";
+                    $(function () {
+                        $(".bdsharebuttonbox a").mouseover(function () {
+                            ShareUserId = $("#uid").val();
+                            ShareIpaddress = ipAddress;
+                            videoId = getURLParam("videoId", location.href);
+                            picUrl = $("#hiddenPictureId").val();
+                        });
+                    });
+                    function SetShareUrl(cmd, config) {
+                        //config.bdUrl = rootPath + "/Play?videoId=" + videoId + "&uid=" + ShareUserId + "&ip=" + ShareIpaddress + "&type=";
+                        var e = window.location || document.location;
+                        var windowlocationStr = e.toString();
+                        var beginlocation = windowlocationStr;
+                        if (windowlocationStr.indexOf('&') > 0) {
+                            beginlocation = windowlocationStr.substring(0, windowlocationStr.indexOf('&'));
+                        };
+                        config.bdUrl = beginlocation + "&uid=" + ShareUserId + "&ip=" + ShareIpaddress + "&type=";
+                        config.bdPic = picUrl;
+                        return config;
+                    };
+                    window._bd_share_config = {
+                        "common": { onBeforeClick: SetShareUrl, "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdStyle": "0", "bdSize": "24" },
+                        "share": { "bdSize": "16" },
+                        "image": { "viewList": ["qzone", "tsina", "sqq", "tqq", "renren", "weixin", "tieba", "ty"], "viewText": Translate("web_View_Play_PlayLeft_share"), "viewSize": "16" },
+                        "selectShare": { "bdContainerClass": null, "bdSelectMiniList": ["qzone", "tsina", "sqq", "tqq", "renren", "weixin", "tieba", "ty"] }
+                    };
+                    with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+
+                    function followWindow() {
+                        var $followIcon = $('.follow_icon');
+                        var $followContent = $('.divFlash');
+                        var $windowWidth = $(window).width();
+                        var $oH2 = $followContent.find('h2');
+                        var $oClose = $oH2.find('a');
+                        setFollowIconPos();
+                        var iLastLeft = null;
+                        var iLastTop = null;
+                        var followWindowShow = false;
+                        var followIconShow = false;
+                        var iLastLeft2 = ($windowWidth - 1200) / 2 + 1150;
+                        var iLastTop2 = $followIcon.offset().top - $(document).scrollTop();
+
+                        function setFollowWindowPos() {
+                            var left = ($windowWidth - 1200) / 2 + 900;
+                            $followContent.css({ 'left': left + 'px' });
+                        }
+                        function setFollowIconPos() {
+                            var left = ($windowWidth - 1200) / 2 + 1150;
+                            $followIcon.css({ 'left': left + 'px' });
+                        }
+
+
+                        $followIcon.click(function () {
+                            $followContent.css({ 'opacity': '1', 'top': iLastTop2 + 38 + 'px' });
+                            $followContent.stop().animate({ 'left': iLastLeft + 'px', 'top': iLastTop + 'px', width: '450px', height: '274px' }, 700, function () {
+                                $followIcon.stop().animate({ 'opacity': '0' });
+                                followIconShow = false;
+                                followWindowShow = true;
+                            });
+                        });
+
+                        $oClose.mousedown(function () {
+                            iLastLeft = $oH2.offset().left;
+                            iLastTop = $oH2.offset().top - $(document).scrollTop();
+                            addCookie('iLastLeft', iLastLeft);
+                            addCookie('iLastTop', iLastTop);
+                            $followContent.stop().animate({ 'left': iLastLeft2 + 38 + 'px', 'top': iLastTop2 + 38 + 'px', width: '0px', height: '0px' }, 700, function () {
+                                $followContent.css({ 'opacity': '0' });
+                                followIconShow = true;
+                                followWindowShow = false;
+                            });
+                            $followIcon.animate({ 'opacity': '1' });
+                            return false;
+                        });
+
+                        $followContent.mouseenter(function () {
+                            $oH2.stop().animate({ 'opacity': '1' });
+                        });
+                        $followContent.mouseleave(function () {
+                            $oH2.stop().animate({ 'opacity': '0' });
+                        });
+                        $oH2.mousedown(function (e) {
+                            $followContent.css('position', 'absolute');
+                            var scrollT = $(document).scrollTop();
+                            var disX = e.pageX - $oH2.offset().left;
+                            var disY = e.pageY - $oH2.offset().top - scrollT;
+                            $followContent.css({ left: e.pageX - disX + 'px', top: e.pageY - disY + 'px' });
+                            document.onmousemove = function (e) {
+                                var l = e.pageX - disX;
+                                $followContent.css({ left: e.pageX - disX + 'px', top: e.pageY - disY + 'px' });
+                            }
+                            document.onmouseup = function (e) {
+                                document.onmouseup = document.onmousemove = null;
+                                $followContent.css({ 'position': 'fixed', left: e.pageX - disX + 'px', top: e.pageY - disY - scrollT + 'px' });
+                                iLastLeft = $oH2.offset().left;
+                                iLastTop = $oH2.offset().top - $(document).scrollTop();
+                                addCookie('iLastLeft', iLastLeft);
+                                addCookie('iLastTop', iLastTop);
+                            }
+                            return false;
+                        });
+
+                        window.onscroll = function () {
+                            var oScrollDone = true;
+                            var scrollT = $(document).scrollTop();
+                            var scrollHeight = $(document).height() - 150;
+                            var oClientH = $(window).height();
+                            if (scrollT < 700) {
+                                if ($followContent.hasClass('follow_window')) {
+                                    if ($followContent.css('opacity') == 1) {
+                                        iLastLeft = $followContent.offset().left;
+                                        iLastTop = $followContent.offset().top - $(document).scrollTop();
+                                        addCookie('iLastLeft', iLastLeft);
+                                        addCookie('iLastTop', iLastTop);
+                                    }
+                                    $followContent.removeClass('follow_window');
+                                    $oH2.css('display', 'none');
+                                    $followContent.css({ 'left': 0, 'top': 0, 'position': 'relative', 'opacity': '1' });
+                                }
+                                $followIcon.stop().animate({ 'opacity': '0', 'bottom': '50px' }, 500, function () {
+                                    iLastTop2 = $followIcon.offset().top - $(document).scrollTop();
+                                });
+                                normalSwf();//显示进度条，和启用双击事件
+                                $("#divFlashPlayer_huixin").css({ "width": "900px", "height": "510px" });
+                            } else if (scrollT > 200 && scrollT + oClientH < scrollHeight) {
+                                if (!followWindowShow && !followIconShow) {
+                                    $followContent.addClass('follow_window');
+                                    $oH2.css('display', 'block');
+                                    if (getCookie('iLastLeft')) {
+                                        iLastLeft=getCookie('iLastLeft');
+                                        iLastTop = getCookie('iLastTop');
+                                        $followContent.css({ 'top': iLastTop + 'px', 'left': iLastLeft + 'px', 'position': 'fixed' });
+                                    } else {
+                                        setFollowWindowPos();
+                                    }
+                                } else if (followWindowShow && !followIconShow) {
+                                    $followContent.stop().animate({ 'opacity': '1' });
+                                    if (!$followContent.hasClass('follow_window')) {
+                                        $followContent.addClass('follow_window');
+                                        $followContent.css({ 'top': iLastTop + 'px', 'left': iLastLeft + 'px', 'position': 'fixed' });
+                                        $oH2.css('display', 'block');
+                                    }
+                                } else if (followIconShow && !followWindowShow) {
+                                    $followContent.addClass('follow_window');
+                                    $followContent.stop().css({ 'left': iLastLeft2 + 38 + 'px', 'top': iLastTop2 + 38 + 'px', width: '0px', height: '0px', 'opacity': 0 , 'position': 'fixed' });
+                                    $oH2.css('display', 'block');
+                                    $followIcon.stop().animate({ 'opacity': '1', 'bottom': '50px'}, 500, function () {
+                                         iLastTop2 = $followIcon.offset().top - $(document).scrollTop();
+                                    });
+                                }
+                                miniSwf();//隐藏进度条，和禁用双击事件
+                                $("#divFlashPlayer_huixin").css({ "width": "450px", "height": "250px" });
+                            } else if (scrollT + oClientH > scrollHeight) {
+                                if (!followWindowShow && !followIconShow) {
+                                    $followContent.stop().animate({ 'opacity': '1' });
+                                } else if (followWindowShow && !followIconShow) {
+                                    $followContent.stop().animate({ 'opacity': '1' });
+                                } else if (followIconShow && !followWindowShow) {
+                                    $followIcon.stop().animate({ 'opacity': '1', 'bottom': '170px' }, 500, function () {
+                                        iLastTop2 = $followIcon.offset().top - $(document).scrollTop();
+                                    });
+                                }
+                                miniSwf();//隐藏进度条，和禁用双击事件
+                                $("#divFlashPlayer_huixin").css({ "width": "450px", "height": "250px" });
+                            }
+                        }
+                    }
+                    function addCookie(name, value, iDay) {
+
+                        if (iDay) {
+                            var oDate = new Date();
+                            oDate.setDate(oDate.getDate() + iDay);
+                            document.cookie = name + "=" + value + ";path=/;expires=" + oDate;
+                        } else {
+                            document.cookie = name + "=" + value + ";path=/";
+                        }
+
+                    }
+
+                    function getCookie(name) {
+                        var arr = document.cookie.split("; ");
+                        for (var i = 0; i < arr.length; i++) {
+                            var arr2 = arr[i].split("=");
+                            if (name == arr2[0]) {
+                                return arr2[1];
+                            }
+                        }
+                        return "";
+                    }
+
+                </script>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!-- 分享 end -->
+        <div class="play_other">
+            <div class="play_pl_num01">
+                <a href="#ct" class="comment">@LanguageUtil.Translate("web_View_Play_PlayLeft_comment")&nbsp;<!--ko text:commentCount--><!--/ko--></a>
+                <div class="clear"></div>
+            </div>
+            <div class="play_pl_num02">
+                <span>@LanguageUtil.Translate("web_View_Play_PlayLeft_bofang")&nbsp;<!--ko text:playCount--><!--/ko--></span>
+                <div class="clear"></div>
+            </div>
+            <div class="play_pl_num03">
+                <!--ko if:!IsCollected()-->
+                <a href="javascript:void();" class="comment" data-bind="click:doFav">@LanguageUtil.Translate("web_View_Play_PlayLeft_shoucang")&nbsp;<!--ko text:collectionCount--><!--/ko--></a>
+                <!--/ko-->
+                <!--ko if:IsCollected()-->
+                <p onmouseover="javascript: $('#btnFavorited').hide(); $('#btnUnsubscribe').show();" onmouseout="javascript: $('#btnFavorited').show(); $('#btnUnsubscribe').hide();">
+                    <a id="btnFavorited" class="comment" href="javascript:void();">@LanguageUtil.Translate("web_View_Play_PlayLeft_yishoucang")&nbsp;<!--ko text:collectionCount--><!--/ko--></a>
+                    <a id="btnUnsubscribe" class="comment" href="javascript:void();" data-bind="click:doUncollect" style="display:none;">@LanguageUtil.Translate("web_View_Play_PlayLeft_cancleshoucang")&nbsp;<!--ko text:collectionCount--><!--/ko--></a>
+                </p>
+                <!--/ko-->
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="follow_icon"></div>

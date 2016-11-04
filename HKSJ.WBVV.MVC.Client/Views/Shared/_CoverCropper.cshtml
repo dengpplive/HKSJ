@@ -1,0 +1,298 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<link href="@ServerHelper.RootPath/Content/css/reveal.css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Common/Cropper/css/cropper.css" rel="stylesheet" />
+
+<div id="myFengMian" class="reveal-modal">
+    <a href="javascript:void(0);" class="ss close-reveal-modal" style="float: right">&#215;</a>
+    <div class="my_m_biaoti" id="formTitle">@LanguageUtil.Translate("web_Views_Shared_CoverCropper_videoFrontCoverEdit")</div>
+    <input type="hidden" id="selectedImg" />
+    <div class="my_m_nrong">
+        <div class="my_m_nr_img clearfloat">
+            <div class="my_m_nr_i_tu">
+                <div class="my_m_nr_i_t_img">
+                    <a class="big-link" data-reveal-id="myModal2" onclick="$('#btnImgUpload').click()" href="javascript:void(0);">选择图片</a>
+                    <p>仅支持JPG、GIF、PNG图片格式，大小不超过5M</p>
+                </div>
+            </div>
+            <div class="my_m_nr_i_tu01">
+                <div class="my_m_nr_i_t_img01">
+                    <img id="image" class="img-responsive" alt="Picture" src="" width="200" height="150" />
+                    <input id="picLeft" type="hidden" />
+                    <input id="picTop" type="hidden" />
+                    <input id="picWidth" type="hidden" />
+                    <input id="picHeight" type="hidden" />
+                    <input id="naturalRatio" type="hidden" />
+                    <input id="canvasWidth" type="hidden" />
+                </div>
+                <div class="my_m_nr_i_wz" id="btnImgUpload">选择图片</div>
+                <div class="my_i_sc_tishik">上传失败</div>
+            </div>
+            <div class="my_m_nr_i_tu02">
+                <div>预览</div>
+                <div class="my_m_nr_i_t_img02">
+                    <div class="preview">
+                        <img alt="Picture" src="" />
+                    </div>
+                </div>
+                <div>176*132px</div>
+            </div>
+        </div>
+
+        <div class="per_ann_tank clearfloat">
+            <a class="ss" href="javascript:void(0);">@LanguageUtil.Translate("web_Views_Shared_CoverCropper_cancel")</a> <button id="btnSaveCover" class="sure" onclick="prtImg.SavePic()">@LanguageUtil.Translate("web_Views_Shared_CoverCropper_ok")</button>
+        </div>
+    </div>
+</div>
+
+@*<script src="@ServerHelper.RootPath/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>*@
+<script src="@ServerHelper.RootPath/Scripts/plupload.full.min.js" type="text/javascript"></script>
+<script src="@ServerHelper.RootPath/Scripts/qiniu.min.js" type="text/javascript"></script>
+<script src="@ServerHelper.RootPath/Common/Cropper/js/cropper.js" type="text/javascript"></script>
+<script src="@ServerHelper.RootPath/Content/js/jquery.reveal.js"></script>
+
+<script type="text/javascript">
+    var prtImg = {
+        selectFileId: null,
+        selectImageKey: null,
+        closeEnable: true,
+        $btnSave: $('#btnSaveCover'),
+        $img: $('#image'),
+        $previews: $('.preview'),
+        imgJsSdk: null,
+        imageUploader: null,
+        imgType: 'cover',
+        imgWidth: 400,
+        uid:0,
+        initData: function (successFunc, imgType, imgWidth, title, uid) {
+            if (uid) prtImg.uid = uid;
+            if (imgType) prtImg.imgType = imgType;
+            if (imgWidth) prtImg.imgWidth = imgWidth;
+            if (title) $("#formTitle").text(title);
+            prtImg.imgJsSdk = new QiniuJsSDK();
+            prtImg.imageUploader = prtImg.imgJsSdk.uploader({
+                runtimes: 'html5,flash,html4',
+                browse_button: 'btnImgUpload',
+                uptoken: 'null',
+                domain: Ads.PublicDomain,
+                unique_names: true,
+                container: 'myFengMian',           //上传区域DOM ID，默认是browser_button的父元素，
+                flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
+                max_retries: 3,                   //上传失败最大重试次数
+                dragdrop: false,                   //开启可拖曳上传
+                chunk_size: '1mb',                //分块上传时，每片的体积
+                auto_start: false,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                multi_selection: false,
+                max_file_size: '5mb',
+                filters: {
+                    max_file_size: '5mb',
+                    mime_types: [
+                        { title: "Image files", extensions: "GIF,JPEG,JPG,PNG" }
+                    ]
+                },
+                init: {
+                    'FilesAdded': function (up, files) {
+                        plupload.each(files, function (file) {
+                            $(".my_i_sc_tishik").hide();
+                            var imgKey = $("#selectedImg").val();
+                            if (imgKey) {
+                                prtImg.imageUploader.removeFile(imgKey);
+                            }
+
+                            $("#selectedImg").val(file.id);
+                            prtImg.PreviewImage(file, function (imgsrc) {
+
+                                $('#myFengMian .my_m_nr_i_tu').hide();
+                                $('#myFengMian .my_m_nr_i_tu01').show();
+
+                                prtImg.$img.cropper('enable');
+                                prtImg.$btnSave.attr('disabled', false);
+                                prtImg.cropPic(imgsrc);
+                            });
+
+                        });
+                    },
+                    'UploadProgress': function (up, file) {
+                        var text = Translate("web_Views_Shared_CoverCropper_UploadProgress_uploading");
+                        prtImg.$btnSave.text(text);
+
+                    },
+                    'FileUploaded': function (up, file, info) {
+                        var res = $.parseJSON(info);
+
+                        //var obj = uploadMain.videoList[prtImg.selectFileId];
+                        //obj.CoverUploadCompled(res);
+                        //obj.SaveToData();
+
+                        successFunc(res);
+                        prtImg.closeEnable = true;
+                        $(".ss:first").click();
+                    },
+                    'Error': function (up, err, errTip) {
+                        //上传出错时,处理相关的事情
+                        prtImg.closeEnable = true;
+                        if (err.code == -601) {
+                            //var dotIdx = errTip.lastIndexOf('。(');
+                            //var message = errTip.substr(0, dotIdx + 1) + err.code;
+                            globalPromptBox.showGeneralMassage(1, errTip, 2000, false);
+                            return;
+                        }
+                        $(".my_i_sc_tishik").show();
+                    },
+
+                    'UploadComplete': function () {
+                    }
+                }
+            });
+        },
+        OpenPrtWindow: function (obj, imgSrc) {
+            if (imgSrc.indexOf('icon_img') > 0) {
+                $('#myFengMian .my_m_nr_i_tu01').hide();
+                $('#myFengMian .my_m_nr_i_tu').show();
+            } else {
+                $('#myFengMian .my_m_nr_i_tu').hide();
+                $('#myFengMian .my_m_nr_i_tu01').show();
+            }
+
+
+            $(".my_i_sc_tishik").hide();
+            prtImg.closeEnable = true;
+            prtImg.$btnSave.text(Translate("web_Views_Shared_CoverCropper_OpenPrtWindow_ok"));
+            prtImg.$img.cropper('disable');
+            prtImg.$btnSave.attr('disabled', true);
+            prtImg.$img.attr('src', imgSrc);
+            $('.preview').html(prtImg.$img.clone());
+            $('#myFengMian').reveal($(obj).data(), prtImg.ClosePrtWindow);
+
+        },
+        ClosePrtWindow: function () {
+            if (prtImg.closeEnable) {
+                prtImg.cropPic('');
+            }
+            return prtImg.closeEnable;
+        },
+        PreviewImage: function (file, callback) {//file为plupload事件监听函数参数中的file对象,callback为预览图片准备完成的回调函数
+            if (!file || !/image\//.test(file.type)) return; //确保文件是图片
+            if (file.type == 'image/gif') {//gif使用FileReader进行预览,因为mOxie.Image只支持jpg和png
+                var fr = new mOxie.FileReader();
+                fr.onload = function () {
+                    callback(fr.result);
+                    fr.destroy();
+                    fr = null;
+                };
+                fr.readAsDataURL(file.getSource());
+            } else {
+                var preloader = new mOxie.Image();
+                preloader.onload = function () {
+                    preloader.downsize(450, 450);//先压缩一下要预览的图片,宽300，高300
+                    var imgsrc = preloader.type == 'image/jpeg' ? preloader.getAsDataURL('image/jpeg', 80) : preloader.getAsDataURL(); //得到图片src,实质为一个base64编码的数据
+                    callback && callback(imgsrc); //callback传入的参数为预览图片的url
+                    preloader.destroy();
+                    preloader = null;
+                };
+                preloader.load(file.getSource());
+            }
+        },
+        //保存个人头像
+        SavePic: function () {
+            prtImg.closeEnable = false;
+            this.$btnSave.attr('disabled', true);
+            id$('btnImgUpload').attr('disabled', true);
+            this.$btnSave.text(Translate("web_Views_Shared_CoverCropper_SavePic_uploading"));
+            //获取iframe页面的偏移量 加上key拼成完整的参数传给七牛
+            var canvasWidth = 0, /*画布的宽度*/
+                picLeft = 0, /*左边偏移量*/
+                picTop = 0, /*顶部偏移量*/
+                picWidth = 0, /*裁剪后的图片宽度*/
+                picHeight = 0; /*裁剪后的图片高度*/
+
+            this.$img.cropper('disable');
+
+            //得到裁剪比例和偏移量
+            picLeft = $('#picLeft').val();
+            picTop = $('#picTop').val();
+            picWidth = $('#picWidth').val();
+            picHeight = $('#picHeight').val();
+            canvasWidth = $('#canvasWidth').val();
+            picLeft = picLeft < 0 ? 0 : picLeft;
+            picTop = picTop < 0 ? 0 : picTop;
+
+
+            var coverRatio = prtImg.imgWidth / picWidth;
+
+            var imageMogr = 'imageMogr2/thumbnail/' + parseInt(canvasWidth * coverRatio) + '/crop/!' + parseInt(picWidth * coverRatio)
+                + 'x' + parseInt(picHeight * coverRatio) + 'a' + parseInt(picLeft * coverRatio) + 'a' + parseInt(picTop * coverRatio);
+
+            var url = api + '/QiniuUpload/GetToken?type=' + prtImg.imgType + '&imgPara=' + imageMogr + '&uid=' + prtImg.uid;
+            $.get(url, function (d) {
+                prtImg.imgJsSdk.token = d.token;
+                prtImg.imageUploader.start();
+
+            });
+        },
+        cropPic: function (src) {
+            var $naturalRatio = $('#naturalRatio'), $left = $('#picLeft'), $top = $('#picTop'), $width = $('#picWidth'), $height = $('#picHeight'), $canvasWidth = $('#canvasWidth');
+            this.$img.cropper('destroy');
+            this.$img.attr('src', src);
+            this.$img.cropper({
+                aspectRatio: 4 / 3,
+                movable: false,
+                zoomable: false,
+                rotatable: false,
+                scalable: false,
+                autoCropArea: 0.7,
+                strict: true,
+                guides: false,
+                highlight: false,
+                dragCrop: false,
+                build: function (e) {
+                    var $clone = $(this).clone();
+                    $clone.css({
+                        display: 'block',
+                        width: '100%',
+                        minWidth: 0,
+                        minHeight: 0,
+                        maxWidth: 'none'
+                    });
+                    prtImg.$previews.css({
+                        width: '100%',
+                        overflow: 'hidden'
+                    }).html($clone);
+                },
+                crop: function (e) {
+                    var imageData = $(this).cropper('getImageData'),
+                        cropBoxData = $(this).cropper('getCropBoxData'),
+                        canvasData = $(this).cropper("getCanvasData"),
+                        previewAspectRatio = e.width / e.height;
+                    var naturalRatio = imageData.width / imageData.naturalWidth;
+
+                    $left.val(cropBoxData.left - canvasData.left);
+                    $top.val(cropBoxData.top - canvasData.top);
+                    $width.val(cropBoxData.width);
+                    $height.val(cropBoxData.height);
+                    $naturalRatio.val(naturalRatio);
+                    $canvasWidth.val(canvasData.width);
+
+                    prtImg.$previews.each(function () {
+                        var $preview = $(this),
+                            previewWidth = $preview.width(),
+                            previewHeight = previewWidth / previewAspectRatio,
+                            imageScaledRatio = e.width / previewWidth;
+
+                        $preview.height(previewHeight).find('img').css({
+                            width: imageData.naturalWidth / imageScaledRatio + 4,
+                            height: imageData.naturalHeight / imageScaledRatio + 4,
+                            marginLeft: -e.x / imageScaledRatio - 2,
+                            marginTop: -e.y / imageScaledRatio - 2
+                        });
+                    });
+                }
+            });
+
+        }
+    };
+</script>

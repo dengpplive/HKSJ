@@ -1,0 +1,144 @@
+﻿@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+@*修改密码*@
+<div id="iframe_changePwd" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true" style="display: none;z-index: 999999 !important;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h3 id="myModalLabel3">@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_h3_changePwd")</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" method="POST" id="form_changePwd">
+            <div class="row-fluid">
+                <div class="span12 ">
+                    <div class="control-group">
+                        <label class="control-label">@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_label_OldPwd")</label>
+                        <div class="controls">
+                            <input type="password" placeholder="@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_inputTip_OldPwd")" name="oldPwd" class="m-wrap" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12 ">
+                    <div class="control-group">
+                        <label class="control-label">@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_label_NewPwd")</label>
+                        <div class="controls">
+                            <input type="password" placeholder="@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_inputTip_NewPwd")" name="newPwd" id="newPwd" class="m-wrap" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12 ">
+                    <div class="control-group">
+                        <label class="control-label">@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_label_ConfirmNewPwd")</label>
+                        <div class="controls">
+                            <input type="password" placeholder="@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_inputTip_ConfirmNewPwd")" name="confirmPwd" class="m-wrap" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn blue" id="savePwd"><i class="icon-ok"></i>@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_button_Save")</button>
+        <button type="reset" data-dismiss="modal" class="btn">@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_button_Cancel")</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#changePwd").click(function () {
+        $("#iframe_changePwd").modal({ backdrop: 'static' });
+        $("input[name='oldPwd']").val("");
+        $("input[name='newPwd']").val("");
+        $("input[name='confirmPwd']").val("");
+    });
+    $("#savePwd").click(function () {
+        var $form = $("#form_changePwd");
+        var error = $('.alert-error', $form);
+        var success = $('.alert-success', $form);
+        $form.validate({
+            errorElement: 'span',
+            errorClass: 'help-inline',
+            focusInvalid: true,
+            blurInvalid: true,
+            ignore: "",
+            rules: {
+                oldPwd: {
+                    required: true
+                },
+                newPwd: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 20
+                },
+                confirmPwd: {
+                    required: true,
+                    equalTo: "#newPwd"
+                }
+            },
+            messages: {
+                oldPwd: {
+                    required: "@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_js_PleaseInputOPwd")"
+                },
+                newPwd: {
+                    required: "@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_js_PleaseInputNPwd")",
+                    minlength: "@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_js_PwdMinLength")",
+                    maxlength: "@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_js_PwdMaxLength")"
+                },
+                confirmPwd: {
+                    required: "@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_js_confirmPwd_PleaseInputNPwd")",
+                    equalTo: "@LanguageUtil.Translate("admin_Views_Shared__ChangePwd_js_confirmPwd_PwdNotAgreed")"
+                }
+            },
+            invalidHandler: function (event, validator) {
+                success.hide();
+                error.show();
+            },
+            highlight: function (element) {
+                $(element).closest('.help-inline').removeClass('ok');
+                $(element).closest('.control-group').removeClass('success').addClass('error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.control-group').removeClass('error');
+            },
+            success: function (label) {
+                label.addClass('valid').addClass('help-inline ok').closest('.control-group').removeClass('error').addClass('success');
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: window.rootPath + "/Manage/ChangePwd",
+                    data: $form.serialize(),
+                    type: "Post",
+                    dataType: "json",
+                    success: function (responseData) {
+                        if (responseData.Success) {
+                            //window.location.reload();
+                            window.location.href = '@Url.Content("~/Login/LoginOut")';
+                    } else {
+                        $("#alert_Pwd").modal({ backdrop: 'static' }).css({ top: 0 });
+                        $("#content_Pwd").text(responseData.ExceptionMessage);
+                        return false;
+                    }
+                }
+            });
+        }
+    });
+    $form.submit();
+    });
+</script>
+<div id="alert_Pwd" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true" style="display: none;z-index: 999999 !important;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h3>@LanguageUtil.Translate("admin_Views_Shared_ChangePwd_h3_OperateTip")</h3>
+    </div>
+    <div class="modal-body">
+        <p id="content_Pwd"></p>
+    </div>
+    <div class="modal-footer">
+        <button data-dismiss="modal" class="btn blue" aria-hidden="true">@LanguageUtil.Translate("admin_Views_Shared_ChangePwd_button_Confirm")</button>
+    </div>
+</div>

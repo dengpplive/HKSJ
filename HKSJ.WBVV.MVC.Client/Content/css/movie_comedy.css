@@ -1,0 +1,102 @@
+/* CSS Document */
+
+/*  wrap公共样式  */
+.wrap h3 { font-size:20px; margin-bottom:12px; font-weight:normal;}
+.wrap h3 a{font-size:20px; font-weight:normal;}
+
+.wrap_left{width:960px; float:left;}
+.wrap_right{width:240px; float:right;}
+
+/*  BIAOTI  */
+.wrap_l_biaoti{width:960px;}
+.wrap_l_bt_h3 { float:left; font-size:20px; width:872px;  max-width:880px;}
+.wrap_l_x_title_more{ display:block; width:40px; margin-right:22px; padding-top:4px; font-size:14px; float:right; text-align:right;}
+.wrap_l_x_title_more a { font-size:15px;}
+
+/* 不同首页CSS  */
+
+.daohang_map{ width:1200px; height:auto;margin:0 auto;}
+.nav .curr { color:#059ff7;}
+/*  second_nav  */
+.nav { position:relative; margin-bottom:0px;}
+
+.second_nav { position:absolute;  width:100%;}
+.second_nav li { float:left; margin-top:12px; font-size:18px;display:inline; }
+.second_nav a { color:#7e7e7e;text-decoration:none; margin-right:35px;}
+.second_nav a:hover { color:#059ff7;}
+.second_nav a.curr_01 { color:#059ff7;}
+
+
+/*  v_fun_sousuo  */
+.v_fun_sousuo { width:1200px; margin:40px auto 0; border:1px solid #cccccc; border-radius:3px; padding:2px 0;}
+
+.v_fun_sou_01 { padding:5px 12px;}
+.v_fun_sou_01 .v_fun_sou_left { float:left; margin-right:36px; }
+
+.v_fun_sou_right { float:left;}
+.v_fun_sou_right li { float:left; margin-right:35px;}
+
+.v_fun_s_bx{ border-bottom:1px dashed #ccc;}
+
+.v_fun_s_r_curr {color:#059ff7;}
+
+
+
+
+/*  v_comedy  */
+
+.v_comedy { width:1200px; margin:40px auto 0;}
+.v_comedy_img { width:1230px; margin:10px auto 10px;}
+.v_comedy .v_comedy_img ul { display:block;  height:auto;}
+.v_comedy_img ul li{ list-style:none; width:176px; margin-right:29px; float:left; height:235px; margin-bottom:25px; position:relative;}
+.v_comedy_img ul li img { width:176px; height:235px;}
+
+.v_comedy_img a{text-decoration:none;}
+.v_comedy_img a:hover{color:#059ff7;}
+
+.wrap_l_tu_bg { display:block; position:absolute; height:45px; padding-top:5px; width:100%; font-size:16px; color:#fff; bottom:0; left:0;
+				background-image: -moz-linear-gradient(top, rgba(255,255,255,0), #000000);
+				background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,255,0)), to(#000000));
+				background-image: -webkit-linear-gradient(top, rgba(255,255,255,0), #000000);
+				background-image: -o-linear-gradient(top, rgba(255,255,255,0), #000000);
+				background-image: linear-gradient(to bottom, rgba(255,255,255,0), #000000);
+				background-repeat: repeat-x;
+				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(255,255,255,0)', endColorstr='#000000', GradientType=0);}
+.wrap_l_tu_bg p {color:#ffffff; padding:1px 8px;}				
+
+.wrap_l_t_title{font-size:14px; color:#ffffff; position:absolute; left:8px; bottom:22px; z-index:999; width:165px; overflow: hidden; /*自动隐藏文字*/ text-overflow: ellipsis;/*文字隐藏后添加省略号*/ white-space: nowrap;/*强制不换行*/}
+.wrap_l_t_title:hover  {color:#e1e1e1;}
+.wrap_l_t_detail{font-size:12px; color:#ffffff; position:absolute; left:8px; bottom:4px; z-index:999; width:165px; overflow: hidden; /*自动隐藏文字*/ text-overflow: ellipsis;/*文字隐藏后添加省略号*/ white-space: nowrap;/*强制不换行*/}
+.wrap_l_t_detail:hover  {color:#e1e1e1;}
+
+
+
+/*  v_funney_wz  */
+
+.v_funney_wz {width:1200px;}
+.v_funney_wz ul li{ float:left;}
+
+.v_fun_wz01 {}
+.v_fun_wz01 ul li { margin-right:35px; color:#a0a0a0;}
+.v_fun_wz01 ul li input { float:left; margin-top:5px; font-size:12px; font-weight:normal;}
+.v_fun_wz01 ul li span { float:left; color:#7e7e7e; margin-left:4px;}
+
+
+/*  页码  */
+.v_fun_wz02 { width:100%; height:32px; padding-top:10px; margin:0px auto 50px; }
+.v_fun_wz02 ul { width:100%; margin-left:290px;}
+
+.v_fun_wz02 ul li {margin-right:5px; float:left;}
+.v_fun_wz02 ul li a { border:1px solid #999999; padding:5px 12px; display:inline-block;}
+
+.v_fun_wz02 ul .v_fun_d_shou { color:#ccc; border:1px solid #e3e3e3; background-color:#e1e1e1;}
+.v_fun_wz02 ul .v_fun_dhs { border:1px solid #c9c9c9; }
+.v_fun_wz02 ul li a:hover { color:#fff; border:1px solid #e3e3e3; background-color:#059ff7;}
+
+.v_fun_wz02 ul li a.v_fun_fane_curr{ color:#fff; border:1px solid #e3e3e3; background-color:#059ff7;}
+
+.v_fun_wz02 ul .v_fun_d_zongg { color:#ccc; padding:5px 0 0 10px;}
+
+
+
+

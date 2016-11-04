@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FAE073D8-95E2-45A8-BBAC-3E13439B3F3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HKSJ.Utilities</RootNamespace>
+    <AssemblyName>HKSJ.Utilities</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base.Common\AutoMapExtention.cs" />
+    <Compile Include="Base.Common\CmdHelper.cs" />
+    <Compile Include="Base.Common\CommonHelper.cs" />
+    <Compile Include="Base.Common\ConvertHelper.cs" />
+    <Compile Include="Base.Common\ConvertUtil.cs" />
+    <Compile Include="Base.Common\PageHelper.cs" />
+    <Compile Include="Base.Common\PinyinHelper.cs" />
+    <Compile Include="Base.Common\RandomHelper.cs" />
+    <Compile Include="Base.Common\RMBHelper.cs" />
+    <Compile Include="Base.Common\SqlChecker.cs" />
+    <Compile Include="Base.Common\SqlFilterHelper.cs" />
+    <Compile Include="Base.Common\StringHelper.cs" />
+    <Compile Include="Base.Common\SysHelper.cs" />
+    <Compile Include="Base.Config\ConfigHelper.cs" />
+    <Compile Include="Base.Data\DataHelper.cs" />
+    <Compile Include="Base.Data\HashtableHelper.cs" />
+    <Compile Include="Base.DateTime\DateTimeHelper.cs" />
+    <Compile Include="Base.DebugLog\LogFactory.cs" />
+    <Compile Include="Base.DebugLog\LogHelper.cs" />
+    <Compile Include="Base.Document\Excel\DeriveExcel.cs" />
+    <Compile Include="Base.Document\Excel\ImportExcel.cs" />
+    <Compile Include="Base.Document\Word\DeriveWord.cs" />
+    <Compile Include="Base.Extension\IManageProvider.cs" />
+    <Compile Include="Base.Extension\IManageUser.cs" />
+    <Compile Include="Base.Extension\ManageProvider.cs" />
+    <Compile Include="Base.Extension\Permission\PermissionMode.cs" />
+    <Compile Include="Base.File\DirFileHelper.cs" />
+    <Compile Include="Base.File\FileDateSorter.cs" />
+    <Compile Include="Base.File\FileDownHelper.cs" />
+    <Compile Include="Base.File\GZipHelper.cs" />
+    <Compile Include="Base.File\INIFileHelper.cs" />
+    <Compile Include="Base.File\ReadHelper.cs" />
+    <Compile Include="Base.File\SizeHelper.cs" />
+    <Compile Include="Base.File\UploadHelper.cs" />
+    <Compile Include="Base.Http\HttpHelper.cs" />
+    <Compile Include="Base.Http\NetHelper.cs" />
+    <Compile Include="Base.Http\RequestHelper.cs" />
+    <Compile Include="Base.Json\JsonHelper.cs" />
+    <Compile Include="Base.Json\JsonMessage.cs" />
+    <Compile Include="Base.Model\Condition.cs" />
+    <Compile Include="Base.Model\GridPage.cs" />
+    <Compile Include="Base.Model\JqGridColumn.cs" />
+    <Compile Include="Base.Model\JqGridParam.cs" />
+    <Compile Include="Base.Model\TreeJson.cs" />
+    <Compile Include="Base.Security\Base64Util.cs" />
+    <Compile Include="Base.Security\BigInteger.cs" />
+    <Compile Include="Base.Security\DESEncrypt.cs" />
+    <Compile Include="Base.Security\Md5Helper.cs" />
+    <Compile Include="Base.Security\RSAHelper.cs" />
+    <Compile Include="Base.Web\BuildFormHelper.cs" />
+    <Compile Include="Base.Web\CookieHelper.cs" />
+    <Compile Include="Base.Web\IPScanerHelper.cs" />
+    <Compile Include="Base.Web\SessionHelper.cs" />
+    <Compile Include="Base.Web\ToState.cs" />
+    <Compile Include="Base.Xml\XMLHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Base.Document\PDF\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,273 @@
+﻿@using System.Web.UI.WebControls
+@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+<style>
+    .mask1 {
+        /* height: 100%; */
+        width: 100%;
+        min-height: 1016px;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+    }
+</style>
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/login.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/account.css" />
+<link href="@ServerHelper.RootPath/Content/css/person_com.css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Content/css/5bvv_person_Account.css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Content/css/paging.css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Content/css/playease.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript">
+    document.title ='@GlobalMemberInfo.NickName' + "-用户中心 " + companyTitle;
+    document.title ='@GlobalMemberInfo.NickName' + "-"+Translate("web_Client_Views_UserCenter_UserVideo_Title")+" " + companyTitle;
+    var userId = "@GlobalMemberInfo.UserId";
+    var menuId = 2;
+</script>
+
+<div class="person_Account_box wrap" id="person_Account_box">
+    <div style="margin-right:10px;" align="left" height="740px" width="250px">
+        @Html.Partial("_UserMenu")
+    </div>
+    <div class="person_Account_right" id="myVideos">
+
+        <div class="per_Acc_r_title">
+         <a class="per_vip_add_video" href="@Url.Action("Index", "Upload")" target="_blank">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_UploadVideoTitle")</a>
+        <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_MyVideoTitle")</span>
+        <div class="clear"></div>
+        </div>
+        <div class="per_video_sou clearfloat">
+            <input type="text" id="search" placeholder="@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_PleaseInputVideoPlaceholder")">
+            <a href="javascript:searchMyVideos();">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_SearchLink")</a>
+        </div>
+        <div class="per_Acc_r_nr per_video_r_box">
+            <div class="per_video_bo_bx">
+                <div class="per_video_bo_tit01 per_video_bo_title">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_VideoInfo")</div>
+                <div class="per_video_bo_tit02 per_video_bo_title">
+                    <select style="border: 0px;" id="videostate" onchange="LoadData(1,this.value,mysearchKey);">
+                        <option value="-1">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_VideoState")</option>
+                        <option value="2">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_VideoAuditing")</option>
+                        <option value="3">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_VideoAuditPassed")</option>
+                        <option value="4">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_VideoAuditNotPass")</option>
+                        <option value="0">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_VideoTransCoding")</option>
+                        <option value="1">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_VideoTransCodeFail")</option>
+                    </select>
+                </div>
+                <div class="per_video_bo_tit04 per_video_bo_title">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_OperationTitle")</div>
+                <div class="clear"></div>
+            </div>
+            <div loading="video"></div>
+            <!-- ko foreach:myVideos -->
+            <div class="per_video_bo_nr">
+                <div class="per_video_bo_tit_bx clearfloat">
+                    <div class="per_video_bo_tit01 per_video_bo_title">
+                        <div class="per_video_bo_img">
+                            <a href="" data-bind="click: function(){ $root.getPlayUrl(Id,VideoState)},attr:{title:Title}">
+                                <div class="play_img" wth="176" hht="132">
+                                    <i></i>
+                                    <img data-bind="attr:{src:$data.SmallPicturePath}">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="per_video_bo_text">
+                            <div class="per_vid_b_t_biaot"><a href="javascript:void(0);" data-bind="text:$data.Title,attr:{title:$data.Title},click: function(){ $root.getPlayUrl(Id,VideoState)}"></a></div>
+                            <div class="per_vid_b_t_biaoq clearfloat">
+                                <strong>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_MyVideoItemTag")</strong>
+                                <div class="per_vid_b_t_bq_pai clearfloat" data-bind="html:$root.ToArrayTags(Tags)"></div>
+                            </div>
+                            <div class="per_vid_b_t_jianj" data-bind="text:$root.GetAbout($data.About),attr:{title:$data.About}"></div>
+                            <div class="per_video_bo_t_guan clearfloat"><span class="per_vid_b_t_cishu" data-bind="text:$data.PlayCount"></span><span class="per_vid_b_t_xiaox" data-bind="text:$data.CommentCount"></span></div>
+                            <div class="per_vid_b_t_time" data-bind="text:$data.CreateTimeStr"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="per_video_bo_tit02 per_video_bo_title">
+                        <p data-bind="text:$data.VideoStateStr,css:{fail:$data.VideoState==4} "></p>
+                        <div class="fail_liyou" data-bind="visible:$data.VideoState==4,text:$data.ApproveStr"></div>
+                    </div>
+                </div>
+                <div class="per_video_bo_tit04 per_video_bo_title">
+                    <p class="mag_zhi">
+                        <a data-bind="click: function () { openEdit(Id) },visible:$data.VideoState!=3" href="#">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_MyVideoItem_EditLink")</a>
+                        <i data-bind="visible:$data.VideoState!=3"> | </i>
+                        <a href="" data-bind="click: function () { delvideo(Id) },event:{keydown:function(e){if(e.keyCode==13) return false;}}">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_MyVideoItem_DelLink")</a>
+                    </p>
+                    <p data-bind="click:function(){transVideo(Id)}, visible:$data.VideoState==1">
+                        <a href="#">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_MyVideoItem_ReTranscodeLink")</a> 
+                    </p>
+                </div>
+                <div class="clear"></div>
+
+            </div>
+            <!--/ko-->
+        </div>
+
+        <div class="per_a_r_nr_k_tishi" style="display: none" data-bind="visible:CheckVisible">
+            <p>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_NotVideoTipOne")</p>
+            <p>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideo_NotVideoTipSecond")</p>
+        </div>
+        <!-- 分页 begin-->
+        <div class="v_fun_wz02 v_funney_wz" id="page">
+            <div class="clear"></div>
+        </div>
+        <!-- 分页 end -->
+    </div>
+
+    <div class="clear"></div>
+</div>
+
+
+<!-- 编辑视频 开始  -->
+<input type="hidden" value="" id="vid" />
+<!-- 编辑视频 结束  -->
+<script src="@ServerHelper.RootPath/Content/js/pagelist.js"></script>
+<script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var totalCount = 1;
+    var page = @ViewBag.page;
+    var totalPages = 1;
+    var pageSize = 8;
+    var videoState = -1;
+    var mysearchKey='@ViewBag.searchKey';
+
+    $(function () {
+        LoadData(page, -1,mysearchKey);
+    });
+
+    //编辑
+    function openEdit(id) {
+        window.location.href = '@ServerHelper.RootPath' + "/UserCenter/UserVideoEdit?vId=" + id +"&page="+page+"&mysearchKey="+escape(mysearchKey)+ "&v=" + Math.random();
+    }
+
+    //videoState -1 表示全部转码状态
+    function LoadData(pageIndex, videoStates, searchKeys) {
+        videoState = videoStates;
+        mysearchKey = searchKeys;
+        if (typeof(mysearchKey) == 'undefined') {
+            mysearchKey = '';
+        }
+
+        $("#search").val(mysearchKey);
+        var url;
+        if ($.trim(mysearchKey) == "") {
+            url = api + 'User/GetUserVideoViews?userId=' + vmmyVideos.userId +  '&pageIndex=' + pageIndex + '&pageSize=' + pageSize + '&videoState=' + videoState + '&v=' + Math.random();
+        } else {
+            url = api + 'Video/SearchMyVideoByPage?userId=' + vmmyVideos.userId + '&mysearchKey=' + escape(mysearchKey) + '&pageIndex=' + pageIndex + '&pageSize=' + pageSize +  '&videoState=' + videoState + '&v=' + Math.random();
+        }
+        addMask($('div[loading="video"]'),1);
+        $.getJSON(url, function(data) {
+            try {
+                if (data.Success) {
+                    if (data.Data.MyVideoViews.length == 0 && page != 1) {
+                        page--;
+                        LoadData(page, videoState, mysearchKey);
+                        return;
+                    }
+                    vmmyVideos.myVideos(data.Data.MyVideoViews);
+                    vmmyVideos.CheckVisible(data.Data.MyVideoViews &&data.Data.MyVideoViews == 0);
+                    totalCount = data.Data.TotalCount;
+                }
+
+                totalPages = (totalCount % pageSize) > 0 ? parseInt(totalCount / pageSize) + 1 : parseInt(totalCount / pageSize);
+                $("#page").pager({
+                    pagenumber: pageIndex, pagecount: totalPages, totalcount: totalCount, buttonClickCallback: function (pageclickednumber) {
+                        //单击加载
+                        page = pageclickednumber;
+                        LoadData(pageclickednumber, videoState, mysearchKey);
+                    }
+                });
+            } finally {
+                removeMask($('div[loading="video"]'));
+            }
+        });
+    };
+    //删除
+    delvideo = function (vid) {
+        globalPromptBox.showPromptMessage(Translate("web_Client_Views_UserCenter_UserVideo_JsDelVideoTitle"),
+            Translate("web_Client_Views_UserCenter_UserVideo_JsConfirmDelete"), del, vid, false);
+    };
+    function del(vid) {
+        var url = window.rootPath + '/UserCenter/DeleteAVideo?vid=' + vid;
+        $.ajax(url, {
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.Success) {
+                    LoadData(page, videoState, mysearchKey);
+                }
+            },
+            error: function (data) {
+
+            }
+        });
+    }
+
+
+    function searchMyVideos() {
+        mysearchKey = $("#search").val().trim();
+        $("#videostate").val(-1);
+        videoState = -1;
+        if (mysearchKey == "" || mysearchKey == undefined) {
+            return;
+        }
+        LoadData(1, videoState, mysearchKey);
+    }
+
+
+    var vm_myVideos = function() {
+        var self = this;
+        self.userId = '@Model';
+        self.myVideos = ko.observableArray();
+        //获取播放页面的url
+        self.getPlayUrl = function(vid, videoState) {
+            if (videoState == 3) {
+                window.open('@ServerHelper.RootPath' + '/Play/?videoId=' + vid);
+            } else {
+                globalPromptBox.showGeneralMassage(1, Translate("web_Client_Views_UserCenter_UserVideo_JsAudltVideoNotPassNoPlay"), 2000, false);
+            }
+        };
+        //跳转到播放页面
+        self.goPlayer = function(Id, anchor) {
+            var url = rootPath + "/Play/Index?videoId=" + Id + "&v=" + Math.random();
+            if (anchor)
+                url = url + "#" + anchor;
+            return url;
+        };
+        self.ToArrayTags = function(tags) {
+            var html = "";
+            if (tags != null) {
+                var tagss = tags.split('|');
+                var len = tagss.length;
+                for (var i = 0; i < len; i++) {
+                    html += "<span>" + tagss[i] + "</span>";
+                }
+            }
+            return html;
+        };
+        self.GetAbout = function(about) {
+            if (about == null|| $.trim(about)=="") about = Translate("web_Client_Views_UserCenter_UserVideo_JsNotInput");
+            return Translate("web_Client_Views_UserCenter_UserVideo_JsAbout") + about;
+        };
+        self.CheckVisible = ko.observable(false);
+
+    };
+
+    var vmmyVideos = new vm_myVideos();
+
+    ko.applyBindings(vmmyVideos, document.getElementById("myVideos"));
+
+    function transVideo(vid) {
+        var url = api + 'QiniuUpload/VideoTranscode';
+        $.ajax(url, {
+            type: "post",
+            dataType: "json",
+            data:{vid:vid},
+            success: function (data) {
+                LoadData(page, videoState, mysearchKey);
+            },
+            error: function (data) {
+
+            }
+        });
+    }
+</script>

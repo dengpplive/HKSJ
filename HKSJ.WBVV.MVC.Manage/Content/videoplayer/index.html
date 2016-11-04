@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>index.html</title>
+	
+    <meta http-equiv="keywords" content="">
+    <meta http-equiv="description" content="">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <script type="text/javascript" src="/videoplayer/flash/swfobject.js"></script>
+      <script type="text/javascript" src="/videoplayer/javascript/jquery-1.9.1.min.js"></script>
+      <script type="text/javascript" src="/videoplayer/javascript/common.js"></script>
+      <script type="text/javascript" src="/videoplayer/javascript/video.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	<script type="text/javascript">
+	
+	function doInit() 
+	{
+		var hasFlash = chkFlashPlayer();
+		var videoInfo = getVideoInfo();
+		var advertInfo = getArtInfo();
+		
+		if (hasFlash) {		
+			var flashWidth = 1066;
+			var flashHeight = 600; 
+		
+			var params = {			
+			crossDomainPath:"http://192.168.16.31/vedioStreamMediaServer/crossdomain.xml",			
+			httpUrl:"",				
+			httpShotUrl: "http://vupload.365sji.com/vedioStreamMediaServer/streamAction_saveVideoShot.action",
+			videoInfo:videoInfo,
+			advertInfo:advertInfo,			
+			controlbar: "true",
+			wmode: "opaque",
+			flashWidth: flashWidth,
+			flashHeight: flashHeight
+			};
+				
+			renderFlash("flashDiv", "flash/Main.swf?v=1.02", params);
+		}		
+	}
+
+	document.onmouseup = function(event) { 
+		var swfObj = getSWF("flashDiv");
+		
+		if (swfObj) {
+			try {
+				if (swfObj.mouseupHandle && typeof (swfObj.mouseupHandle) == "function") {
+					swfObj.mouseupHandle();
+				}
+			} catch (e) {
+			}
+		}
+ 	};
+	</script>
+  </head>
+  
+  <body id="content" onload="doInit()" style="margin:0;">
+  	<div style="margin-top:200px;">
+  	    <center>
+    	<div id="flashDiv">
+        </div>
+    	</center>
+    </div>
+  </body>
+</html>

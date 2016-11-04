@@ -1,0 +1,373 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/select2_metro.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" />
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery-1.10.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/tree/css/zTreeStyle/zTreeStyle.css")" />
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.core-3.5.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.excheck-3.5.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/tree/js/jquery.ztree.exedit-3.5.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            initTree();
+
+        });
+
+        function initTree() {
+            var url = api + "Dictionary/GetCategoryAndDictionaryViewList?v=" + Math.random();
+            $.getJSON(url, function (data) {
+                var jsonarray = eval(data);
+                var arr =
+                     {
+                         id: 0,
+                         pId: -1,
+                         name: "@LanguageUtil.Translate("admin_Views_Manage_PropertyDataManagement_js_Home")",
+                         open: true,
+                         isParent: true,
+                         checked: true
+                     }
+                jsonarray.push(arr);
+                init(jsonarray);
+            });
+        }
+
+
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            edit: {
+                enable: true,
+                showRemoveBtn: false,
+                showRenameBtn: false
+            },
+            data: {
+                keep: {
+                    parent: true,
+                    leaf: true
+                },
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                beforeRemove: beforeRemove,
+                beforeDrag: beforeDrag,
+                beforeRename: beforeRename,
+                onRemove: onRemove,
+                onRename: onRename
+
+            }
+        };
+
+        var log, className = "dark";
+        //用户禁止拖动节点
+        function beforeDrag(treeId, treeNodes) {
+            return false;
+        }
+
+        //点击删除时触发，用来提示用户是否确定删除
+        function beforeRemove(treeId, treeNode) {
+            className = (className === "dark" ? "" : "dark");
+            return confirm(Translate("admin_Views_Manage_PropertyDataManagement_Confirm_DeleteNode").Format(treeNode.name));
+        }
+
+        //删除节点后触发，用于后台操作
+        function onRemove(e, treeId, treeNode) {
+            var apiURL;
+            var data;
+            if (treeNode.level == 2) {
+                apiURL = "manage/DeleteDictionary";
+                data = { id: parseInt(treeNode.id - 2000) };
+            } else if (treeNode.level == 3) {
+                apiURL = "manage/DeleteDictionaryItem";
+                data = { id: parseInt(treeNode.id - 3000) };
+            } else {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_SystemError"));
+                return;
+            }
+            $(function () {
+                $.ajax({
+                    type: "Post",
+                    url: rootPath + '/' + apiURL,
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Success) {
+                            alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_DeleteSuccess"));
+                        }
+                        else {
+                            alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_DeleteFailInfo").Format(data.ExceptionMessage));
+                            var zTree = $.fn.zTree.getZTreeObj("ulTree");
+                            var parentNode = treeNode.getParentNode();
+                            zTree.addNodes(parentNode, { id: treeNode.id, pId: parentNode.id, isParent: treeNode.isParent, name: treeNode.name });
+                        }
+                    },
+                    error: function (error) {
+                        alert(Translate("admin_Views_Manage_PropertyDataManagement_AlertonRemove_Error").Format(error.status));
+                        var zTree = $.fn.zTree.getZTreeObj("ulTree");
+                        var parentNode = treeNode.getParentNode();
+                        zTree.addNodes(parentNode, { id: treeNode.id, pId: parentNode.id, isParent: treeNode.isParent, name: treeNode.name });
+                    }
+                });
+            });
+            //initTree();
+        }
+
+        ////编辑结束时触发，用来验证输入的数据是否符合要求
+        function beforeRename(treeId, treeNode, newName) {
+            if (newName.length == 0) {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_AlertbeforeRename_NameisNotNull"));
+                var zTree = $.fn.zTree.getZTreeObj("ulTree");
+                setTimeout(function () { zTree.editName(treeNode) }, 10);
+                return false;
+            }
+            return true;
+        }
+
+        var operating = "";//标记操作类型
+
+        ////编辑后触发，用于操作后台
+        function onRename(e, treeId, treeNode, isCancel) {
+            if (operating == "add") {
+                var apiURL;
+                var data;
+                if (treeNode.level == 2) {
+                    apiURL = "manage/CreateDictionary";
+                    data = { name: treeNode.name, pid: parseInt(treeNode.getParentNode().id - 1000) };
+                } else if (treeNode.level == 3) {
+                    apiURL = "manage/CreateDictionaryItem";
+                    data = { name: treeNode.name, pid: parseInt(treeNode.getParentNode().id - 2000) };
+                } else {
+                    alert(Translate("admin_Views_Manage_PropertyDataManagement_AlertonRename_SystemError"));
+                    return;
+                }
+                $(function () {
+                    $.ajax({
+                        type: "Post",
+                        url: rootPath + '/' + apiURL,
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.Success) {
+                                alert(Translate("admin_Views_Manage_PropertyDataManagement_RootAlertonRename_AddSuccess"));
+                                if (treeNode.level == 2)
+                                    treeNode.id = data.Data + 2000;
+                                else if (treeNode.level == 3)
+                                    treeNode.id = data.Data + 3000;
+                                else {
+                                    alert(Translate("admin_Views_Manage_PropertyDataManagement_RootAlertonRename_SystemError"));
+                                    return;
+                                }
+                                var zTree = $.fn.zTree.getZTreeObj("ulTree");
+                                zTree.reAsyncChildNodes(treeNode, "refresh");
+                            }
+                            else {
+                                alert(Translate("admin_Views_Manage_PropertyDataManagement_RootAlertonRename_AddFailInfo").Format(data.ExceptionMessage));
+                                var zTree = $.fn.zTree.getZTreeObj("ulTree");
+                                zTree.removeNode(treeNode, false);
+                            }
+                        },
+                        error: function (error) {
+                            alert(Translate("admin_Views_Manage_PropertyDataManagement_RootAlertonRename_ErrorInfo").Format(error.status));
+                            var zTree = $.fn.zTree.getZTreeObj("ulTree");
+                            zTree.removeNode(treeNode, false);
+                        }
+                    });
+                });
+
+
+            } else if (operating == "edit") {
+                var apiURL;
+                var data;
+                if (treeNode.level == 2) {
+                    apiURL = "manage/UpdateDictionary";
+                    data = { name: treeNode.name, pid: parseInt(treeNode.getParentNode().id - 1000), id: parseInt(treeNode.id - 2000) };
+                } else if (treeNode.level == 3) {
+                    apiURL = "manage/UpdateDictionaryItem";
+                    data = { name: treeNode.name, pid: parseInt(treeNode.getParentNode().id - 2000), id: parseInt(treeNode.id - 3000) };
+                } else {
+                    alert(Translate("admin_Views_Manage_PropertyDataManagement_RootEdit_SystenError"));
+                    return;
+                }
+                $(function () {
+                    $.ajax({
+                        type: "Post",
+                        url: rootPath + '/' + apiURL,
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.Success)
+                                alert(Translate("admin_Views_Manage_PropertyDataManagement_Root_EditSucess"));
+                            else {
+                                alert(Translate("admin_Views_Manage_PropertyDataManagement_Root_EditFailInfo").Format(data.ExceptionMessage));
+                                var zTree = $.fn.zTree.getZTreeObj("ulTree");
+                                zTree.reAsyncChildNodes(treeNode, "refresh");
+                            }
+                        },
+                        error: function (error) {
+                            alert(Translate("admin_Views_Manage_PropertyDataManagement_Root_EditError").Format(error.status));
+                            var zTree = $.fn.zTree.getZTreeObj("ulTree");
+                            zTree.reAsyncChildNodes(treeNode, "refresh");
+                        }
+                    });
+                });
+
+            } else {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_SystemErrorContact"));
+            }
+
+        }
+
+        function getTime() {
+            var now = new Date(),
+			h = now.getHours(),
+			m = now.getMinutes(),
+			s = now.getSeconds(),
+			ms = now.getMilliseconds();
+            return (h + ":" + m + ":" + s + " " + ms);
+        }
+
+        var newCount = 1;
+        function add(e) {
+            operating = "add";
+            var zTree = $.fn.zTree.getZTreeObj("ulTree"),
+			isParent = e.data.isParent,
+			nodes = zTree.getSelectedNodes(),
+			treeNode = nodes[0];
+
+            if (treeNode.level == 0) {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_Yibu"));
+                return;
+            }
+            if (treeNode.level >= 3) {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_CannotAdd"));
+                return;
+            }
+            treeNode.isParent = true;
+            if (treeNode) {
+                treeNode = zTree.addNodes(treeNode, { id: (123456 + newCount), pId: treeNode.id, isParent: isParent, name: "new node" + (newCount++) });
+            } else {
+                treeNode = zTree.addNodes(null, { id: (123456 + newCount), pId: 0, isParent: isParent, name: "new node" + (newCount++) });
+            }
+            zTree.editName(treeNode[0]);
+
+        };
+        function edit() {
+            operating = "edit";
+            var zTree = $.fn.zTree.getZTreeObj("ulTree"),
+			nodes = zTree.getSelectedNodes(),
+			treeNode = nodes[0];
+            if (nodes.length == 0) {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_SelectOnenode"));
+                return;
+            }
+            if (treeNode.level == 0 || treeNode.level == 1) {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_EditYibu"));
+                return;
+            }
+            zTree.editName(treeNode);
+        };
+        function remove(e) {
+            var zTree = $.fn.zTree.getZTreeObj("ulTree"),
+			nodes = zTree.getSelectedNodes(),
+			treeNode = nodes[0];
+            if (nodes.length == 0) {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_RemoveSelectone"));
+                return;
+            }
+            if (treeNode.level == 0 || treeNode.level == 1) {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_RemoveYibu"));
+                return;
+            }
+            zTree.removeNode(treeNode, true);
+        };
+        function clearChildren(e) {
+            var zTree = $.fn.zTree.getZTreeObj("ulTree"),
+			nodes = zTree.getSelectedNodes(),
+			treeNode = nodes[0];
+            if (nodes.length == 0 || !nodes[0].isParent) {
+                alert(Translate("admin_Views_Manage_PropertyDataManagement_Alert_clearChildren_SelectParent"));
+                return;
+            }
+            zTree.removeChildNodes(treeNode);
+        };
+
+        function init(zNodes) {
+            $.fn.zTree.init($("#ulTree"), setting, zNodes);
+            $("#addParent").bind("click", { isParent: false }, add);
+            $("#edit").bind("click", edit);
+            $("#remove").bind("click", remove);
+            //$("#clearChildren").bind("click", clearChildren);
+
+            var zTree = $.fn.zTree.getZTreeObj("ulTree")
+            var node = zTree.getNodeByParam("id", 0, null);
+            if (node != null) {
+                //选中节点
+                zTree.selectNode(node);
+            }
+        }
+    </script>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <!-- END PAGE LEVEL STYLES -->
+</head>
+<body class="page-header-fixed" style="background-color: #FFF !important;">
+
+
+    <!--begin 导航-->
+    <ul class="breadcrumb">
+        <li>
+            <span><strong>@LanguageUtil.Translate("admin_Views_Manage_PropertyDataManagement_Manage")</strong></span>
+            <i class="icon-angle-right"></i>
+        </li>
+        <li>
+            <a href="@Url.Content("~/Manage/PropertyDataManagement")">@LanguageUtil.Translate("admin_Views_Manage_PropertyDataManagement_ManageAttributeData")</a>
+        </li>
+    </ul>
+    <!--end 导航-->
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <p>
+                <button type="button" id="addParent" onclick="return false;" class="btn blue">@LanguageUtil.Translate("admin_Views_Manage_PropertyDataManagement_Button_Addnode")</button>
+                <button type="button" id="edit" onclick="return false;" class="btn green">@LanguageUtil.Translate("admin_Views_Manage_PropertyDataManagement_Button_EditnodeName")</button>
+                <button type="button" id="remove" onclick="return false;" class="btn red">@LanguageUtil.Translate("admin_Views_Manage_PropertyDataManagement_Button_Deletenode")</button>
+                @*<button type="button" id="clearChildren" onclick="return false;" class="btn red">清空子节点</button>*@
+            </p>
+        </div>
+        <div class="row-fluid">
+            <ul id="ulTree" class="ztree"></ul>
+        </div>
+    </div>
+</body>
+</html>

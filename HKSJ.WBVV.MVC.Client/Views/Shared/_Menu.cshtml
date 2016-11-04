@@ -1,0 +1,40 @@
+﻿@using HKSJ.WBVV.Common.Http
+@{
+    Layout = null;
+}
+<script language="" type="text/javascript">
+    //特殊分类 -1首页 -2专辑
+    curCaterogyId = -1;
+    menuViewList = null;
+    function loadHeader() {
+        var url = api + "Category/GetMenuViewListVisible";
+        // console.log("导航菜单url:" + url);
+        curCaterogyId = getURLParam("curId", location.href);
+        if (curCaterogyId == "") curCaterogyId = -1;
+
+        $.getJSON(url, function (data) {
+            // console.log("导航菜单数据:");
+            // console.log(data);
+
+            curCaterogyId = getURLParam("curId", location.href);
+            if (curCaterogyId == "") curCaterogyId = -1;
+
+            menuViewList = data;
+            var arr = [];
+            arr.push('<li><a ' + (curCaterogyId == -1 ? "class=curr" : "") + '  title="' + Translate("web_Views_Shared_Menu_loadHeader_home_title") + '" href="' + rootPath + '/Home/index">' + Translate("web_Views_Shared_Menu_loadHeader_home_text") + '</a></li>');
+            for (var i in data) {
+                arr.push('<li><a ' + (curCaterogyId == data[i].ParentCategory.Id ? "class=curr" : "") + '  title="' + data[i].ParentCategory.Name + '" href="' + rootPath + '/Home/index?curId=' + data[i].ParentCategory.Id + '">' + data[i].ParentCategory.Name + '</a></li>');
+            }
+            arr.push('<li><a ' + (curCaterogyId == -2 ? "class=curr" : "") + ' href="' + rootPath + '/Albums/Index?curId=-2" title="' + Translate("web_Views_Shared_Menu_loadHeader_album_title") + '">' + Translate("web_Views_Shared_Menu_loadHeader_album_text") + '</a></li>');
+            var html = arr.join("");
+            $("#hul").html(html);
+        });
+    }
+    loadHeader();
+</script>
+<div class="daohang_map" id="header">
+    <div class="nav">
+        <ul id="hul"></ul>
+        <div class="clear"></div>
+    </div>
+</div>

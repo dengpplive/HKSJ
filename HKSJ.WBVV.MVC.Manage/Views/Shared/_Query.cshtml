@@ -1,0 +1,61 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<div id="Query" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true" style="display: none;">
+    <div class="modal-header">
+        <h3 id="myModalLabel3">@LanguageUtil.Translate("admin_Views_Shared_Query_h3_FilterCondition")</h3>
+    </div>
+    <div class="modal-body" style="height:200px">
+        <!--ko foreach:rows-->
+        <div class="row-fluid">
+            <div class="span3 ">
+                <div class="control-group">
+                    <div class="controls">
+                        <select class="m-wrap span12" data-bind="options:filedNames,optionsText:'text',optionsValue:'value',value:selectFiledName"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="span2 ">
+                <div class="control-group">
+                    <div class="controls">
+                        <select class="m-wrap span12" data-bind="options:expressionTypes,optionsText:'text',optionsValue:'value',value:selectExpressionType"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="span3 ">
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="text" class="m-wrap span12" data-bind="value:filedValue">
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <div class="controls">
+                        <select class="m-wrap span12" data-bind="options:expressionLogics,optionsText:'text',optionsValue:'value',value:selectExpressionLogic"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <div class="controls">
+                        <button class="btn green" data-bind="click:deleteRow"><i class="icon-remove"></i>@LanguageUtil.Translate("admin_Views_Shared_Query_button_delete")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ko-->
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="control-group">
+                    <div class="controls pull-right">
+                        <button class="btn green" data-bind="click:addRow"><i class="icon-plus"></i>@LanguageUtil.Translate("admin_Views_Shared_Query_button_add")</button>
+                        <button class="btn blue " data-bind="click:query">@LanguageUtil.Translate("admin_Views_Shared_Query_button_search")<i class="m-icon-swapright m-icon-white"></i></button>
+                        <button class="btn" data-bind="click:cancel">@LanguageUtil.Translate("admin_Views_Shared_Query_button_cancle")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.Common.Language
+<link href="@ServerHelper.RootPath/Content/css/person_com.css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Content/css/5bvv_person_Account.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/paging.css" />
+<link href="@ServerHelper.RootPath/Content/css/playease.css" type="text/css" rel="stylesheet" />
+<script>
+    document.title ='@GlobalMemberInfo.NickName' + "-"+Translate("web_Client_Views_UserCenter_AlbumVideos_Title")+" " + companyTitle;
+    userId = "@GlobalMemberInfo.UserId";
+    var menuId = 3;
+</script>
+<!-- 管理视频 开始  -->
+<div class="person_Account_box wrap">
+    <div style="margin-right:10px;" align="left" height="740px" width="250px">
+        @Html.Partial("_UserMenu")
+    </div>
+    <div class="person_Account_right" id="divAlbumVideo">
+        <div class="per_Acc_r_title">
+            <a class="per_vip_fh_album" href="@Url.Action("UserAlbums", "UserCenter")">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_GoBackNyAlbum")</a>
+            <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_AlbumDetail")</span>
+            <div class="clear"></div>
+        </div>
+
+        <div class="per_Acc_r_nr">
+            <div class="zhuanji_xiangq clearfloat">
+                <div class="per_nr_zhuanji_xq">
+                    <div class="per_nr_zhuanji_img">
+                        <a href="javascript:void(0);" data-bind="click: editAlbum"><img data-bind="attr:{src:Thumbnail}" alt=""></a>
+                    </div>
+                    <a href="javascript:void(0);"><div class="per_nr_zhuanji_wz_shuz"><!--ko text:VideoCount--><!--/ko--></div></a>
+                </div>
+                <div class="per_nr_zhuanji_xqwz">
+                    <div class="per_nr_zhuanji_biaot"><a href="javascript:void(0);" data-bind="click:function(){},text:Title,attr:{title:Title}"></a></div>
+                    <div class="per_nr_zhuanji_jianj">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_AlbumAbout")<!--ko text:Remark--><!--/ko--></div>
+                    <div class="per_video_bo_t_guan clearfloat"><span class="per_vid_b_t_cishu"><!--ko text:PlayCount--><!--/ko--></span><span class="per_vid_b_t_xiaox"><!--ko text:CommentCount--><!--/ko--></span></div>
+                    <div class="per_vid_b_t_time">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_AlbumCreateToTime")<!--ko text:CreateTime--><!--/ko--></div>
+
+                    <div class="per_nr_zhuanj_ann">
+                        <a class="delete big-link" href="javascript:void(0);" data-bind="click: doDeleteAlbum">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_DelAlbumLink")</a>
+                        <a class="" href="javascript:void(0);" data-bind="click: editAlbum">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_EditAlbumLink")</a>
+                        <a class="zhuanj_tjia big-link" href="javascript:void(0);" onclick="wm_addVideo.openDialog(this)">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_AddVideo")</a> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="per_zhuanj_x_nr">
+
+                <div class="zhuanj_x_nr_biaoti clearfloat">
+                    <div class="zhuanj_x_nr_bt_left">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_VideoInfo")</div>
+                    <div class="zhuanj_x_nr_bt_right">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_VideoOpertation")</div>
+                </div>
+
+                <div class="per_Acc_r_nr_kongbai" id="divNoneCount">
+                    <div class="per_a_r_nr_k_tishi">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_NoAddVideo")</div>
+                    <div><a class="kongb_zhuanj_tjia big-link" onclick="wm_addVideo.openDialog(this)" href="javascript:void(0);">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_AddVideo")</a></div>
+                </div>
+
+                <div class="zhuanji_xq_quanbu">
+                    <!--ko foreach:{data:SpecialVideoList,as:'item'}-->
+
+                    <div class="zhuanj_x_nr_xqnr clearfloat">
+                        <div class="zhuanj_x_nr_xq_left">
+                            <div class="per_video_bo_img play_img" data-bind="click: function(){$root.goPlay(item.Id)}">
+                                <a href="javascript:void(0);"><img data-bind="attr:{src:SmallPicturePath}"></a>
+                                @*<div class="Person_home_l_v_time" data-bind="text: item.ShowTimeLength"></div>*@
+                                <i></i>
+                            </div>
+                            <div class="per_video_bo_text2">
+                                <div class="per_vid_b_t_biaot"><a href="javascript:void(0);" data-bind="click: function(){$root.goPlay(item.Id)},text: item.Title,attr:{title:item.Title}"></a></div>
+                                <div class="per_vid_b_t_jianj2"><strong>@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_VideoAbout")</strong><p data-bind="text: item.About==''?'@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_NoInput")':item.About"></p></div>
+                                <div class="per_video_bo_t_guan clearfloat"><span class="per_vid_b_t_cishu" data-bind="text: item.PlayCount">
+</span><span class="per_vid_b_t_xiaox" data-bind="text: item.CommentCount"></span></div>
+                                <div class="per_vid_b_t_time2 per_vid_b_t_time" data-bind="text: item.CreateTimeStr"></div>
+                            </div>
+                        </div>
+                        <div class="zhuanj_x_nr_xq_right">
+                            <a class="big-link" href="javascript:void(0);" data-bind="click: function(){$root.doDelete(item.Id)}">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_RemoveVideo")</a>
+                            <a class="big-link" href="javascript:void(0);" data-bind="click: function(){wm_AlbumList.openDialog(this,item.Id)}" onclick="">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumVideos_RemoveVideo")</a>
+                        </div>
+                    </div>
+
+                    <!--/ko-->
+                </div>
+                <!-- 分页 begin-->
+                <div class="v_fun_wz02" id="page">
+                    <div class="clear"></div>
+                </div>
+                <!-- 分页 end -->
+
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+</div>
+<script src="@ServerHelper.RootPath/Content/js/common.js"></script>
+<script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+<script src="@ServerHelper.RootPath/Content/js/UserAlbumVideos.js" type="text/javascript"></script>
+@Html.Partial("_VideoListDialog")
+@Html.Partial("_AlbumListDialog")

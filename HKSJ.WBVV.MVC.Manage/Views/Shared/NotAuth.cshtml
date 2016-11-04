@@ -1,0 +1,119 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+
+    @{
+        Layout = null;
+    }
+<!DOCTYPE html>
+
+    <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+    <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+    <!--[if !IE]><!-->
+    <html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+
+    <head>
+
+        <meta charset="utf-8" />
+
+        <title>@LanguageUtil.Translate("admin_Views_Shared_Auth_PageTitle")</title>
+
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+        <meta content="" name="description" />
+
+        <meta content="" name="author" />
+
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+        <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+
+        <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+
+        <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+
+        <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+
+        <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+
+        <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+
+        <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+
+        <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN PAGE LEVEL STYLES -->
+
+        <link href="@Url.Content("~/Content/bootstrap/css/error.css")" rel="stylesheet" type="text/css" />
+
+        <!-- END PAGE LEVEL STYLES -->
+
+        <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+
+    </head>
+
+    <!-- END HEAD -->
+    <!-- BEGIN BODY -->
+
+    <body class="page-500-full-page">
+
+        <div class="row-fluid">
+
+            <div class="span12 page-500">
+
+                <div class=" number">
+
+                    @LanguageUtil.Translate("admin_Views_Shared_Auth_div_Text_NoAuth")
+
+                </div>
+
+                <div class=" details">
+
+                    <h3>Opps, Something went wrong.</h3>
+
+                    <p>
+
+                        <a href="@Request.UrlReferrer">@LanguageUtil.Translate("admin_Views_Shared_Auth_a_BackLast")</a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+        <!-- BEGIN CORE PLUGINS -->
+
+        <script src="@Url.Content("~/Content/bootstrap/js/jquery-1.8.3.min.js")" type="text/javascript"></script>
+
+        <!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+
+        <script src="@Url.Content("~/Content/bootstrap/js/jquery-ui-1.10.1.custom.min.js")" type="text/javascript"></script>
+
+        <script src="@Url.Content("~/Content/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+
+        <!--[if lt IE 9]>
+
+        <script src="@Url.Content("~/Content/bootstrap/js/excanvas.js")"></script>
+
+        <script src="@Url.Content("~/Content/bootstrap/js/respond.js")"></script>
+
+        <![endif]-->
+
+        <script src="@Url.Content("~/Content/bootstrap/js/breakpoints.js")" type="text/javascript"></script>
+
+        <!-- IMPORTANT! jquery.slimscroll.min.js depends on jquery-ui-1.10.1.custom.min.js -->
+
+        <script src="@Url.Content("~/Content/bootstrap/js/jquery.uniform.min.js")" type="text/javascript"></script>
+
+        <!-- END CORE PLUGINS -->
+    </body>
+
+    <!-- END BODY -->
+
+</html>

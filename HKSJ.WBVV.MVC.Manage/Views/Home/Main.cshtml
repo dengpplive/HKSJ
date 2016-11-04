@@ -1,0 +1,77 @@
+﻿@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.Common.Http
+    @{
+        Layout = null;
+    }
+    <!DOCTYPE html>
+    <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+    <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+    <!--[if !IE]><!-->
+    <html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewBag.Title</title>
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/select2_metro.css")" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" />
+        <script src="@Url.Content("~/Content/bootstrap/js/jquery-1.10.1.min.js")" type="text/javascript"></script>
+        <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+        <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+    </head>
+    <body class="page-header-fixed" style="background-color: #FFF !important;">
+        <!--begin 导航-->
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="@Url.Content("~/Home/Main")">@LanguageUtil.Translate("admin_Views_Home_main_homePate")</a>
+            </li>
+        </ul>
+        <!--end 导航-->
+        <div class="container-fluid">
+            <div class="portlet box grey">
+                <!--begin 表头-->
+                <div class="portlet-title">
+                    <div class="caption"><i class="icon-user"></i>@LanguageUtil.Translate("admin_Views_Home_main_loginInformation")</div>
+                </div>
+                <!--end 表头-->
+                <!--begin 表主体-->
+                <div class="portlet-body">
+                    <div class="form-horizontal form-view">
+                        <div class="row-fluid">
+                            <label class="control-label">@LanguageUtil.Translate("admin_Views_Home_main_nowLoginTimes") :</label>
+                            <div class="controls">
+                                <span class="text"></span>
+                            </div>
+                        </div>
+
+                        <div class="row-fluid">
+                            <label class="control-label">@LanguageUtil.Translate("admin_Views_Home_main_lastLoginIP"):</label>
+                            <div class="controls">
+                                <span class="text"></span>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <label class="control-label">@LanguageUtil.Translate("admin_Views_Home_main_lastLoginDate"):</label>
+                            <div class="controls">
+                                <span class="text"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end 表主体-->
+        </div>
+    </body>
+</html>

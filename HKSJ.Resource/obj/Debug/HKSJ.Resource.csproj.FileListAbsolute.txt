@@ -1,0 +1,4 @@
+E:\project\2015-12-19\web\trunk\HKSJ.Resource\bin\Debug\HKSJ.Resource.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Resource\bin\Debug\HKSJ.Resource.pdb
+E:\project\2015-12-19\web\trunk\HKSJ.Resource\obj\Debug\HKSJ.Resource.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Resource\obj\Debug\HKSJ.Resource.pdb

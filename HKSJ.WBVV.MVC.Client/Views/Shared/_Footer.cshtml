@@ -1,0 +1,57 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<!-- 底部  footer -->
+<div class="clear"></div>
+<div class="footer">
+    <div class="main_ct">
+        <ul class="footer_ul lbBox">
+            <li class="lineBlock"><a a href="javascript:void(0)" onclick="shoucang(document.title,window.location)">@LanguageUtil.Translate("web_Views_Shared_Footer_Collect")</a><span>|</span></li>
+            <li class="lineBlock"><a target="_blank" href="http://www.sznet110.gov.cn/netalarm/index.jsp">深圳网警</a><span>|</span></li>
+            <li class="lineBlock"><a target="_blank" href="http://www.miibeian.gov.cn/">粤备-123456</a></li>
+        </ul>
+        <p class="footer_p">
+            <a target="_blank" href="http://www.365sji.com/">惠卡世纪 <span>|</span></a>
+            <a target="_blank" href="http://api.huikamall.com/app.html">惠信App<span>|</span></a>
+            <a target="_blank" href="http://pay.365sji.com/">惠信钱包<span>|</span></a>
+            <a target="_blank" href="http://www.huikamall.com/">惠卡商城 <span>|</span></a>
+            <a target="_blank" href="http://www.huixinfilm.com/">电影宝 <span>|</span></a>
+            <a target="_blank" href="http://1.178pb.com/">1元拼宝<span>|</span></a>
+            <a target="_blank" href="http://www.178ncb.com/">农村宝<span>|</span></a>
+            <a target="_blank" href="http://hxb.365sji.com/">惠信宝<span>|</span></a>
+            <a target="_blank" href="http://cyb.365sji.com/">创业宝<span>|</span></a>
+            <a target="_blank" href="http://renrench.com/">人人创<span>|</span></a>
+            <a target="_blank" href="http://www.iyuejiao.com/">约教<span>|</span></a>
+            <a target="_blank" href="http://www.itrcb.com/">人才宝<span>|</span></a>
+            <a target="_blank" href="http://www.8zxb.com/">装小宝<span>|</span></a>
+            <a target="_blank" href="http://www.hxiti.com/">惠信学院<span>|</span></a>
+            <a target="_blank" href="http://hao.365sji.com/">惠信导航<span>|</span></a>
+            <a target="_blank" href="http://www.365sji.com/Home/WaitSite">惠卡机器人<span>|</span></a>
+            <a target="_blank" href="http://www.365sji.com/Home/WaitSite">惠卡石墨烯研发<span>|</span></a>
+            <a target="_blank" href="http://www.365sji.com/Home/WaitSite">惠卡物联网研发<span>|</span></a>
+            <a target="_blank" href="https://www.8tpb.com/">脱贫宝<span>|</span></a>
+            <a target="_blank" href="http://www.8ncb.com/">农村宝理财<span>|</span></a>
+            <a target="_blank" href="https://www.8tpb.com/content/adwallet">零钱包</a>
+        </p>
+        <div class="copyright">@LanguageUtil.Translate("web_Views_Shared_Footer_copyright")</div>
+    </div>
+</div>
+<!-- 底部  footer -->
+<script type="text/javascript">
+    // 加入收藏 兼容360和IE6
+    function shoucang(sTitle, sURL) {
+        try {
+            window.external.addFavorite(sURL, sTitle);
+        }
+        catch (e) {
+            try {
+                window.sidebar.addPanel(sTitle, sURL, "");
+            }
+            catch (e) {
+                alert(Translate("web_Views_Shared_Footer_shoucang"));
+            }
+        }
+    }
+</script>
+

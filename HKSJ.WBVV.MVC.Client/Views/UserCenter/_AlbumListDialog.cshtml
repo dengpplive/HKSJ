@@ -1,0 +1,119 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<link href="@ServerHelper.RootPath/Content/css/reveal.css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Content/dialogPager/setPageCss.css" rel="stylesheet" />
+
+
+<!-- 添加到专辑 开始  -->
+<div id="myModal_zhuanj_add" class="reveal-modal rev_modeal_zhaunji_add">
+    <a class="ss close-reveal-modal">&#215;</a>
+    <div class="my_m_biaoti">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumListDialog_AddToAlbum")</div>
+
+    <div class="my_m_nrong">
+        <div class="my_m_nr_tshiwz">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumListDialog_MakeTheVideoToAlbum")</div>
+        <div class="my_nr_zj_add_line">
+            <ul>
+                <!--ko foreach:{data:SpecialVideoList,as:'item'}-->
+                <li class="clearfloat">
+                    <label>
+                        <span><input name="" type="checkbox" data-bind="value: item.Id" onclick="wm_AlbumList.checkeVideo(this)"></span>
+                        <div class="my_nrzj_add_l_bti" data-bind="text: item.Title"></div>
+                    </label>
+                </li>
+                <!--/ko-->
+            </ul>
+        </div>
+        <div id="albumsPageNum" class="my_m_nr_fan clearfloat">
+            <a class="" href="#">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumListDialog_NexPage")</a>
+            <p>
+            </p>
+            <a class="" href="#">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumListDialog_PrevPage")</a>
+        </div>
+
+
+        <div class="per_ann_tank clearfloat">
+            <a class="ss" onclick="closed()" href="javascript:void(0);">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumListDialog_CancelButton")</a><a class="sure" data-bind="click: confirm" href="javascript:;">@LanguageUtil.Translate("web_Client_Views_UserCenter_AlbumListDialog_ConfirmButton")</a>
+        </div>
+    </div>
+</div>
+<!-- 移除视频 开始  -->
+
+<script src="@ServerHelper.RootPath/Content/js/jquery.reveal.js"></script>
+<script src="@ServerHelper.RootPath/Content/dialogPager/setPageJs.js"></script>
+
+<script type="text/javascript">
+    var wm_AlbumList = {
+        albumId: 0,
+        pageIndex: 1,
+        pageSize: 5,
+        SpecialVideoList: ko.observableArray(),
+        totalCount: ko.observable(),
+        pageCount: ko.observable(),
+        chkAlbumList: [],
+        VideoId: 0,
+        random: 0,
+        openDialog: function (obj, vid) {
+            wm_AlbumList.random = Math.random();
+            wm_AlbumList.VideoId = vid;
+            $('#myModal_zhuanj_add').reveal($(obj).data(), wm_AlbumList.closeDialog);
+            wm_AlbumList.load(0);
+            setPageNum('albumsPageNum', wm_AlbumList.pageIndex - 1, wm_AlbumList.pageCount, 1, function (index) {
+                wm_AlbumList.load(index);
+            });
+        },
+        closeDialog: function () {
+            wm_AlbumList.chkAlbumList = [];
+            wm_AlbumList.SpecialVideoList([]);
+            return true;
+        },
+        load: function (pageIndex) {
+            wm_AlbumList.pageIndex = pageIndex + 1;
+            var url = api + 'UserSpecial/GetUserAlbumsView?userId=' + userId + '&vid=' + wm_AlbumList.VideoId + '&pageIndex=' + wm_AlbumList.pageIndex + '&pageSize=' + wm_AlbumList.pageSize + '&v=' + wm_AlbumList.random;
+            $.ajax({
+                type: "Get", url: url, async: false, success: function (data) {
+                    wm_AlbumList.pageCount = data.PageCount <= 0 ? 1 : data.PageCount;
+                    wm_AlbumList.SpecialVideoList(data.SpecialVideoList);
+                    for (var item in wm_AlbumList.chkAlbumList) {
+                        $('#myModal_zhuanj_add [value=' + item + ']').attr('checked', wm_AlbumList.chkAlbumList[item]);
+                    }
+                }
+            });
+        },
+        checkeVideo: function (obj) {
+            //chkAlbumList
+            var val = $(obj).val().toString();
+            wm_AlbumList.chkAlbumList[val] = $(obj).attr('checked');
+        },
+        confirm: function () {
+            //AddVideo2Albums
+            var albumIds = '';
+            for (var item in wm_AlbumList.chkAlbumList) {
+                if (wm_AlbumList.chkAlbumList[item]) {
+                    albumIds += item + ',';
+                }
+            }
+            if (albumIds.length <= 0) {
+                return;
+            }
+            albumIds = albumIds.substr(0, albumIds.length - 1);
+
+            var url = api + "UserSpecial/AddVideo2Albums";
+            var videoData = { userId: userId, albumIds: albumIds, vid: wm_AlbumList.VideoId };
+            $.post(url, videoData, function (data) {
+                if (data.Success) {
+                    globalPromptBox.showGeneralMassage(0, Translate("web_Client_Views_UserCenter_AlbumListDialog_AddSuccess"), 1000, false);
+                    $("#myModal_zhuanj_add .ss:first").click();
+                } else {
+                    globalPromptBox.showGeneralMassage(2, data.ExceptionMessage, 3000, false);
+                }
+
+            });
+        }
+    };
+    ko.applyBindings(wm_AlbumList, document.getElementById('myModal_zhuanj_add'));
+
+</script>

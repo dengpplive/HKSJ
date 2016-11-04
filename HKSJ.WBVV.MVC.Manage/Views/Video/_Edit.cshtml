@@ -1,0 +1,89 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<style>
+    .modaleditcss {
+    position: relative;
+    max-height: 800px;
+    padding: 15px;
+    overflow-y: initial;
+    background-color: #ffffff;
+    /* background: #ffffff; */
+    }
+    
+</style>
+<div id="iframe" class="modal hide fade" tabindex="-1" data-replace="true" aria-hidden="true" style="display: none; margin-top: 0px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h3>@LanguageUtil.Translate("admin_Views_Video_Edit_h3_EditVideo")</h3>
+    </div>
+    <div class="modal-body modaleditcss">
+        <form action="#" class="form-horizontal form-bordered" id="form1">
+            <div class="row-fluid margin-bottom-10">
+                <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Edit_label_VideoName")</label>
+                <div class="controls">
+                    <input type="text" placeholder="@LanguageUtil.Translate("admin_Views_Video_Edit_inputTip_VideoName")" id="title" class="large m-wrap" />
+                </div>
+            </div>
+            <div class="row-fluid margin-bottom-10">
+                <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Edit_label_VideoProfile")</label>
+                <div class="controls">
+                    <textarea placeholder="@LanguageUtil.Translate("admin_Views_Video_Edit_inputTip_VideoProfile")" id="about" class="large m-wrap" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="row-fluid margin-bottom-10">
+                <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Edit_label_VideoTags")</label>
+                <div class="controls">
+                    @*  <input type="text" placeholder="输入视频标签如 青春|星空" size="32" id="tags" class="m-wrap large">*@
+                    <div id="info-box" ></div>
+                    <div id="divLabelMassage" style="color:red;display:none;"></div>
+                </div>
+            </div>
+            <div id="propertyId">
+                <div class="row-fluid margin-bottom-10">
+                    <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Edit_label_VideoClass")</label>
+                    <div class="controls">
+                        <select class="" style="float: left" id="categoryedit">
+                            <option value="-1">@LanguageUtil.Translate("admin_Views_Video_Edit_option_ClassAll")</option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>    
+                <div class="row-fluid margin-bottom-10">
+                    <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Edit_label_IsOpen")</label>
+                    <div class="controls">
+                        <select class="" style="float: left" id="isPublic">
+                            <option value="1">@LanguageUtil.Translate("admin_Views_Video_Edit_option_Open")</option>
+                            <option value="0">@LanguageUtil.Translate("admin_Views_Video_Edit_option_Secret")</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row-fluid margin-bottom-10">
+                    <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Edit_label_IsOriginal")</label>
+                    <div class="controls">
+                        <select class="per_a_add_nr_l_sort" style="float: left" id="copyright">
+                            <option value="1">@LanguageUtil.Translate("admin_Views_Video_Edit_option_Original")</option>
+                            <option value="2">@LanguageUtil.Translate("admin_Views_Video_Edit_option_reprinted")</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row-fluid margin-bottom-10">
+                    <label class="control-label">@LanguageUtil.Translate("admin_Views_Video_Edit_label_IsOfficial")</label>
+                    <div class="controls">
+                        <select class="per_a_add_nr_l_sort" style="float: left" id="isOfficial">
+                            <option value="0">@LanguageUtil.Translate("admin_Views_Video_Edit_option_notOfficial")</option>
+                            <option value="1">@LanguageUtil.Translate("admin_Views_Video_Edit_option_Official")</option>
+                        </select>
+                    </div>
+                </div>
+</form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn blue" onclick="SaveData();"><i class="icon-ok"></i>@LanguageUtil.Translate("admin_Views_Video_Edit_button_Save")</button>
+        <button type="button" data-dismiss="modal" class="btn">@LanguageUtil.Translate("admin_Views_Video_Edit_button_Cancle")</button>
+    </div>
+</div>
+<input type="hidden" value="0" id="vid"/>
+

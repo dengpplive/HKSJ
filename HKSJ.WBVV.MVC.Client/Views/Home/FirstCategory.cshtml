@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+<!-- 导航 开始  -->
+<div class="daohang_map">
+    <div class="nav">
+        <ul id="navfirst">
+            <li><a href="@ServerHelper.RootPath/Home/index" @(ViewBag.curr == -1 ? "class=curr" : "")>@LanguageUtil.Translate("web_View_Home_FirstCategory_shouye")</a></li>
+            @foreach (var item in Model)
+            {
+                if (item.ParentCategory != null)
+                {
+                    <li><a href="@ServerHelper.RootPath/Home/index?curId=@(item.ParentCategory.Id)" @(ViewBag.curr == item.ParentCategory.Id ? "class=curr" : "") title="@(item.ParentCategory.Name)">@(item.ParentCategory.Name)</a></li>
+                }
+            }
+            <li><a href="@ServerHelper.RootPath/Albums?curId=-2" @(ViewBag.curr == -2 ? "class=curr" : "")>@LanguageUtil.Translate("web_View_Home_FirstCategory_zhuanji")</a></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    //分类信息
+    menuViewList =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.categoryData));
+    //板块信息
+    plateData=@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.plateData));
+</script>
+<!-- 导航 结束  -->

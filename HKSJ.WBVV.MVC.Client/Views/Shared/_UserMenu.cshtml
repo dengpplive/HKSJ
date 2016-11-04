@@ -1,0 +1,44 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/left.css" />
+<div class="view_left">
+    <div id="userInfo">
+        <div class="v_l_message">
+            <a href="#"><img id="picLeftImg" height="152px" width="192px" data-bind="attr:{title:$root.nickName}" src="@GlobalMemberInfo.Picture"></a>
+        </div>
+        <div class="v_l_message02">
+            <div>
+                <p class="v_l_name" data-bind="html:$root.nickName()"><img src="@ServerHelper.RootPath/Content/images/icon_img/vip_01.png" class="v_l_cline"></p>
+            </div>
+            <div class="v_l_div">
+                <div class="v_l_shu">
+                    <p class="v_l_s01" data-bind="html:$root.playCountText()" ></p><p class="v_l_s02">@LanguageUtil.Translate("web_Views_Shared_UserMenu_PlayCount")</p>
+                </div>
+                <div class="v_l_shu">
+                    <p class="v_l_s01" data-bind="html:$root.fansCountText()" ></p><p class="v_l_s02">@LanguageUtil.Translate("web_Views_Shared_UserMenu_fansCount")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="v_l_message03" id="userMenu" >
+        <ul data-bind="foreach:menus">
+            <li class="left_li" data-bind="css:{cur:IsCheck},attr:{id:$root.getlistId(Id)}">
+                <a data-bind="attr:{href:Url}" target="_parent"><i data-bind="attr:{class:Iocn}"></i><!--ko text:Name--><!--/ko--></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="@ServerHelper.RootPath//Content/js/userInfo.js"></script>
+<script type="text/javascript" src="@ServerHelper.RootPath/Content/js/userMenu.js"></script>
+<script type="text/javascript">
+    var userInfo = new UserInfo(userId);
+    userInfo.initUserData();
+    ko.applyBindings(userInfo, document.getElementById("userInfo"));
+    var userMenu = new UserMenu();
+    ko.applyBindings(userMenu, document.getElementById("userMenu"));
+    userMenu.initCheckMenus(menuId);
+</script>

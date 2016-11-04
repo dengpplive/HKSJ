@@ -1,0 +1,131 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<link href="@ServerHelper.RootPath/Content/css/reveal.css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Content/dialogPager/setPageCss.css" rel="stylesheet" />
+
+<!-- 添加视频 开始  -->
+<div id="myModal_add" class="reveal-modal rev_modeal_add">
+    <a href="javascript:void(0);" class="ss close-reveal-modal">&#215;</a>
+    <div class="my_m_biaoti">@LanguageUtil.Translate("web_Client_Views_UserCenter_VideoListDialog_AddVideo")</div>
+
+    <div class="my_m_nrong">
+        <div class="my_m_nr_tshiwz">@LanguageUtil.Translate("web_Client_Views_UserCenter_VideoListDialog_AllUploadVideo")</div>
+
+        <div class="my_m_nr_zhans_img clearfloat">
+
+            <ul>
+                <!--ko foreach:{data:MyVideoViews,as:'item'}-->
+                <li data-bind="attr:{ vid: item.Id }" onclick="wm_addVideo.checkeVideo(this)">
+                    <div class="my_m_nr_zhans_i_tup"><img data-bind="attr:{src:item.SmallPicturePath}"></div>
+                    <div class="my_m_nr_zhans_i_wz" data-bind="text:item.Title"></div>
+                    <div class="my_m_nr_zs_i_dhao"><i></i></div>
+                </li>
+                <!--/ko-->
+            </ul>
+
+        </div>
+
+        <div id="controlPageNum" class="my_m_nr_fan clearfloat">
+            <a class="" href="#">@LanguageUtil.Translate("web_Client_Views_UserCenter_VideoListDialog_NexPage")</a>
+            <p>
+            </p>
+            <a class="" href="#">@LanguageUtil.Translate("web_Client_Views_UserCenter_VideoListDialog_PrevPage")</a>
+        </div>
+
+        <div class="per_ann_tank clearfloat">
+            <a class="ss" href="javascript:void(0);">@LanguageUtil.Translate("web_Client_Views_UserCenter_VideoListDialog_CancelButton")</a><a class="sure" href="javascript:void(0);" data-bind="click: confirm">@LanguageUtil.Translate("web_Client_Views_UserCenter_VideoListDialog_ConfirmButton")</a>
+        </div>
+    </div>
+</div>
+<!-- 添加视频 开始  -->
+
+<script src="@ServerHelper.RootPath/Content/js/jquery.reveal.js"></script>
+<script src="@ServerHelper.RootPath/Content/dialogPager/setPageJs.js"></script>
+
+<script type="text/javascript">
+    var wm_addVideo = {
+        albumId: 0,
+        pageIndex: 1,
+        pageSize: 8,
+        MyVideoViews: ko.observableArray(),
+        totalCount: 0,
+        pageCount: 0,
+        chkVideoList: [],
+        random: 0,
+        openDialog: function (obj) {
+            wm_addVideo.random = Math.random();
+            $('#myModal_add').reveal($(obj).data(), wm_addVideo.closeDialog);
+            wm_addVideo.albumId = GetQueryString("albumId");
+            wm_addVideo.load(0);
+            setPageNum('controlPageNum', wm_addVideo.pageIndex - 1, wm_addVideo.pageCount, 1, function (index) {
+                wm_addVideo.load(index);
+            });
+        },
+        closeDialog: function () {
+            wm_addVideo.chkVideoList = [];
+            wm_addVideo.pageIndex = 0;
+            wm_addVideo.MyVideoViews([]);
+            return true;
+        },
+        load: function (pageIndex) {
+            wm_addVideo.pageIndex = pageIndex + 1;
+            //var url = GetUserVideoViews
+            var url = api + 'UserSpecial/GetUserVideoViews?userId=' + userId + '&albumId=' + wm_addVideo.albumId + '&pageIndex=' + wm_addVideo.pageIndex + '&pageSize=' + wm_addVideo.pageSize + '&v=' + wm_addVideo.random;
+
+            $.ajax({
+                type: "Get", url: url, async: false, success: function (data) {
+                    wm_addVideo.MyVideoViews(data.MyVideoViews);
+                    wm_addVideo.totalCount = data.TotalCount;
+                    wm_addVideo.pageCount = data.PageCount <= 0 ? 1 : data.PageCount;
+                    for (var item in wm_addVideo.chkVideoList) {
+                        $('#myModal_add [vid=' + item + ']').find('.my_m_nr_zs_i_dhao').addClass('cur');
+                    }
+                }
+            });
+        },
+        checkeVideo: function (obj) {
+            var id = $(obj).attr('vid').toString();
+            var oTarget = $(obj).find('.my_m_nr_zs_i_dhao');
+            if (oTarget.hasClass('cur')) {
+                oTarget.removeClass('cur');
+                oTarget.attr('value', false);
+                delete wm_addVideo.chkVideoList[id];
+            } else {
+                oTarget.addClass('cur');
+                oTarget.attr('value', true);
+
+                wm_addVideo.chkVideoList[id] = true;
+            }
+        },
+        confirm: function () {
+            var vidList = '';
+            for (var item in wm_addVideo.chkVideoList) {
+                vidList += item + ',';
+            }
+            if (vidList.length <= 0) {
+                return;
+            }
+            vidList = vidList.substr(0, vidList.length - 1);
+
+
+            var url = api + "UserSpecial/AddAlbumVideos";
+            var videoData = { userId: userId, albumId: wm_addVideo.albumId, videoIds: vidList };
+            $.post(url, videoData, function (data) {
+                if (data.Success) {
+                    globalPromptBox.showGeneralMassage(0, Translate("web_Client_Views_UserCenter_VideoListDialog_AddSuccess"), 1000, false);
+                    $("#myModal_add .ss:first").click();
+                    wmvideos.loadCollectsData(1);
+                } else {
+                    globalPromptBox.showGeneralMassage(2, data.ExceptionMessage, 3000, false);
+                }
+
+            });
+        }
+    };
+    ko.applyBindings(wm_addVideo, document.getElementById('myModal_add'));
+
+</script>

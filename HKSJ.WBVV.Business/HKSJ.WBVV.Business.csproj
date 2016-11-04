@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{41AE62D3-B7EF-4F09-9EAF-BC9DA17A3CDD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HKSJ.WBVV.Business</RootNamespace>
+    <AssemblyName>HKSJ.WBVV.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\Library\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PanGu">
+      <HintPath>..\Library\PanGu.dll</HintPath>
+    </Reference>
+    <Reference Include="PanGu.HighLight">
+      <HintPath>..\Library\PanGu.HighLight.dll</HintPath>
+    </Reference>
+    <Reference Include="PanGu.Lucene.Analyzer">
+      <HintPath>..\Library\PanGu.Lucene.Analyzer.dll</HintPath>
+    </Reference>
+    <Reference Include="Qiniu.4.0">
+      <HintPath>..\packages\Qiniu.6.1.8.7\lib\Net40\Qiniu.4.0.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="APP\ChannelBusiness.cs" />
+    <Compile Include="APP\ChoicenessBusiness.cs" />
+    <Compile Include="APP\UserBusiness.cs" />
+    <Compile Include="APP\UserCollectBusiness.cs" />
+    <Compile Include="APP\HotListBusiness.cs" />
+    <Compile Include="APP\UserSpaceBusiness.cs" />
+    <Compile Include="BannerVideoBusiness.cs" />
+    <Compile Include="Base\BaseBusiness.cs" />
+    <Compile Include="KeyWordsBusiness.cs" />
+    <Compile Include="ManageLogBusiness.cs" />
+    <Compile Include="TagsBusiness.cs" />
+    <Compile Include="LanguageBusiness.cs" />
+    <Compile Include="UserCenter\MessageBusiness.cs" />
+    <Compile Include="UserLevelBusiness.cs" />
+    <Compile Include="UserSkinBusiness.cs" />
+    <Compile Include="QiniuUploadBusiness.cs" />
+    <Compile Include="SMS\SmsRecordBusiness.cs" />
+    <Compile Include="SMS\SMSBusiness.cs" />
+    <Compile Include="SystemMessageBusiness.cs" />
+    <Compile Include="UserSpecialSonBusiness.cs" />
+    <Compile Include="UserSpecialBusiness.cs" />
+    <Compile Include="UserRecommendBusiness.cs" />
+    <Compile Include="UserVisitLogBusiness.cs" />
+    <Compile Include="UserFansBusiness.cs" />
+    <Compile Include="UserRoomChooseBusiness.cs" />
+    <Compile Include="CategoryBusiness.cs" />
+    <Compile Include="CommentBusiness.cs" />
+    <Compile Include="DictionaryItemBusiness.cs" />
+    <Compile Include="DictionaryBusiness.cs" />
+    <Compile Include="ManageBusiness.cs" />
+    <Compile Include="PlateBusiness.cs" />
+    <Compile Include="PlateVideoBusiness.cs" />
+    <Compile Include="UserCollectBusiness.cs" />
+    <Compile Include="PraisesBusiness.cs" />
+    <Compile Include="UserBusiness.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Search\IndexManager.cs" />
+    <Compile Include="Search\SplitContent.cs" />
+    <Compile Include="AuthKeysBusiness.cs" />
+    <Compile Include="UserBindBusiness.cs" />
+    <Compile Include="VideoPlayRecordBusiness.cs" />
+    <Compile Include="VideoApproveBusiness.cs" />
+    <Compile Include="VideoBusiness.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HKSJ.Utilities\HKSJ.Utilities.csproj">
+      <Project>{fae073d8-95e2-45a8-bbac-3e13439b3f3f}</Project>
+      <Name>HKSJ.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Business.Interface\HKSJ.WBVV.Business.Interface.csproj">
+      <Project>{1a2b6ee9-a295-4120-9019-adc893837a89}</Project>
+      <Name>HKSJ.WBVV.Business.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Common\HKSJ.WBVV.Common.csproj">
+      <Project>{e615a07f-9e1b-4dc8-9156-4753537e6ce4}</Project>
+      <Name>HKSJ.WBVV.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Entity\HKSJ.WBVV.Entity.csproj">
+      <Project>{a1173f2f-1e49-4d67-b65c-ae8a116310e8}</Project>
+      <Name>HKSJ.WBVV.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Model\HKSJ.WBVV.Model.csproj">
+      <Project>{5171fc5b-78c9-4776-abd3-28c2d46d8cf5}</Project>
+      <Name>HKSJ.WBVV.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Repository.Interface\HKSJ.WBVV.Repository.Interface.csproj">
+      <Project>{1a6d040c-fd3e-4658-a47e-1f2523e63797}</Project>
+      <Name>HKSJ.WBVV.Repository.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Repository\HKSJ.WBVV.Repository.csproj">
+      <Project>{88b7ef23-3930-4c34-943f-d95add960df1}</Project>
+      <Name>HKSJ.WBVV.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy $(TargetDir)$(TargetName)*.* $(SolutionDir)HKSJ.WBVV.Api.Host\bin\$(ConfigurationName)\ /ry
+xcopy $(TargetDir)PanGu.dll $(SolutionDir)HKSJ.WBVV.Api.Host\bin\$(ConfigurationName)\ /ry
+xcopy $(TargetDir)PanGu.HighLight.dll $(SolutionDir)HKSJ.WBVV.Api.Host\bin\$(ConfigurationName)\ /ry
+xcopy $(TargetDir)PanGu.Lucene.Analyzer.dll $(SolutionDir)HKSJ.WBVV.Api.Host\bin\$(ConfigurationName)\ /ry
+xcopy $(TargetDir)Lucene.Net.dll $(SolutionDir)HKSJ.WBVV.Api.Host\bin\$(ConfigurationName)\ /ry
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

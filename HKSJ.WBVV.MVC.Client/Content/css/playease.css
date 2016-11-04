@@ -1,0 +1,100 @@
+.play_img {
+    position: relative;
+    display: block;
+    white-space: normal;
+}
+
+.play_img i {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 100%;
+	background-color: rgba(0,0,0,.2);
+	background-image: url(../images/icon_img/play_img.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0;
+	-webkit-transition: all .5s ease-out;
+	-ms-transition: all .5s ease-out;
+	-moz-transition: all .5s ease-out;
+	transition: all .5s ease-out;
+	height: 100%;
+    }
+
+.play_img i:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+.play_img2 i {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 100%;
+	background-color: rgba(0,0,0,.2);
+	background-image: url(../images/icon_img/play_img.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0;
+	-webkit-transition: all .5s ease-out;
+	-ms-transition: all .5s ease-out;
+	-moz-transition: all .5s ease-out;
+	transition: all .5s ease-out;
+	height: 60px;
+    }
+.play_img3 i {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 100%;
+	background-color: rgba(0,0,0,.2);
+	background-image: url(../images/icon_img/play_img.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0;
+	-webkit-transition: all .5s ease-out;
+	-ms-transition: all .5s ease-out;
+	-moz-transition: all .5s ease-out;
+	transition: all .5s ease-out;
+	height: 235px;
+    }
+	
+.play_img5 i {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 176px;
+	background-color: rgba(0,0,0,.2);
+	background-image: url(../images/icon_img/play_img.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0;
+	-webkit-transition: all .5s ease-out;
+	-ms-transition: all .5s ease-out;
+	-moz-transition: all .5s ease-out;
+	transition: all .5s ease-out;
+	height: 132px;
+    }
+	
+.play_img6 i {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 212px;
+	background-color: rgba(0,0,0,.2);
+	background-image: url(../images/icon_img/play_img.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0;
+	-webkit-transition: all .5s ease-out;
+	-ms-transition: all .5s ease-out;
+	-moz-transition: all .5s ease-out;
+	transition: all .5s ease-out;
+	height: 159px;
+    }
+
+	

@@ -1,0 +1,22 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!--搜索标题-->
+
+<div class="search_title" id="divTitle" data-bind="foreach:listData,as:'item'">
+    <div class="search_t_img"><img data-bind="attr:{src:SmallPicturePath},click:function(){window.open($root.goPlayer($data.Id));}" style="cursor: pointer;" width="167" height="233"></div>
+    <div class="search_t_c">
+        <p class="search_t_name"><a data-bind="attr:{href:$root.goPlayer($data.Id)}" target="_blank"><span data-bind="html:Title"></span></a></p>
+        <p class="search_t_yy">
+            @LanguageUtil.Translate("web_Views_Search_Title_director")<span data-bind="text:Director"></span>&nbsp;&nbsp;
+            <span class="search_t_yy">@LanguageUtil.Translate("web_Views_Search_Title_Starring")</span><span data-bind="text:Starring"></span>
+        </p>
+        <p class="search_t_yy">@LanguageUtil.Translate("web_Views_Search_Title_area")<span></span></p>
+        <p class="search_t_yy">@LanguageUtil.Translate("web_Views_Search_Title_type")<span></span></p>
+        <div class="search_t_d"><span data-bind="html:About"></span></div>
+        <div class="search_t_ton"><input class="search_t_btn" type="button" value="@LanguageUtil.Translate("web_Views_Search_Title_WatchNow")" data-bind="click:function(){window.open($root.goPlayer($data.Id));}" /></div>
+    </div>
+    <div class="clear"></div>
+</div>

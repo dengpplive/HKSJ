@@ -1,0 +1,1848 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HKSJ.WBVV.Api</name>
+    </assembly>
+    <members>
+        <member name="T:HKSJ.WBVV.Api.AppController.AppChannelController">
+            <summary>
+            频道
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.Base.AppApiControllerBase.PackageActionResult``1(``0,HKSJ.WBVV.Entity.Response.ResponseExtensionData)">
+            <summary>
+            包装响应结果
+            </summary>
+            <param name="value"></param>
+            <param name="extentionData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.Base.AppApiControllerBase.PackageResult``1(``0)">
+            <summary>
+            结果包装
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.Base.AppApiControllerBase.CommonResult``1(System.Func{``0},System.Action{HKSJ.WBVV.Entity.Response.ResponsePackage{``0}})">
+            <summary>
+            增删改调用的函数
+            </summary>
+            <param name="handler"></param>
+            <param name="infoLog"></param>
+            <returns></returns>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.AppController.Base.AppApiControllerBase.IpAddress">
+            <summary>
+            ip地址
+            </summary>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.AppController.Base.AppApiControllerBase.ResponseExtensionData">
+            <summary>
+            响应附加数据
+            </summary>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.AppController.Base.AppApiControllerBase.ContextBase">
+            <summary>
+            http上下文
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChannelController.#ctor(HKSJ.WBVV.Business.Interface.APP.IChannelBusiness,HKSJ.WBVV.Business.Interface.APP.IChoicenessBusiness)">
+            <summary>
+            AppChannelController
+            </summary>
+            <param name="channelBusiness"></param>
+            <param name="choicenessBusiness"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChannelController.Channel(System.Nullable{System.Int32})">
+            <summary>
+            频道--频道信息
+            </summary>
+            <param name="loginUserId">登录用户编号（可空）</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChannelController.Videos(System.Nullable{System.Int32},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            频道--分类视频
+            </summary>
+            <param name="loginUserId">登录用户编号（可空）</param>
+            <param name="cateId">分类编号</param>
+            <param name="pageSize">显示多少行</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChannelController.Category(System.Int32,System.Int32)">
+            <summary>
+            上传--分类
+            </summary>
+            <param name="pageSize">显示多少行</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.AppController.AppChoicenessController">
+            <summary>
+            精选
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.#ctor(HKSJ.WBVV.Business.Interface.APP.IChoicenessBusiness,HKSJ.WBVV.Business.Interface.ICommentBusiness,HKSJ.WBVV.Business.Interface.IQiniuUploadBusiness)">
+            <summary>
+            AppChoicenessController
+            </summary>
+            <param name="choicenessBusiness"></param>
+            <param name="commentBusiness"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.ChoicenessVideos(System.Nullable{System.Int32},System.Int32,System.Int32)">
+            <summary>
+            首页--精选
+            </summary>
+            <param name="loginUserId">登录用户编号（可空）</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.FriendVideos(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            首页--朋友(需要登录)
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.VideoComments(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            首页--精选--评论
+            </summary>
+            <param name="videoId">视频编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示多少页数</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.VideoComments(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            首页--精选--评论详细
+            </summary>
+            <param name="videoId">视频编号</param>
+            <param name="pid">上级评论编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示多少页数</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.VideoCollections(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            首页--精选--喜欢
+            </summary>
+            <param name="videoId">视频编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.ReportComment(HKSJ.WBVV.Entity.RequestPara.App.UserReportCommentPara)">
+            <summary>
+            首页--精选--评论--举报
+            </summary>
+            <param name="reportComment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.UserSubscribe(HKSJ.WBVV.Entity.RequestPara.App.UserFansPara)">
+            <summary>
+            首页--精选--关注
+            </summary>
+            <param name="userFans"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.UserCancelSubscribe(HKSJ.WBVV.Entity.RequestPara.App.UserFansPara)">
+            <summary>
+            首页--精选--取消关注
+            </summary>
+            <param name="userFans"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.CreateVideoComment(HKSJ.WBVV.Entity.RequestPara.App.VideoCommentPara)">
+            <summary>
+            首页--精选--发表评论
+            </summary>
+            <param name="videoComment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.ReplyVideoComment(HKSJ.WBVV.Entity.RequestPara.App.ReplyVideoCommentPara)">
+            <summary>
+            首页--精选--回复评论
+            </summary>
+            <param name="videoComment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.DeleteVideoComment(HKSJ.WBVV.Entity.RequestPara.App.DeleteVideoCommentPara)">
+            <summary>
+            首页--精选--删除评论
+            </summary>
+            <param name="videoComment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.CollectVideo(HKSJ.WBVV.Entity.RequestPara.App.UserCollectPara)">
+            <summary>
+            首页--精选--喜欢视频
+            </summary>
+            <param name="userCollect"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.UnCollectVideo(HKSJ.WBVV.Entity.RequestPara.App.UserCollectPara)">
+            <summary>
+            首页--精选--取消喜欢
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppChoicenessController.GetUploadToken(System.Int32,System.String)">
+            <summary>
+            首页--上传--获取token
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="type">video:视频 pic:头像 album:专辑 cover:视频封面 banner：板块图片</param>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.AppController.AppHotListController">
+            <summary>
+            热榜
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.#ctor(HKSJ.WBVV.Business.Interface.APP.IHotListBusiness)">
+            <summary>
+            AppHotListController
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.UploadRank(System.Nullable{System.Int32},System.Int32,System.Int32)">
+            <summary>
+            热榜--星播客
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.Serach(System.String,System.Int32,System.Int32)">
+            <summary>
+            热榜--搜索结果
+            </summary>
+            <param name="content">搜索内容</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.SerachVideo(System.String,System.Int32,System.Int32)">
+             <summary>
+            热榜--搜索结果--视频详情
+             </summary>
+             <param name="content">搜索内容</param>
+             <param name="pageSize">显示多少条</param>
+             <param name="pageIndex">显示多少页数</param>
+             <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.SerachUser(System.Nullable{System.Int32},System.String,System.Int32,System.Int32)">
+            <summary>
+            热榜--搜索结果--用户详情
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="content">搜索内容</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示多少页数</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.VideoPrereview(System.Int32)">
+            <summary>
+            热榜--审片
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.Good(HKSJ.WBVV.Entity.RequestPara.App.VideoPrereviewPara)">
+            <summary>
+            热榜--审片--必火
+            </summary>
+            <param name="videoPrereview"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.Bad(HKSJ.WBVV.Entity.RequestPara.App.VideoPrereviewPara)">
+            <summary>
+            热榜--审片--差评
+            </summary>
+            <param name="videoPrereview"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppHotListController.ReportVideo(HKSJ.WBVV.Entity.RequestPara.App.UserReportVideoPara)">
+            <summary>
+            热榜--审片--举报视频
+            </summary>
+            <param name="reportVideo"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.AppLoginController">
+            <summary>
+            app注册登录接口
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppLoginController.#ctor(HKSJ.WBVV.Business.Interface.IUserBusiness)">
+            <summary>
+            AppLoginController
+            </summary>
+            <param name="iuserBusiness"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppLoginController.UserRegist(HKSJ.WBVV.Entity.RequestPara.RegisterPara)">
+            <summary>
+            首页--注册
+            </summary>
+            <param name="para"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppLoginController.UserLogin(HKSJ.WBVV.Entity.RequestPara.LoginPara)">
+            <summary>
+            首页--登录
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppLoginController.ResetPwd(HKSJ.WBVV.Entity.RequestPara.LoginPara)">
+            <summary>
+            首页--找回密码
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.AppSmsController">
+            <summary>
+            app短信发送接口
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppSmsController.#ctor(HKSJ.WBVV.Business.Interface.ISMSBusiness)">
+            <summary>
+            AppSmsController
+            </summary>
+            <param name="ismsBusiness"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppSmsController.SubmitSms(HKSJ.WBVV.Entity.ApiParaModel.SMSApiPara)">
+            <summary>
+            首页--短信验证码
+            </summary>
+            <param name="para"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.AppUserCollectController">
+            <summary>
+            app收藏接口
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserCollectController.#ctor(HKSJ.WBVV.Business.Interface.IUserCollectBusiness,HKSJ.WBVV.Business.Interface.APP.IUserCollectBusiness)">
+            <summary>
+            AppUserCollectController
+            </summary>
+            <param name="userCollectBusiness"></param>
+            <param name="appUserCollectBusiness"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserCollectController.DelAllCollect(HKSJ.WBVV.Entity.RequestPara.UserCollectsPara)">
+            <summary>
+            个人功能--取消所有收藏
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserCollectController.GetUserCollects(HKSJ.WBVV.Entity.RequestPara.UserCollectsPara)">
+            <summary>
+            个人功能--获取用户收藏列表
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.AppUserController">
+            <summary>
+            app用户接口
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserController.#ctor(HKSJ.WBVV.Business.Interface.IUserBusiness,HKSJ.WBVV.Business.Interface.APP.IUserBusiness,HKSJ.WBVV.Business.Interface.IQiniuUploadBusiness)">
+            <summary>
+            AppUserController
+            </summary>
+            <param name="iuserBusiness"></param>
+            <param name="appUserBusiness"></param>
+            <param name="qiniuUploadBusiness"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserController.GetUserInfo(HKSJ.WBVV.Entity.RequestPara.UserPara)">
+            <summary>
+            个人功能--获取用户信息
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserController.UpdateUserInfo(HKSJ.WBVV.Entity.RequestPara.UpdateUserPara)">
+            <summary>
+            个人功能--修改用户信息
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserController.VideoUrl(HKSJ.WBVV.Entity.RequestPara.VideoUrlPara)">
+            <summary>
+            通用接口--获取视频下载地址
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserController.GetUserHistory(HKSJ.WBVV.Entity.RequestPara.UserCollectsPara)">
+            <summary>
+            个人功能--播放历史列表
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppUserController.DelUserHistories(HKSJ.WBVV.Entity.RequestPara.UserPara)">
+            <summary>
+            个人功能--清除所有播放历史
+            </summary>
+            <param name="para"></param>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.AppController.AppUserSpaceController">
+            <summary>
+            用户空间
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.#ctor(HKSJ.WBVV.Business.Interface.APP.IUserSpaceBusiness,HKSJ.WBVV.Business.Interface.UserCenter.IMessageBusiness,HKSJ.WBVV.Business.Interface.ICommentBusiness)">
+            <summary>
+            AppUserSpaceController
+            </summary>
+            <param name="userSpaceBusiness"></param>
+            <param name="messageBusiness"></param>
+            <param name="commentBusiness"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.UserSpace(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            我的空间--他的空间
+            </summary>
+            <param name="loginUserId">登录用户编号(可空)</param>
+            <param name="userId">被浏览用户空间编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.UserFans(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            我的空间--粉丝
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="userId">被访问的用户编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.UserSubscribe(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            我的空间--关注
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="userId">被访问的用户编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.Message(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            我的空间--我的消息
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示多少页数</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.ClearSystemMessage(HKSJ.WBVV.Entity.RequestPara.App.ClearSystemMessagePara)">
+            <summary>
+            我的空间--我的消息--清空系统消息
+            </summary>
+            <param name="clearSystemMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.Comments(System.Int32,System.Int32,System.Int32)">
+            <summary>
+             我的空间--我的消息--评论
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="pageSize">显示多少行</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.DeleteVideoComment(HKSJ.WBVV.Entity.RequestPara.App.DeleteVideoCommentPara)">
+            <summary>
+             我的空间--我的消息--删除评论
+            </summary>
+            <param name="videoComment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.Collections(System.Int32,System.Int32,System.Int32)">
+            <summary>
+             我的空间--我的消息--喜欢
+            </summary>
+            <param name="loginUserId">登录用户编号</param>
+            <param name="pageSize">显示多少行</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.SpaceComments(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            我的空间--留言
+            </summary>
+            <param name="userId">登录用户编号或者浏览用户编号</param>
+            <param name="pageSize">显示多少行</param>
+            <param name="pageIndex">显示第几页</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.SpaceComments(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            我的空间--留言详细
+            </summary>
+            <param name="userId">登录用户编号或者浏览用户编号</param>
+            <param name="pid">上级评论编号</param>
+            <param name="pageSize">显示多少条</param>
+            <param name="pageIndex">显示多少页数</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.CreateSpaceComment(HKSJ.WBVV.Entity.RequestPara.App.SpaceCommentPara)">
+            <summary>
+             我的空间--发表留言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.ReplySpaceComment(HKSJ.WBVV.Entity.RequestPara.App.ReplySpaceCommentPara)">
+            <summary>
+             我的空间--回复留言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.AppController.AppUserSpaceController.DeleteSpaceComment(HKSJ.WBVV.Entity.RequestPara.App.DeleteSpaceCommentPara)">
+            <summary>
+             我的空间--删除留言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.Base.ApiControllerBase.GetParams(System.Web.Http.Controllers.HttpControllerContext)">
+            <summary>
+            接收GET请求的参数
+            </summary>
+            <param name="controllerContext"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.Base.ApiControllerBase.PostParams(System.Web.Http.Controllers.HttpControllerContext)">
+            <summary>
+            接受POST请求的参数
+            </summary>
+            <param name="controllerContext"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.Base.ApiControllerBase.CommonResult(System.Func{System.Object},System.Action{HKSJ.WBVV.Entity.ApiModel.Result})">
+            <summary>
+            增删改调用的函数
+            </summary>
+            <param name="handler"></param>
+            <param name="infoLog"></param>
+            <returns></returns>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.Base.ApiControllerBase.IpAddress">
+            <summary>
+            ip地址
+            </summary>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.Base.ApiControllerBase.PageSize">
+            <summary>
+            显示行数
+            </summary>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.Base.ApiControllerBase.PageIndex">
+            <summary>
+            当前页数
+            </summary>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.Base.ApiControllerBase.JObject">
+            <summary>
+            post提交的json数据
+            </summary>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.Base.ApiControllerBase.Condtions">
+            <summary>
+            查询参数
+            </summary>
+        </member>
+        <member name="P:HKSJ.WBVV.Api.Base.ApiControllerBase.OrderCondtions">
+            <summary>
+            排序参数
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.BannerVideoController.GetBannerPageResult">
+            <summary>
+            获取板块分页集合
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.BannerVideoController.CreateBannerVideo">
+            <summary>
+            添加Banner
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.BannerVideoController.UpdateBannerVideo">
+            <summary>
+            修改Banner
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.BannerVideoController.UpdateBannerVideoSort">
+            <summary>
+            Banner排序
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.BannerVideoController.GetBannerVideo(System.Int32)">
+            <summary>
+            单个Banner信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.BannerVideoController.DeleteBannerVideo">
+            <summary>
+            删除Banner
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.BannerVideoController.DeleteBannerVideos">
+            <summary>
+            删除多个Banner
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.APIDocumentController">
+            <summary>
+            APIDocumentController
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DocumentController.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HKSJ.WBVV.Api.DocumentController.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.Extend.HttpRequestMessageExtensions.CreateErrorResponseByReturnType(System.Net.Http.HttpRequestMessage,System.Web.Http.Controllers.HttpActionContext,HKSJ.WBVV.Entity.Response.ResponseExtensionData,System.Net.HttpStatusCode)">
+            <summary>
+            根据Action的返回类型创建对应的错误响应信息
+            </summary>
+            <param name="request">request</param>
+            <param name="actionContext">actionContext</param>
+            <param name="extensionData">extensionData</param>
+            <param name="statusCode">statusCode</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.Extend.HttpRequestMessageExtensions.GetService``1(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            获取服务实例
+            </summary>
+            <typeparam name="TService">服务类型</typeparam>
+            <param name="request">request</param>
+            <returns>服务实例</returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.LanguageController.GetAllTexts">
+            <summary>
+            根据当前线程语言类型获取语言数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.Language.CacheAllTexts">
+            <summary>
+            缓存语言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.SMSController">
+            <summary>
+            短信验证码
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.TagsController.GetTags">
+            <summary>
+            推荐标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.TagsController.GetTags(System.String)">
+            <summary>
+            用户搜索标签
+            </summary>
+            <param name="search">搜索内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.TagsController.GetTagsGroupbyCategoryId">
+            <summary>
+            推荐标签视图（按分类来分组）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.TagsController.GetTagsByCategoryId(System.Int32)">
+            <summary>
+            某个分类下的推荐标签视图(后台，取所有的)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.TagsController.GetTagsOfWebByCategoryId(System.Int32)">
+            <summary>
+            某个分类下的推荐标签视图(前端的，取前20个)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.TagsController.UpdateTags">
+            <summary>
+            更新标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.TagsController.DeleteTags">
+            <summary>
+            删除多个标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.TagsController.AddTags">
+            <summary>
+            添加标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.UserLevelController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.#ctor(HKSJ.WBVV.Business.Interface.IUserLevelBusiness)">
+            <summary>
+            
+            </summary>
+            <param name="userLevelBusiness"></param>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.GetUserLevelPageResult">
+            <summary>
+            用户等级列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.GetUserLevel(System.Int32)">
+            <summary>
+            获取用户等级信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.CreateUserLevel">
+            <summary>
+            添加用户等级
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.UpdateUserLevel">
+            <summary>
+            修改用户等级
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.GetUserScoreRulePageResult">
+            <summary>
+            积分规则分页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.GetUserScoreRule(System.Int32)">
+            <summary>
+            获取积分规则信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.CreateUserScoreRule">
+            <summary>
+            添加积分规则
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.UpdateUserScoreRule(System.Int32,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            修改积分规则
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.DisableUserScoreRule">
+            <summary>
+            禁用积分规则
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserLevelController.EnabledUserScoreRule(System.Int32,System.Int32)">
+            <summary>
+            启用积分规则
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSkinController.GetUserSkinList">
+            <summary>
+            获取皮肤列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserBindController.IsExistedThirdPartyById(System.String,System.String)">
+            <summary>
+            是否存在第三方绑定
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.SystemMessageController.CreateSystemMessage">
+            <summary>
+            添加系统消息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.SystemMessageController.GetUsers">
+            <summary>
+            获取所有用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.SystemMessageController.GetSystemMessage(System.Int32)">
+            <summary>
+            获取系统消息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.SystemMessageController.GetSystemMessagePageResult">
+            <summary>
+            系统列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.UserMessageController">
+            <summary>
+            用户留言
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserMessageController.ReadUserMessage">
+            <summary>
+            留言标记已读
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserMessageController.PushMessage">
+            <summary>
+            消息推送
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserMessageController.Comment">
+            <summary>
+            发表留言
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserMessageController.Reply">
+            <summary>
+            留言回复
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserMessageController.GetComment(System.Int32)">
+            <summary>
+            获取发表的留言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserMessageController.GetUserMessageDetialsPageResult">
+            <summary>
+            分页留言列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserMessageController.GetUserMessageViewPageResult">
+            <summary>
+            评论/留言分页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserMessageController.DeleteUserMessage">
+            <summary>
+            删除
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetUserAlbumsViews(System.Int32)">
+            <summary>
+            获取用户专辑视图
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetUserAlbumsViewsByOrder">
+            <summary>
+            获取用户专辑视图 带有分页 排序 条件刷选
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetUserAlbumVideosById">
+            <summary>
+            获取用户专辑视图下面的视频  带有分页 排序 条件刷选
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.AddUserAlbum">
+            <summary>
+            创建一个新专辑
+            </summary>
+            <param name="userId"></param>
+            <param name="title"></param>
+            <param name="profile"></param>
+            <param name="label"></param>
+            <param name="classify"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetEditUserAlbum(System.Int32,System.Int32)">
+            <summary>
+            获取编辑时需要的专辑信息
+            </summary>
+            <param name="userId"></param>
+            <param name="albumsId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.EditUserAlbum">
+            <summary>
+            编辑专辑
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.DeleteUserAlbum">
+            <summary>
+            删除专辑
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetUserAlbumVideoViews(System.Int32,System.Int32)">
+            <summary>
+            获取用户专辑视频视图
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.DeleteAlbumVideos">
+            <summary>
+            删除专辑下视频,可批量
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.AddAlbumVideos">
+            <summary>
+            添加专辑下视频,可批量
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetUserVideoViews(System.Int32,System.Int32)">
+            <summary>
+            获取用户上传视频,过滤已添加专辑的视频
+            </summary>
+            <param name="userId"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <param name="escapeStatestate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetUserCollectVideoViews(System.Int32,System.Int32)">
+            <summary>
+            获取收藏视频,过滤已添加专辑的视频
+            </summary>
+            <param name="userId"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <param name="escapeStatestate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetUserAlbumsView(System.Int32,System.Int32)">
+            <summary>
+            获取用户专辑视图过滤已添加视频的专辑
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.AddVideo2Albums">
+            <summary>
+            添加视频到专辑，可多选
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.SetCover">
+            <summary>
+            设为封面
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.UpdateAlbumPic">
+            <summary>
+            更新专辑封面
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetAllAlbumsViews">
+            <summary>
+            获取(今日)热门专辑（所有专辑），根据分页返回
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetRecommendAlbumsViews">
+            <summary>
+            获取推荐专辑列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetAlbumVideoViews(System.Int32,System.String)">
+            <summary>
+            获取专辑视频视图
+            </summary>
+            <param name="albumId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.GetRecommendAlbumsPageResult">
+            <summary>
+            获取所有专辑
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.AddRecommendAlbums">
+            <summary>
+            添加推荐专辑
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.RemoveRecommendAlbums">
+            <summary>
+            移除推荐专辑
+            Author : AxOne
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserSpecialController.SavaRecommendAlbumsSort">
+            <summary>
+            保存推荐专辑排序
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.UserRecommendController">
+            <summary>
+            用户推荐
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRecommendController.GetUserRecommendList">
+            <summary> 
+            获取推荐的用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.UserVisitLogController">
+            <summary>
+            历史记录
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserVisitLogController.GetUserVisitLogList">
+            <summary> 
+            获取用户的访问记录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserVisitLogController.CreateUserVisitLog">
+            <summary> 
+            添加和修改个人空间用户的访问记录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.UserFansController">
+            <summary>
+            用户的粉丝
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserFansController.GetUserFunsList">
+            <summary> 
+            获取当前用户的粉丝集合 含有分页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserFansController.GetUserSubscribeList">
+            <summary> 
+            获取当前用户的订阅集合 含有分页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserFansController.GetUserSubscribeUserList">
+            <summary> 
+            获取当前用户的订阅  用户列表 含有分页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserFansController.GetUserSubscribeVideoList">
+            <summary> 
+            获取当前用户的订阅  所有用户视频列表 含有分页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.GetUserRoomVideoData(System.Int32,System.Int32)">
+            <summary> 
+            获取用户空间视频集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.GetUserRoomVideoList">
+            <summary> 
+            获取用户空间视频集合 含有分页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.GetUserRoomSpecialData(System.Int32,System.Int32,System.Int32)">
+            <summary> 
+            获取用户空间专辑视图
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.AddVideoToUserRoom">
+            <summary>
+            添加视频到空间展示界面
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.RemoveVideoToUserRoom">
+            <summary>
+            将视频从空间展示界面删除
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.AddAlbumToUserRoom">
+            <summary>
+            添加专辑到空间展示界面
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.RemoveAlbumtToUserRoom">
+            <summary>
+            将专辑从空间展示界面删除
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.GetUserVideoViews(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            获取用户上传视频,过滤已添加到空间视频
+            </summary>
+            <param name="userId"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <param name="escapeStatestate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserRoomChooseController.GetUserAlbumsViews(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            获取用户专辑视图
+            </summary>
+            <param name="userId"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.ManageController.ManageLogin">
+            <summary>
+            管理员登陆
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.ManageController.GetManage(System.String)">
+            <summary>
+            获取管理员信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.ManageController.ChangePwd">
+            <summary>
+            修改密码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.UserCollectController">
+            <summary>
+            用户收藏
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.OpenPlatForm.Utils.DynamicJsonConverter">
+            <summary>
+            动态Json对象转换
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.OpenPlatForm.Utils.DynamicJsonObject">
+            <summary>
+            动态Json对象
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient">
+            <summary>
+            Description: 简单Http客户端请求类
+            Author: 美丽的地球
+            Email: sanxia330@qq.com
+            QQ: 1851690435
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient.Get(System.String)">
+            <summary>
+            Get请求
+            </summary>
+            <param name="requestUrl">请求url</param>
+            <param name="responseText">响应</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient.Post(System.String)">
+            <summary>
+            Post请求
+            </summary>
+            <param name="requestUrl">请求url</param>
+            <param name="responseText">响应</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient.SetField(System.String,System.String,System.Boolean)">
+            <summary>
+            设置表单数据字段
+            </summary>
+            <param name="fieldName">字段名</param>
+            <param name="fieldValue">字段值</param>
+            <param name="isMultipart">是否多字段类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient.SetField(System.String,System.Byte[],System.String,System.String)">
+            <summary>
+            设置表单文件数据
+            </summary>
+            <param name="fieldName">字段名</param>
+            <param name="filename">字段值</param>
+            <param name="contentType">内容内型</param>
+            <param name="fileBytes">文件字节流</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient.GetFields">
+            <summary>
+            Get请求数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient.PostFields">
+            <summary>
+            Post请求数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient.PostMultipartFields">
+            <summary>
+            Post请求数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OpenPlatForm.Utils.HttpWebClient.ResetStatus">
+            <summary>
+            重置状态
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.DeletePlate">
+            <summary>
+            删除板块
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.DeletePlates">
+            <summary>
+            删除多个板块
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.CreatePlate">
+            <summary>
+            添加板块
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.UpdatePlate">
+            <summary>
+            修改板块
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.UpdatePlateSort">
+            <summary>
+            板块排序
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.GetPlate(System.Int32)">
+            <summary>
+            单个板块信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.GetPlatePageResult">
+            <summary>
+            获取板块分页集合
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.GetPlateViewByHomeList">
+            <summary>
+            获取首页显示板块信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateController.GetPlateViewByCategoryIdList(System.Int32)">
+            <summary>
+            获取指定分类下的板块信息
+            </summary>
+            <param name="cid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.GetPlateVideoPageResult">
+            <summary>
+            板块分页显示
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.GetPlateVideo(System.Int32)">
+            <summary>
+            单个板块信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.CreatePlateVideo">
+            <summary>
+            添加板块视频
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.CreatePlateVideos">
+            <summary>
+            添加多个板块视频
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.UpdatePlateVideo">
+            <summary>
+            修改单个板块视频
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.UpdatePlateVideos">
+            <summary>
+            修改多个板块视频
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.UpdatePlateVideoSort">
+            <summary>
+            板块视频排序
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.DeletePlateVideo">
+            <summary>
+            删除板块视频
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.DeletePlateVideos">
+            <summary>
+            删除多个板块视频
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PlateVideoController.DeletePlateVideos(System.Int32)">
+            <summary>
+            删除指定板块下的视频
+            </summary>
+            <param name="plateId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PraiseController.CreatePraisesComment">
+            <summary>
+            赞评论
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PraiseController.CancelPraisesComment">
+            <summary>
+            取消赞评论
+            </summary>
+            <param name="userId"></param>
+            <param name="commentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.PraiseController.CreatePraisesVedio">
+            <summary>
+            赞视频
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.RegisterController">
+            <summary>
+            注册
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.LoginController">
+            <summary>
+            登录
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.OAuthController">
+            <summary>
+            获取token
+            TODO 公钥+加密串+私钥(解密用)
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.OAuthController.GetTokenAsync(HKSJ.WBVV.Api.OAuthController.GrantTypeEnum,System.String,System.String,System.String,System.String)">
+            <summary>
+            获取token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.OAuthController.GrantTypeEnum">
+            <summary>
+            认证类型
+            </summary>
+        </member>
+        <member name="F:HKSJ.WBVV.Api.OAuthController.GrantTypeEnum.ClientCredentials">
+            <summary>
+            客户端认证
+            </summary>
+        </member>
+        <member name="F:HKSJ.WBVV.Api.OAuthController.GrantTypeEnum.AccountPassword">
+            <summary>
+            用户密码认证
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.MyOAuthController">
+            <summary>
+            获取token
+            TODO 公钥+加密串+私钥(解密用)
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.MyOAuthController.GetTokenAsync(System.String,System.String)">
+            <summary>
+            获取token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CategoryController.GetMenuViewList">
+            <summary> 
+            获取分类的树菜单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CategoryController.GetMenuViewListVisible">
+            <summary>
+            获取可显示分类的树菜单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CategoryController.GetOneCategoryViewList">
+            <summary>
+            一级分类列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CategoryController.GetCategoryViewList">
+            <summary>
+            后台管理分类集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CategoryController.DeleteCategory">
+            <summary>
+            删除分类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CategoryController.CreateCategory">
+            <summary>
+            添加分类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CategoryController.UpdateCategory">
+            <summary>
+            修改分类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.GetVideoComments(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            视频子级分页评论列表
+            </summary>
+            <param name="videoId"></param>
+            <param name="loginUserId"></param>
+            <param name="pId"></param>
+            <param name="size"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.GetVideoComments(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            视频分页评论列表
+            </summary>
+            <param name="videoId">视频编号</param>
+            <param name="loginUserId"></param>
+            <param name="size">子评论显示条数</param>
+            <param name="index">子评论显示页数</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.CreateVideoComment">
+            <summary>
+            发表视频评论
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.ReplyVideoComment">
+            <summary>
+            回复视频评论
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.DeleteVideoComment">
+            <summary>
+            删除视频评论
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.GetSpaceComments(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            用户空间下子级分页留言列表
+            </summary>
+            <param name="userId"></param>
+            <param name="loginUserId"></param>
+            <param name="pId"></param>
+            <param name="size"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.GetSpaceComments(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            用户空间下分页留言列表
+            </summary>
+            <param name="userId">用户空间编号</param>
+            <param name="loginUserId"></param>
+            <param name="size">子评论显示条数</param>
+            <param name="index">子评论显示页数</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.CreateSpaceComment">
+            <summary>
+            用户发表留言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.ReplySpaceComment">
+            <summary>
+            用户回复留言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.CommentController.DeleteSpaceComment">
+            <summary>
+            删除留言
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryController.GetDictionaryViewList(System.Int32)">
+            <summary>
+            一级分类下的筛选列表
+            </summary>
+            <param name="categoryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryController.GetDictionaryAndItemViewList(System.Int32)">
+            <summary>
+            一级分类下的属性列表
+            Author:axone
+            </summary>
+            <param name="cid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryController.GetDictionaryViewList(System.Int32,System.String)">
+            <summary>
+            获取选中的过滤条件
+            </summary>
+            <param name="categoryId"></param>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryController.GetCategoryAndDictionaryViewList">
+            <summary>
+            后台属性数据管理
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryController.CreateDictionary">
+            <summary>
+            增加字典
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryController.DeleteDictionary">
+            <summary>
+            删除字典（包含子节点一并删除）
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryController.UpdateDictionary">
+            <summary>
+            修改字典
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryItemController.CreateDictionaryItem">
+            <summary>
+            增加节点
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryItemController.DeleteDictionaryItem">
+            <summary>
+            删除节点
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.DictionaryItemController.UpdateDictionaryItem">
+            <summary>
+            修改节点
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.Filters.CheckAppAttribute">
+            <summary>
+            检测请求是否可信任
+            不需登录,请求头部需要包含可识别的appkey
+            Author : AxOne
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.Filters.CheckLoginAttribute">
+            <summary>
+            API检测登录过滤器(需要登录之后才能调用API接口)
+            Author : axone
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.Filters.CheckAppLoginAttribute">
+            <summary>
+            APP_API检测登录过滤器(需要登录之后才能调用API接口)
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.Filters.ModelValidateAttribute">
+            <summary>
+            参数绑定数据验证
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.Provider.ApplicationOAuthProvider">
+            <summary>
+            Oauth认证，生成token
+            Author ： AxOne
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.Provider.PasswordAuthorizationServerProvider">
+            <summary>
+            Resource Owner Password Credentials Grant 授权
+            </summary>
+        </member>
+        <member name="T:HKSJ.WBVV.Api.Provider.RefreshAuthenticationTokenProvider">
+            <summary>
+            刷新Token
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserController.IncomeShare">
+            <summary>
+            分享视频：【分享者】获得播币
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserController.GetUser(System.Int32)">
+            <summary>
+            根据用户ID查询用户信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.UserController.SaveSkinByUserId(System.Int32,System.Int32)">
+            <summary>
+            更换用户的皮肤
+            </summary>
+            <param name="userId"></param>
+            <param name="skinId"></param>
+            <returns></returns>
+        </member>
+        <!-- 对于成员“M:HKSJ.WBVV.Api.UserController.GetUserRoomInfo(System.Int32,System.Int32)”忽略有格式错误的 XML 注释 -->
+        <member name="M:HKSJ.WBVV.Api.UserController.GetUserWatchTime(System.Int32,System.Int32)">
+            <summary>
+            获取当前用户观看视频的记录
+            </summary>
+            <param name="uid">用户ID</param>
+            <param name="videoId">视频ID</param>
+            <returns>已观看视频的时间，以秒为单位</returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetCategoryVideoData(System.Int32,System.Boolean)">
+            <summary>
+            首页和一级分类页的的数据
+            </summary>
+            <param name="categoryId"></param>
+            <param name="isIndexPage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetFilterVideo(System.String,System.String)">
+            <summary>
+            过滤视频列表
+            </summary>
+            <param name="categoryId">分类编号</param>
+            <param name="filter">过滤条件3c12r 4c19r 5c27r</param>
+            <param name="sortName">排序类型默认热门</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetBannerVideoList(System.Int32)">
+            <summary>
+            一级分类下的Banner视频
+            </summary>
+            <param name="categoryId">分类编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetVideoPageResult">
+            <summary>
+            获取板块分页集合
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetVideoByCategoryIdPageResult(System.Int32)">
+            <summary>
+            获取板块分页集合
+            </summary>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetVideoDetailView(System.Int32)">
+            <summary>
+            播放页面视频信息
+            </summary>
+            <param name="videoId">视频编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetVideoDetailView(System.Int32,System.Int32)">
+            <summary>
+            播放页面视频信息,并获取登录的用户是否收藏该视频
+            </summary>
+            <param name="videoId">视频编号</param>
+            <param name="userId">当前登录用户</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetAVideoById(System.Int32)">
+            <summary>
+            根据Id获取一个视频
+            </summary>
+            <param name="id">视频编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetPlateVideo(System.Int32)">
+            <summary>
+            板块视频
+            </summary>
+            <param name="plateId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetRecommendPlateVideo(System.Int32)">
+            <summary>
+            板块今日推荐
+            </summary>
+            <param name="plateId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetHotPlateVideo(System.Int32)">
+            <summary>
+            板块热门精选
+            </summary>
+            <param name="plateId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetRecommendAndHotPlateVideo(System.Int32)">
+            <summary>
+            推荐和热门板块视频
+            </summary>
+            <param name="plateId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetCategoryVideoLeft(System.Int32)">
+            <summary>
+            一级分类左边
+            </summary>
+            <param name="categoryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetCategoryVideoRight(System.Int32)">
+            <summary>
+            一级分类右边
+            </summary>
+            <param name="categoryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetCategoryVideo(System.Int32)">
+            <summary>
+            分类视频
+            </summary>
+            <param name="categoryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetRecommendCategoryVideo(System.Int32)">
+            <summary>
+            分类今日推荐
+            </summary>
+            <param name="categoryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetHotCategoryVideo(System.Int32)">
+            <summary>
+            分类热门精选
+            </summary>
+            <param name="categoryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetRecommendAndHotCategoryVideo(System.Int32)">
+            <summary>
+            推荐和热门分类视频
+            </summary>
+            <param name="categoryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetPlateVideoList(System.Int32)">
+            <summary>
+            获取板块下的视频
+            </summary>
+            <param name="plateId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetSearchListByPage(System.String,System.Int32,System.Int32,HKSJ.WBVV.Common.SortName)">
+            <summary>
+            搜索视频分页
+            </summary>
+            <param name="searchKey">搜索关键字</param>
+            <param name="pageSize"></param>
+            <param name="pageIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.DeleteAVideo">
+            <summary>
+            删除一个视频信息
+            </summary>
+            <param name="vid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.UpdateAVideo">
+            <summary>
+            更新一个视频信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HKSJ.WBVV.Api.VideoController.GetVideosPageResult">
+            <summary>
+            获取视频分页集合
+            </summary>
+        </member>
+    </members>
+</doc>

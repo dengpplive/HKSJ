@@ -1,0 +1,63 @@
+
+
+/* CSS Document */
+
+
+
+/*  person_vip_box  */
+
+
+.person_vip_box { width:1160px; margin:40px auto 50px;padding:40px 20px 100px; background-color:#f5f5f5; border:1px solid #e1e1e1; border-radius:3px;}
+
+.per_vip_01 { width:1156px; padding:0 2px; font-size:16px; color:#7e7e7e;}
+.per_vip_bobi { float:right; font-size:14px;}
+.per_vip_bo  { float:left;}
+
+.per_vip_02 { width:1160px; margin-top:10px;  background-color:#fff; border:1px solid #e1e1e1; border-radius:3px; display:block; height:auto;}
+
+.per_vip_title { width:1160px; display:block; height:45px; }
+.per_vip_title .per_vip_content { float:left; display:block; text-align:center; width:386px; border-right:1px solid #e1e1e1;line-height:45px;}
+.per_vip_02 .per_vip_title .per_vip_wbx { border-right:none; background: url(../images/icon_img/vip_bobi_d.png) no-repeat 240px 10px; }
+
+
+.per_vip_neirong { width:1160px;  border-top:1px solid #e1e1e1; height:50px; color:#9c9c9c;}
+.per_vip_neirong .per_vip_content{ float:left; display:block; text-align:center; width:386px; border-right:1px solid #e1e1e1; line-height:50px;}
+.per_vip_neirong .per_vip_wbx { border-right:none; background: url(../images/icon_img/vip_bobi_x.png) no-repeat 242px 15px; }
+
+.per_vip_neirong  .per_vip_content2 { padding-top:8px; height:42px; line-height:42px;}
+
+.per_vip_03 { width:1156px; padding:0 2px; font-size:14px; margin-top:10px; color:#7e7e7e;}
+
+
+
+/*  per_vip_add  */
+.person_vip_add_box { width:1160px; margin:40px auto 50px;padding:20px 20px 60px; background-color:#f5f5f5; border:1px solid #e1e1e1; border-radius:3px;}
+
+.per_vip_add { margin:20px auto 30px; width:1160px;}
+.per_vip_add_01 { width:1156px; padding:0 2px; font-size:16px; color:#7e7e7e;}
+
+.per_vip_add_03 { color:#a4a4a4; font-size:15px; margin-top:8px;}
+.per_vip_add_03 span { color:#f4464d; font-size:20px; padding-right:12px; }
+
+.per_vip_add_neir { width:1160px; margin-top:15px; padding:30px 0;  background-color:#fff; border:1px solid #e1e1e1; border-radius:3px; display:block; height:auto;}
+.per_vip_add_neir .per_vip_add_content{ float:left; display:block; text-align:center; line-height:35px; min-height:100px; width:231px; color:#9c9c9c; }
+.per_vip_add_neir .per_vip_add_content p { color:#7e7e7e; font-size:18px;}
+.per_vip_add_neir .per_vip_add_content .per_vip_add_bx { border-right:1px solid #e1e1e1; height:64px; padding-top:2px;}
+.per_vip_add_neir .per_vip_add_content .per_vip_add_wbx { border-right:none;}
+
+.per_vip_add_02 { width:1160px; margin-top:10px;  background-color:#fff; border:1px solid #e1e1e1; border-radius:3px; display:block; height:auto;}
+
+.per_vip_add_title { width:1160px; display:block; height:45px; }
+.per_vip_add_title .per_vip_add_content { float:left; display:block; text-align:center; width:386px; border-right:1px solid #e1e1e1;line-height:45px;}
+.per_vip_add_02 .per_vip_add_title .per_vip_add_wbx { border-right:none; }
+
+.per_vip_add_neirong { width:1160px;  border-top:1px solid #e1e1e1; min-height:50px;}
+.per_vip_add_neirong .per_vip_add_content{ float:left; display:block; text-align:center; line-height:50px; height:50px; width:386px; color:#9c9c9c; border-right:1px solid #e1e1e1; }
+.per_vip_add_neirong .per_vip_add_wbx { border-right:none;}
+
+.per_vip_add_neirong .per_vip_add_content2 { height:102px;line-height:102px;}
+.per_vip_add_neirong .per_vip_add_content3 { height:125px;line-height:125px;}
+.per_vip_add_neirong .per_vip_add_content4 { height:80px;line-height:80px;}
+.per_vip_add_neirong .per_vip_add_content8 {line-height:25px;}
+.per_vip_add_neirong .per_vip_add_content8 p { color:#9c9c9c;line-height:25px;font-size:15px; margin:15px 20px;}
+

@@ -1,0 +1,176 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<!-- 评论内容 -->
+<a name="ct"></a>
+<div class="play_center" id="comment">
+    <div class="play_center_left">
+        <div class="play_center_01" data-bind="foreach:aboutDetail" id="aboutDetailId">
+            <!-- 修改简介样式 11-11 -->
+            <div class="play_l_jianjie">
+                <div class="l_m_r_01_title t_tag clearfloat" id="tagsId" data-bind="visible:$root.showTags(Tags)">
+
+                    <span class="l_m_r_03_tag">@LanguageUtil.Translate("web_View_Play_PlayComment_tag") </span>
+                    <!--ko foreach:{data:$root.getTag(Tags),as:'item'}-->
+                    <div class="l_m_r_03"><span class="t_tag_t"></span><!--ko text:item--><!--/ko--></div>
+                    <!--/ko-->
+                </div>
+                <p data-bind="visible:$root.showAbout(About)"><span>@LanguageUtil.Translate("web_View_Play_PlayComment_about") </span><!--ko text:About--><!--/ko--></p>
+            </div>
+            <!-- 修改简介样式 end -->
+        </div>
+        <div class="play_center_02" id="commul">
+            <div class="play_detail_text">
+                <textarea rows="5" cols="200" id="emotion" maxlength="140" data-bind="value:$root.formData,valueUpdate:'afterkeydown'"></textarea>
+            </div>
+            <div>
+                <div class="commentface" id="face"></div>
+                <div class="play_d_r">
+                    <span data-bind="text:$root.showInputText">0/140</span>
+                    <input type="button" name="pinglun" value="@LanguageUtil.Translate("web_View_Play_PlayComment_valuecomment")" data-bind="click:function(){$root.addComment($element);}" style="cursor:pointer" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+
+        <!-- 评论列表 begin -->
+        <div class="play_center_03">
+            <div class="play_bianxian">
+                <div class="play_cen_title"><span>@LanguageUtil.Translate("web_View_Play_PlayComment_commentlist")</span></div>
+                <div class="play_cen_ul" loading="main" style="min-height:30px;">
+                    <ul data-bind="foreach:{data:$root.list}" id="firstul">
+                        @*评论列表*@
+                        <li class="play_l_bx" data-bind="attr:{id:'_'+ParentComment.Id,loading:'li_'+ParentComment.Id}">
+                            <div class="play_c_li_bianxian">
+                                <div class="play_cen_touxiang">
+                                    <a target="_blank" data-bind="attr:{href:$root.getCommenterUserroomUrl(ParentComment.FromUser.Id)}">
+                                        <img data-bind="attr:{src:$root.handUserPicture(ParentComment.FromUser.Picture)}" width="48" height="48" userimg="1" />
+                                    </a>
+                                </div>
+                                <div class="paly_cen_detail">
+                                    <div class="clearfloat">
+                                        <a class="play_cen_a" target="_blank" data-bind="text:ParentComment.FromUser.NickName,attr:{href:$root.getCommenterUserroomUrl(ParentComment.FromUser.Id)}"></a>&nbsp;&nbsp;<span data-bind="text:ParentComment.CreateTime"></span>
+                                        <a class="play_c_delete" href="javascript:void(0)" data-bind="visible:$root.isOwner(),click:function(){$root.deleteComment($element,ParentComment)}">删除</a>
+                                    </div>
+                                    <div class="play_cen_text">
+                                        <!--ko if:ParentComment.State!=-1 -->
+                                        <div class="play_c_t">
+                                            <p data-bind="html:analyticEmotion(ParentComment.Content,33,30)" style="word-wrap: break-word; word-break: break-all;"></p>
+                                            <!--ko if:$root.userId()!=ParentComment.FromUser.Id-->
+                                            <span class="play_c_span" data-bind="attr:{id:'btnPraises_'+ParentComment.Id}">
+                                                <!--ko if:!ParentComment.IsPraised-->
+                                                <a class="play_cen_a" data-bind="click:function(){ $root.commentPraises('btnPraises_'+ParentComment.Id,$index(),ParentComment,$data);}">@LanguageUtil.Translate("web_View_Play_PlayComment_zan")</a>
+                                                <!--/ko-->
+                                            </span>
+
+                                            <span class="play_c_span" data-bind="attr:{id:'btnPraisedSpan_'+ParentComment.Id},event:{mouseover:function(){$('#btnPraised_'+ParentComment.Id).hide();$('#btnUnPraised_'+ParentComment.Id).show();},mouseout:function(){$('#btnPraised_'+ParentComment.Id).show();$('#btnUnPraised_'+ParentComment.Id).hide();}}">
+                                                <!--ko if:ParentComment.IsPraised-->
+                                                <a class="play_cen_a" data-bind="attr:{id:'btnPraised_'+ParentComment.Id}">@LanguageUtil.Translate("web_View_Play_PlayComment_yizan")</a>
+                                                <a class="play_cen_a" data-bind="attr:{id:'btnUnPraised_'+ParentComment.Id},click:function(){$root.cancelPraisesComment('btnPraisedSpan_'+ParentComment.Id,$index(),ParentComment,$data);}" style="display:none;">@LanguageUtil.Translate("web_View_Play_PlayComment_canclezan")</a>
+                                                <!--/ko-->
+                                            </span>
+                                            (<span data-bind="text:ParentComment.PraisesNum">35</span>)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span>
+                                                <span id="huifu" class="play_cen_a">
+                                                    <a data-bind="attr:{alink:'a_link_'+ParentComment.Id,currId:$root.userId(),createId:ParentComment.FromUser.Id,pid:ParentComment.Id},click:function(){$root.showReplay($element,ParentComment.Id);}">@LanguageUtil.Translate("web_View_Play_PlayComment_reply")</a>
+                                                </span>
+                                                (<span data-bind="text:ParentComment.ReplyNum">6</span>)
+                                            </span><br />
+                                            <!--/ko-->
+                                        </div>
+                                        <!--/ko-->
+                                        <!--ko if:ParentComment.State==-1 -->
+                                        <div class="play_c_t">
+                                            <p class="play_p">@LanguageUtil.Translate("web_View_Play_PlayComment_commentdel")</p>
+                                        </div>
+                                        <!--/ko-->
+                                    </div>
+                                    <!-- 回复评论 begin -->
+                                    <div class="play_detail_huifu clearfloat" data-bind="attr:{name:'rpy_'+ParentComment.Id}" style="display:none;">
+                                        <input class="play_input" type="text" placeholder="@LanguageUtil.Translate(" web_view_play_playcomment_playinput")" maxlength="140" data-bind="attr:{id:'emotion_'+ParentComment.Id},value:$root.replayData,valueUpdate:'afterkeydown'" />
+                                        @*表情*@
+                                        <em data-bind="attr:{id:'face_'+ParentComment.Id}" href="javascript:void(0)" class="commentface"></em>
+                                        <div class="play_btn_right">
+                                            <span data-bind="text:$root.showReplayInputText"></span>
+                                            <input class="play_btn" type="button" value="@LanguageUtil.Translate("web_View_Play_PlayComment_playbtnhuifu")" data-bind="click:function(){$root.replayComment($element,ParentComment);}" style="cursor:pointer" />
+                                        </div>
+                                    </div>
+                                    <!--模板-->
+                                    <div data-bind="template:{name:'data-template',data:$data}"></div>
+                                    <!-- 回复评论 end -->
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- 分页 -->
+                    <div class="v_fun_wz02 v_funney_wz" id="pager" data-bind="visible:$root.isShowPagerBar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 评论列表 end -->
+    </div>
+    <script type="text/html" id="data-template">
+        <div class="play_hf_list" data-bind="attr:{id:'replayList_'+$data.ParentComment.Id}">
+            <ul data-bind="attr:{id:'ul_'+$data.ParentComment.Id},foreach:{data:$data.ChildComments.Data,as:'child'}">
+                <div data-bind="template:{name:'data-template1',data:child}"></div>
+            </ul>
+            @*分页*@
+            <div class="play_hf_more" data-bind="visible:$data.isShowChildPagerBar()">
+                <span data-bind="visible:$data.showPrevPage()"><font style="font-family:'宋体';">&lt;&lt; </font><a href="javascript:void(0)" data-bind="click:function(){$data.prevPage()}">@LanguageUtil.Translate("web_View_Play_PlayComment_prev")</a></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span data-bind="visible:$data.showNextPage()"><a href="javascript:void(0)" data-bind="click:function(){$data.nextPage()}">@LanguageUtil.Translate("web_View_Play_PlayComment_next")<font style="font-family:'宋体';">&nbsp;&gt;&gt; </font></a></span>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/html" id="data-template1">
+        <li data-bind="attr:{id:'_'+child.Id,class:'clearfloat '+(($parents[2].dataLength()==($index()+1))&&$parents[2].isShowChildPagerBar()?'hf_list_li':'')}">
+            <div class="play_cen_touxiang02">
+                <a target="_blank" data-bind="attr:{href:$root.getCommenterUserroomUrl(child.FromUser.Id)}">
+                    <img data-bind="attr:{src:$root.handUserPicture(child.FromUser.Picture)}" width="36" height="36" userimg="1" />
+                </a>
+            </div>
+            <div class="play_hf_text">
+                <a class="play_cen_a" target="_blank" data-bind="text:child.FromUser.NickName,attr:{href:$root.getCommenterUserroomUrl(child.FromUser.Id)}"></a>
+                <span data-bind="text:child.CreateTime"></span><br />
+                <span>@LanguageUtil.Translate("web_View_Play_PlayComment_reply")@@</span><a class="play_cen_a" target="_blank" data-bind="text:child.ToUser.NickName,attr:{href:$root.getCommenterUserroomUrl(child.ToUser.Id)}"></a>：
+                <!--ko if:child.State!=-1 -->
+                <span data-bind="html:analyticEmotion(child.Content,33,30)" style="word-wrap: break-word; word-break: break-all;"></span><br />
+                <!--ko if:$root.userId()!=child.FromUser.Id-->
+                <span class="play_c_span" data-bind="attr:{id:'btnPraises_'+child.Id}" style="position:relative;">
+                    <!--ko if:!child.IsPraised-->
+                    <a class="play_cen_a" data-bind="click:function(){$root.commentPraises('btnPraises_'+child.Id,$index(),child,$parents[2]);}">@LanguageUtil.Translate("web_View_Play_PlayComment_zan")</a>
+                    <!--/ko-->
+                </span>
+                <span class="play_c_span" data-bind="attr:{id:'btnPraisedSpan_'+child.Id},event:{mouseover:function(){$('#btnPraised_'+child.Id).hide();$('#btnUnPraised_'+child.Id).show();},mouseout:function(){$('#btnPraised_'+child.Id).show();$('#btnUnPraised_'+child.Id).hide();}}">
+                    <!--ko if:child.IsPraised-->
+                    <a class="play_cen_a" data-bind="attr:{id:'btnPraised_'+child.Id}">@LanguageUtil.Translate("web_View_Play_PlayComment_yizan")</a>
+                    <a class="play_cen_a" data-bind="attr:{id:'btnUnPraised_'+child.Id},click:function(){$root.cancelPraisesComment('btnPraisedSpan_'+child.Id,$index(),child,$parents[2]);}" style="display:none;">@LanguageUtil.Translate("web_View_Play_PlayComment_canclezan")</a>
+                    <!--/ko-->
+                </span>
+                （<span data-bind="text:child.PraisesNum">35</span>）&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>
+                    <a class="play_cen_a" data-bind="attr:{alink:'a_link_'+child.Id,currId:$root.userId(),createId:child.FromUser.Id,pid:child.Id},click:function(){$root.showReplay($element,child.Id);}">@LanguageUtil.Translate("web_View_Play_PlayComment_reply")</a>
+                    （<span data-bind="text:child.ReplyNum">5</span>）
+                </span><br>
+                <!--/ko-->
+                <!--/ko-->
+                <!--ko if:child.State==-1 -->
+                <span>@LanguageUtil.Translate("web_View_Play_PlayComment_commentdel")</span><br />
+                <!--/ko-->
+                @*回复文本框*@
+                <div class="play_detail_huifu p_i_hf02 clearfloat" data-bind="attr:{name:'rpy_'+child.Id}" style="display:none;">
+                    <input class="play_input p_i_in02" type="text" placeholder="@LanguageUtil.Translate(" web_view_play_playcomment_playinput")" maxlength="140" data-bind="attr:{id:'emotion_'+Id},value:$root.replayData,valueUpdate:'afterkeydown'" />
+                    <em data-bind="attr:{id:'face_'+child.Id}" class="commentface"></em>
+                    <div class="play_btn_right">
+                        <span data-bind="text:$root.showReplayInputText">0/140</span>
+                        <input class="play_btn" type="button" value="@LanguageUtil.Translate("web_View_Play_PlayComment_playbtnhuifu")" data-bind="click:function(){$root.replayComment($element,child);}" style="cursor:pointer" />
+                    </div>
+                </div>
+            </div>
+        </li>
+    </script>
+</div>

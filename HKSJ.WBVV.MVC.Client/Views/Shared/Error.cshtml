@@ -1,0 +1,10 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = "_Layout.cshtml";
+    ViewBag.Title = LanguageUtil.Translate("web_Views_Shared_Error_Title");
+}
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/header.css" />
+<!--  500 -->
+<div class="errorym"><a class="errorback" href="@ServerHelper.RootPath/Home/Index">@LanguageUtil.Translate("web_Views_Shared_Error_errorback")</a></div>
+<!--  500 -->

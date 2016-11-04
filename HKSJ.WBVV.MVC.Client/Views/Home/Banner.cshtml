@@ -1,0 +1,137 @@
+﻿@using HKSJ.WBVV.Common.Http
+@{
+    Layout = null;
+}
+<!-- banner 开始  -->
+<div id="banner" class="banner_box" style="display:@(ViewBag.Visible?"block":"none")">
+    <div class="banner" id="banner_content"></div>
+    <div class="ban_tu" id="ban_tu">
+        <ul>
+            @if (Model != null)
+            {
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <li>
+                        <a href="javascript:void();" url="@ServerHelper.RootPath/Play/?videoId=@(Model[i].Id)" @(i == 0 ? "class=active" : "") >
+                            <img src="@(Model[i].SmallPicturePath)" alt="@(Model[i].Title!=null?Model[i].Title:"")" />
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+<script src="@ServerHelper.RootPath/Content/js/move.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        //图片预加载函数
+        function preloadimages(arr) {
+            var newimages = [],
+                loadedimages = 0;
+            var postaction = function () { }
+            var arr = (typeof arr != "object") ? [arr] : arr;
+            function imageloadpost() {
+                loadedimages++
+                if (loadedimages == arr.length) {
+                    postaction(newimages)
+                }
+            }
+            for (var i = 0; i < arr.length; i++) {
+                newimages[i] = new Image();
+                newimages[i].onload = function () {
+                    imageloadpost();
+                }
+                newimages[i].onerror = function () {
+                    imageloadpost();
+                }
+                newimages[i].src = arr[i];
+            }
+            return { //此处返回一个空白对象的done方法
+                done: function (fn) {
+                    postaction = fn || postaction;
+                }
+            }
+        }
+        function callScrollImage(data) {
+            //调用图片预加载
+            preloadimages(data).done(function (images) {
+
+                if (images.length ==0) return;
+
+                //获取元素
+                var oBannerBox = document.getElementById("banner"),
+                    oBanner = document.getElementById("banner_content"),
+
+                    aLi = document.getElementById("ban_tu").getElementsByTagName("li"),
+                    iNow = 0,
+                    iTimer = null;
+
+                for (var i = 0; i < aLi.length; i++) {
+                    if (data.length >= (i + 1)) {
+                        aLi[i].getElementsByTagName("img")[0].src = data[i].SmallPicturePath;
+                    }
+                }
+
+                //添加点击事件
+                for (var i = 0; i < aLi.length; i++) {
+                    (function (index) {
+                        aLi[i].onclick = function () {
+                            if (iNow == index) { return }
+                            iNow = index;
+                            bannerTab(iNow)
+                        }
+                        //鼠标划入停止定时器
+                        aLi[i].onmouseover = function () {
+                            clearInterval(iTimer);
+                        };
+                        //鼠标划出开启定时器
+                        aLi[i].onmouseout = function () {
+                            bannerAuto();
+                        };
+                    })(i)
+                };
+                //定时器函数
+                function bannerAuto() {
+                    iTimer = setInterval(function () {
+                        iNow++;
+                        iNow %= aLi.length;
+                        bannerTab(iNow)
+                    }, 4000)
+                };
+
+                bannerTab(0);
+                //调用定时器
+                bannerAuto();
+
+                //封装切换主题
+                function bannerTab(index) {
+                    for (var j = 0; j < aLi.length; j++) {
+                        aLi[j].className = "";
+                    };
+                    aLi[index].className = "active";
+                    // console.log("iNow:"+iNow);
+                    // console.log("iNow:"+data[iNow].BannerImagePath);
+                    if (data.length > iNow) {
+                        oBanner.style.backgroundImage = "url(" + data[iNow].BannerImagePath + ")";
+                    }
+                    oBanner.style.opacity = 0.5;
+                    oBanner.style.filter = "alpha(opacity:50)";
+                    move(oBanner, { "opacity": 1 }, { "duration": 1000, "easing": "linear" });
+                };
+            });
+        }
+
+        $("#banner_content").attr("style", "cursor:pointer");
+        $("#banner_content").bind("click", function () {
+            var url = $("#ban_tu ul li[class=active] a").attr("url");
+            window.open(url, "_blank");
+        });
+        var data =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+        //console.log("banner个数:"+data.length);
+        //console.log(data);
+        //调用
+        callScrollImage(data);
+    });
+</script>
+<!-- banner 结束  -->

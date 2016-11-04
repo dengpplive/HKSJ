@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1A2B6EE9-A295-4120-9019-ADC893837A89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HKSJ.WBVV.Business.Interface</RootNamespace>
+    <AssemblyName>HKSJ.WBVV.Business.Interface</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="APP\IChannelBusiness.cs" />
+    <Compile Include="APP\IChoicenessBusiness.cs" />
+    <Compile Include="APP\IUserBusiness.cs" />
+    <Compile Include="APP\IUserCollectBusiness.cs" />
+    <Compile Include="APP\IHotListBusiness.cs" />
+    <Compile Include="APP\IUserSpaceBusiness.cs" />
+    <Compile Include="Base\IBaseBusiness.cs" />
+    <Compile Include="IUserLevelBusiness.cs" />
+    <Compile Include="IBannerVideoBusiness.cs" />
+    <Compile Include="IKeyWordsBusiness.cs" />
+    <Compile Include="IManageLogBusiness.cs" />
+    <Compile Include="IQiniuUploadBusiness.cs" />
+    <Compile Include="ISystemMessageBusiness.cs" />
+    <Compile Include="ITagsBusiness.cs" />
+    <Compile Include="ILanguageBusiness.cs" />
+    <Compile Include="IUserSkinBusiness.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IUserSpecialSonBusiness.cs" />
+    <Compile Include="IUserSpecialBusiness.cs" />
+    <Compile Include="IUserMessageBusiness.cs" />
+    <Compile Include="IUserRecommendBusiness.cs" />
+    <Compile Include="IUserVisitLogBusiness.cs" />
+    <Compile Include="IUserFansBusiness.cs" />
+    <Compile Include="IUserRoomChooseBusiness.cs" />
+    <Compile Include="ICategoryBusiness.cs" />
+    <Compile Include="ICommentBusiness.cs" />
+    <Compile Include="IDictionaryBusiness.cs" />
+    <Compile Include="IDictionaryItemBusiness.cs" />
+    <Compile Include="IManageBusiness.cs" />
+    <Compile Include="IPlateBusiness.cs" />
+    <Compile Include="IPlateVideoBusiness.cs" />
+    <Compile Include="IUserCollectBusiness.cs" />
+    <Compile Include="IPraisesBusiness.cs" />
+    <Compile Include="IUserBusiness.cs" />
+    <Compile Include="IAuthKeysBusiness.cs" />
+    <Compile Include="IUserBindBusiness.cs" />
+    <Compile Include="IVideoPlayRecordBusiness.cs" />
+    <Compile Include="IVideoApproveBusiness.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IVideoBusiness.cs" />
+    <Compile Include="SMS\ISmsRecordBusiness.cs" />
+    <Compile Include="SMS\ISMSBusiness.cs" />
+    <Compile Include="UserCenter\IMessageBusiness.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HKSJ.WBVV.Common\HKSJ.WBVV.Common.csproj">
+      <Project>{e615a07f-9e1b-4dc8-9156-4753537e6ce4}</Project>
+      <Name>HKSJ.WBVV.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Entity\HKSJ.WBVV.Entity.csproj">
+      <Project>{a1173f2f-1e49-4d67-b65c-ae8a116310e8}</Project>
+      <Name>HKSJ.WBVV.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Model\HKSJ.WBVV.Model.csproj">
+      <Project>{5171fc5b-78c9-4776-abd3-28c2d46d8cf5}</Project>
+      <Name>HKSJ.WBVV.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Repository.Interface\HKSJ.WBVV.Repository.Interface.csproj">
+      <Project>{1a6d040c-fd3e-4658-a47e-1f2523e63797}</Project>
+      <Name>HKSJ.WBVV.Repository.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HKSJ.WBVV.Repository\HKSJ.WBVV.Repository.csproj">
+      <Project>{88b7ef23-3930-4c34-943f-d95add960df1}</Project>
+      <Name>HKSJ.WBVV.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

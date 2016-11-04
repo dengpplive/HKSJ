@@ -1,0 +1,58 @@
+﻿@using System.Configuration
+@using System.Security.AccessControl
+@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Common
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.Common.Language
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/load.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/amazeui.css" />
+    <link type="text/css" href="@ServerHelper.RootPath/Common/Cropper/css/cropper.css" rel="stylesheet" />
+    <link href="@ServerHelper.RootPath/Common/Cropper/css/cropper.css" rel="stylesheet" />
+}
+<div class="wrap" style="width: 1147px">
+    <div class="load_title loading"><p>@LanguageUtil.Translate("web_Client_Views_Upload_Index_VideoUploadTitle")</p></div>
+    <input type="hidden" id="btnload" value="upload" />
+    <div id="loadContent">
+        @Html.Partial("load1")
+    </div>
+    <div id="loadContent2">
+        @*@Html.Partial("load2")*@
+    </div>
+    <div id="loadContent3">
+        @Html.Partial("CompletedLoad")
+    </div>
+    <div class="clear"></div>
+    <div class="load_more_02" id="continueAddMore">
+        <label class="input-file"><input id="btnloadContinue" title="@LanguageUtil.Translate("web_Client_Views_Upload_Index_BrowserFileButton")" type="button" />@LanguageUtil.Translate("web_Client_Views_Upload_Index_ContinueAddLink")</label>
+    </div>
+</div>
+@section Scripts
+{
+	<script src="@ServerHelper.RootPath/Content/js/common.js"></script>
+    <script src="@ServerHelper.RootPath/Content/js/load.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Scripts/plupload.full.min.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Scripts/qiniu.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        document.title = '@GlobalMemberInfo.NickName' + "-@LanguageUtil.Translate("web_Client_Views_Upload_Index_PageTitle") " + companyTitle;
+        var rootPath = '@ServerHelper.RootPath';
+        uploadMain.privateDomain = '@DefaultData.PrivateDomain';
+        uploadMain.publicDomain = '@DefaultData.ImageAddress';
+        uploadMain.videoToken = '@ViewBag.VideoToken';
+        uploadMain.initData();
+        
+
+        prtImg.initData(function (res) {
+            var obj = uploadMain.videoList[uploadMain.selectFileId];
+            obj.CoverUploadCompled(res);
+            obj.SaveToData();
+        }, 'cover', 400);
+
+        $("#btnloadContinue").click(function() {
+            $("#btnload").click();
+        });
+    </script>
+}
+
+@Html.Partial("_CoverCropper")

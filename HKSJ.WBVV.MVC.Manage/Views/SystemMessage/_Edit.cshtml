@@ -1,0 +1,47 @@
+﻿@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<div id="iframe" class="modal hide fade" tabindex="-1" data-replace="true" aria-hidden="true" style="display: none; margin-top: 0px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h3 id="iframe_title">@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_h3_ViewInformation")</h3>
+    </div>
+    <div class="modal-body">
+        <form action="#" class="form-horizontal form-bordered" id="from_systemMessage">
+            <input type="hidden" value="@WebContext.Manage.Id" name="loginUserId" />
+            <div class="row-fluid margin-bottom-10">
+                <label class="control-label">@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_label_SendType")</label>
+                <div class="controls">
+                    <select class="medium m-wrap" tabindex="1" onchange="CheckUserByType(this)" name="userByType" enabled="enabled">
+                        <option value="3">@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_option_Alluser")</option>
+                        <option value="1">@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_option_appointeduser")</option>
+                        @*<option value="2">指定用户等级</option>*@
+                    </select>
+                </div>
+            </div>
+            @*<div id="userLeve">
+                sdfasdfsda
+            </div>*@
+            <div id="byUser" class="row-fluid margin-bottom-10">
+                <label class="control-label">@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_label_SelectUser")</label>
+                <div class="controls">
+                    <select class="m-wrap" multiple="multiple" style="height:200px !important" id="surplusUser"></select>
+                    <select class="m-wrap" multiple="multiple" style="height:200px !important" name="selectUser" id="selectUser"></select>
+                </div>
+            </div>
+            <div class="row-fluid margin-bottom-10">
+                <label class="control-label">@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_label_MessageContent")</label>
+                <div class="controls">
+                    <textarea class="m-wrap" rows="3" placeholder="@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_inputTip_MessageContent")" name="messageDesc" style="width: 435px;height: 100px;"></textarea>
+                </div>
+            </div>
+           
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn blue" id="save"><i class="icon-ok"></i>@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_button_Save")</button>
+        <button type="button" data-dismiss="modal" id="cancel" class="btn">@LanguageUtil.Translate("admin_Views_SystemMessage_Edit_button_Cancle")</button>
+    </div>
+</div>

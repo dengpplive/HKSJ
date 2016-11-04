@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="v_fun_sousuo wrap" id="divFilter" data-bind="foreach:filterData">
+
+    <div class="v_fun_sou_01 v_fun_s_bx">
+        <div class="v_fun_sou_left"><span data-bind="text:Key"></span></div>
+        <div class="v_fun_sou_right">
+            <ul>
+                <!--ko foreach:DictionaryItems-->
+                <li><a href="javascript:void(0);" data-bind="text:Name,css:{v_fun_s_r_curr:$data.IsCheck},click:function(){$root.doCheck($data.Id,$data.DictionaryId,$data.GroupType)}"></a></li>
+                <!--/ko-->
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

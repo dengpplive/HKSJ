@@ -1,0 +1,23 @@
+﻿@using HKSJ.WBVV.Common.Language
+
+@{
+    Layout = null;
+}
+<div class="play_right" id="divPlayRight">   
+    <div class="play_center_right">
+        <div><span>@LanguageUtil.Translate("web_View_Play_PlayRight_tuijian")</span></div>
+        <div class="play_c_list" loading="recomment">
+            <ul data-bind="foreach:recommendationVideo">
+                <li>
+                    <div class="play_c_dy"><div class="play_img" wth="94" hht="70"><a data-bind="attr:{href:$root.getPlayUrl(Id)}"><i data-bind="attr:{title:$root.getClearHtml(Title)}"></i><img data-bind="attr:{src:SmallPicturePath}" width="94" height="70"></a></div></div>
+                    <div class="play_c_jieshao">
+                        <p class="play_c_js_p"><a data-bind="text:$root.getClearHtml(Title),attr:{href:$root.getPlayUrl(Id),title:$root.getClearHtml(Title)}"></a></p>
+                        <p class="play_c_js_p p_02" data-bind="html:$root.getClearHtml(About),attr:{title:$root.getClearHtml(About)}"></p>
+                        <span class="play_c_bo" data-bind="text:PlayCount"></span>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

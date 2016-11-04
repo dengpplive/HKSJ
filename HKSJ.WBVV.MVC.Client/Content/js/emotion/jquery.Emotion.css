@@ -1,0 +1,112 @@
+/*去掉IE10-11文本框后的X按钮*/
+input::-ms-clear {
+    display: none;
+}
+#emotions{
+	left:0;
+	width: 443px;
+	font-size:12px;
+	background:#fff;
+	position:absolute;
+	border: 1px solid #E8E8E8;
+    border-radius:4px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, .5);
+    /* 
+    添加阴影
+    box-shadow:#074A99;   
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#074A99,strength=4);ie
+    -moz-box-shadow: 0 0 10px #074A99;firefox
+    -webkit-box-shadow: 0 0 10px #074A99;safari或chrome
+    box-shadow: 0 0 5px #074A99;opera或ie9
+    */
+}
+#emotions:before{ position:absolute;content:'';left:10px;top:-11px; width:16px; height:11px; background:url(../../images/icon_img/face_icon1.png) no-repeat;}
+#emotions a{
+	color: #9ABBC8;
+	padding:2px 7px;
+	text-decoration:none;
+}
+#emotions img{
+	border:0;
+}
+#emotions div{
+	margin:5px 10px;
+	padding:1px;
+	overflow: hidden;
+}
+#emotions #prev,
+#emotions #next
+{
+	margin-left:3px;
+	background:#eee;
+}
+#emotions .categorys{
+	color:#ccc;
+	height:23px;
+	color: #9ABBC8;
+	overflow:hidden;
+}
+#emotions .categorys a{
+	display: inline-block;
+}
+#emotions .categorys a:hover{
+	text-decoration:underline;
+}
+#emotions .categorys a.current{
+	cursor: default;
+	background: #F0F0F0;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+#emotions .container{
+	padding:1px;
+	overflow: hidden;
+}
+#emotions .container a{
+	float:left;
+	width:30px;
+	height:30px;
+	text-align:center;
+	padding: 2px 2px;
+	margin: -1px 0 0 -1px;
+	border: 1px solid #e8e8e8;
+}
+#emotions .container a img{	
+	width:32px;
+	height:32px;	
+}
+#emotions .container a:hover{
+	z-index:2;
+	position:relative;
+	border:1px solid #0095cd;
+    background-color:#F8F373
+}
+/*预览*/
+#emotions .preview{  
+  border: 1px solid #999;
+  position: absolute;
+  display:none;
+  padding:0;
+  margin:0;  
+  margin-top:2px;   
+  background:#F8F373;
+  overflow: hidden;
+  z-index: 9999;
+  width:102px;
+  height:96px;
+}
+#emotions .page{
+	text-align:right;
+}
+#emotions .page a.current{
+	color: #666;
+	background-color:#fff;
+}
+#emotions .page a{
+	margin-left:3px;
+	color: #0078B6;
+	background-color:#f3f3f3;
+}
+#emotions .page a:hover{
+	background-color:#e7e7e7;
+}

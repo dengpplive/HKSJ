@@ -1,0 +1,63 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@section Metas
+{
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Language" content="zh-CN" />
+}
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/person_com.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/5bvv_person_video.css" />
+}
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/roomSonAlbum.js" type="text/javascript"></script>
+}
+<!-- 原创视频集 开始  -->
+<div class="v_funney wrap" id="vl">
+    <div class="v_fun_w_zhuanji">
+        <div class="v_fun_w_zhuanji_bt">
+            <h5 id="h_title" style="display:none;">
+                <span>【<!--ko text:specialTitle--><!--/ko-->】</span>
+                <span class="v_fun_w_zhuanji_bt_text">（<!--ko text:totalcount--><!--/ko-->）</span>
+            </h5>
+        </div>
+
+        <div class="v_funney_img">
+            <!--ko if:totalcount==0 -->
+            <p>@LanguageUtil.Translate("web_Client_Views_UserRoom_SonAlbum_AlbumLowerNoVideo")</p>
+            <!--/ko-->
+            <ul data-bind="foreach:list">
+                <li>
+                    <div class="v_fun_w_zhuanji_img">
+                        <a data-bind="attr:{href:$root.getPlayUrl(Id),title:Title}" target="_blank">
+                            <div class="play_img" wth="200" hht="150">
+                                <i></i>
+                                <img data-bind="attr:{src:SmallPicturePath,alt:Title,sid:Id}">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="v_fun_w_zhuanji_text">
+                        <p><a data-bind="attr:{href:$root.getPlayUrl(Id),title:Title},text:Title" target="_blank"></a></p>
+                    </div>
+                    <div class="v_fun_w_zhuanji_shul">
+                        <span class="v_fun_w_zhuanji_bfang"><!--ko text:PlayCount--><!--/ko--></span>
+                        <span class="v_fun_w_zhuanji_xx"><!--ko text:CommentCount--><!--/ko--></span>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="v_fun_wz02 " id="pager">
+    </div>
+</div>
+<!-- 原创视频集 结束  -->

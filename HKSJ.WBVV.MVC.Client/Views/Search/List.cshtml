@@ -1,0 +1,62 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!--搜索列表-->
+<div class="search_c_list" id="divList">
+    <div data-bind="visible:CheckVisible">
+        <div class="tishi_ku clearfloat">
+            <div class="tis_ku_wa"><img src="@ServerHelper.RootPath/Content/images/icon_img/ku_wa.png"></div>
+            <div class="tis_ku_wa_wz">@LanguageUtil.Translate("web_Views_Search_List_didNotFind")<strong data-bind="text:SearchKey"></strong>@LanguageUtil.Translate("web_Views_Search_List_content")</div>
+        </div>
+        <div class="w_tuijian wrap">
+            <h5>为您推荐：</h5>
+            <div class="w_tuij_img">
+                <ul>
+                    <!--ko foreach:{data:yesterdayRecVideos,as:'item'}-->
+                    <li>
+                        <div class="play_img5 play_img" wth="176" hht="132">
+                            <a target="_blank" data-bind="attr:{href:$root.goPlayer($data.Id)}"><i></i><img data-bind="attr:{src:SmallPicturePath}"></a>
+                            <div class="w_tuij_i_text">
+                                <h6 data-bind="attr:{title:Title}"><a target="_blank" data-bind="html:Title,attr:{href:$root.goPlayer($data.Id)}"></a></h6>
+                                <p data-bind="html:About,attr:{title:About}"></p>
+                            </div>
+                        </div>
+                    </li>
+                    <!--/ko-->
+                </ul>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+
+    </div>
+    <ul id="search_list">
+        <!--ko foreach:{data:listData,as:'item'}-->
+        <li data-bind="css:{search_ss:($index()+1)%5==0 && $index()!=0}">
+            <div>
+                <a target="_blank" data-bind="attr:{href:$root.goPlayer($data.Id)}">
+                    <div class="play_img" wth="200" hht="150">
+                        <i data-bind="attr:{title:$root.getTitle(Title)}"></i>
+                        <img data-bind="attr:{src:SmallPicturePath}" width="182" height="101">
+                    </div>
+                </a>
+            </div>
+            <div>
+                <h6><a class="search_c_ti" target="_blank" data-bind="html:Title,attr:{href:$root.goPlayer($data.Id),title:$root.getTitle(Title)}"></a></h6>
+                <p>@LanguageUtil.Translate("web_Views_Search_List_release")<span data-bind="text:TimeSpan"></span></p>
+                <p>@LanguageUtil.Translate("web_Views_Search_List_play")<span data-bind="text:PlayCount"></span></p>
+            </div>
+        </li>
+        <!--/ko-->
+    </ul>
+    <div class="clear"></div>
+</div>
+
+<!-- 分页 begin-->
+<div class="v_fun_wz02 v_funney_wz" id="page">
+    <div class="clear"></div>
+</div>
+<!-- 分页 end -->

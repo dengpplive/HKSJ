@@ -1,0 +1,6 @@
+.my_m_nr_fan { border-top:1px solid #e1e1e1; margin-top:5px; padding-top:6px;}
+.my_m_nr_fan a { float:right; color:#333; display:block; padding:1px 3px; margin-left:2px; height:22px; line-height:22px; font-size:14px; text-align:center; font-size:12px;}
+.my_m_nr_fan p{ float:right;}
+.my_m_nr_fan p a{ float:left;}
+.my_m_nr_fan a:hover {color: #059ff7;}
+.my_m_nr_fan .my_m_n_f_curr { color:#059ff7;}

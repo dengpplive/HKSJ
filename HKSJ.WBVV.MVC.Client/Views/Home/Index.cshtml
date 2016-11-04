@@ -1,0 +1,55 @@
+﻿@using HKSJ.WBVV.Common.Http
+@section Styles
+{
+    @if (ViewBag.curr > 0)
+    {
+        <link href="@ServerHelper.RootPath/Content/css/index.css" rel="stylesheet" />
+        <link href="@ServerHelper.RootPath/Content/css/movie.css" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="@ServerHelper.RootPath/Content/css/index.css" rel="stylesheet" />
+    }
+    <link href="@ServerHelper.RootPath/Content/css/playease.css" rel="stylesheet" />
+}
+@Html.Action("FirstCategory", "Home")
+@Html.Action("Banner", "Home", new { pageSize = 8 })
+@Html.Action("AreaCaterogy", "Home")
+<div id="mainContainer">
+    @Html.Partial("LoadPlateVideo")
+    @Html.Partial("LoadCategoryVideo")
+</div>
+<div id="footer_ad" class="footer_ad">
+    <h3><img src="@ServerHelper.RootPath/Content/images/footAds2.png"></h3>
+    <h4>
+        <a href="https://www.8tpb.com"><img src="@ServerHelper.RootPath/Content/images/footAds.png"></a>
+        <span></span>
+    </h4>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        curId = '@(ViewBag.curr)';
+        $(function () {
+            var $oFooterAd = $('#footer_ad');
+            var $oFooterH3 = $oFooterAd.find('h3');
+            var $oFooterSpan = $oFooterAd.find('span');
+            var $targetWidth=$(window).width()+130;
+            $oFooterSpan.click(function () {
+                $oFooterAd.stop().animate({ left: -$targetWidth + 'px' }, 700, function () {
+                    $oFooterH3.css('display','block');
+                    $oFooterAd.stop().animate({ left:-$targetWidth+130+'px' });
+                });
+            });
+            $oFooterH3.click(function () {
+                $oFooterAd.stop().animate({ left: -$targetWidth + 'px' }, 500, function () {
+                    $oFooterH3.css('display', 'none');
+                    $oFooterAd.stop().animate({ left: 0 + 'px' },700);
+                });
+            });
+
+        })
+    </script>
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/index.js" type="text/javascript"></script>
+}

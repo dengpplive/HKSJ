@@ -1,0 +1,91 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Common
+@using HKSJ.WBVV.Common.Language
+@{
+    ViewBag.Title = "load2";
+}
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/tags/infotag.css" />
+
+
+<form class="loadForm" id="@ViewBag.fileId">
+    <div class="load_more" id="load_01">
+        <div class="load_more_top clearfloat">
+            <div class="load_more_l_01" onclick="uploadMain.openWindow(this, '@ViewBag.fileId');"><a href="javascript:void(0);"><img class="coverImg" src="@ServerHelper.RootPath/Content/images/icon_img/5bvv_img_mo.png" title="@LanguageUtil.Translate("web_Client_Views_Upload_load2_fenmian")"><div class="load_more_bg"><a href="javascript:void(0);">@LanguageUtil.Translate("web_Client_Views_Upload_load2_EditFenmian")</a></div></a></div>
+
+
+            <div class="load_more_l_02">
+                <div class="l_m_r_colse clearfloat">
+                    <span class="l_m_r_title"></span><a href="javascript:void(0);" class="removeUpload"></a>
+                </div>
+                <p class="l_m_r_zzsc clearfloat"><span class="l_m_r_jdt1 uploadTitle">@LanguageUtil.Translate("web_Client_Views_Upload_load2_Uploading")</span><span class="l_m_r_jdt2 progressbarText">0%</span></p>
+
+                <div class="am-progress am-progress-striped am-progress-sm am-active ">
+                    <div class="am-progress-bar am-progress-bar-secondary progressbar" style="@ViewBag.percent"></div>
+                </div>
+                <div class="l_m_r_scxx clearfloat uploadInfo">
+                    <div>@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadSeed")<span class="loadSpeed">0KB/s</span></div>
+                    <div class="l_m_r_time">@LanguageUtil.Translate("web_Client_Views_Upload_load2_RemainTime")<span class="progressTime">0S</span></div>
+                    <div class="l_m_r_sd">@LanguageUtil.Translate("web_Client_Views_Upload_load2_Uploaded")<span class="loadSpeedSize">0MB</span>/<span class="videoSize">10MB</span></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="load_more_floot clearfloat">
+            <!-- 左边 -->
+            <div class="load_more_left">
+                <div class="load_m_lf clearfloat"><span class="l_m_fl_title"><span class="l_m_r_01_t">*</span>@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadLeft_Title")</span><input class="l_m_fl_input" type="text" name="title" placeholder="2~25个字"></div>
+                <div class="load_m_lf m_lf_lx clearfloat">
+                    <span class="l_m_fl_title"><span class="l_m_r_01_t">*</span>@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadLeft_VideoType")</span>
+                    <select class="l_m_fl_lx" name="category" placeholder="@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadLeft_Placeholder_PleaseSelectType")">
+                        <option value="-1">@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadLeft_PleaseSelectType")</option>
+                    </select>
+                </div>
+                <div class="load_m_lf m_lf_bq clearfloat">
+                    <span class="l_m_fl_title"><span class="l_m_r_01_t">*</span>@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadLeft_TagsTitle")</span>
+                    <div class="info-box l_m_fl_bq_div" value=""></div>
+                </div>
+
+            </div>
+            <!-- 右边 -->
+            <div class="load_more_right">
+                <div class="load_m_lf clearfloat">
+                    <span class="l_m_fl_title">@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_About")</span>
+                    <div class="l_m_fr">
+                        <textarea class="l_m_fr_textarea" placeholder="@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_Placeholder_AboutVideo")" name="about" maxlength="150"></textarea>
+                        <span class="l_m_fr_num aboutCountLable">0/150</span>
+                    </div>
+                </div>
+                <div class="load_m_lf m_fr_radio_bq clearfloat">
+                    <span class="l_m_fl_title m_fr_radio">
+                        <span class="l_m_r_01_t">*</span>@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_CopyRight")
+                    </span>
+                    <div class="l_m_fr_radio">
+                        <input type="radio" name="copyright" value="1">@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_OriginalVideo")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input checked="checked" type="radio" name="copyright" value="2">@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_ReprintVideo")
+                    </div>
+                </div>
+                <div class="load_m_lf clearfloat">
+                    <span class="l_m_fl_title m_fr_radio"><span class="l_m_r_01_t">*</span>@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_Pricacy")</span>
+                    <div class="l_m_fr_radio"><input type="radio" checked="checked" value="1" name="isPublic">@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_EveryOneVisible")</div>
+                </div>
+            </div>
+
+            <div class="load_more_btn"><input class="load_more_btn_bc btnSaveVideo" type="button" value="@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_SaveButton")"></div>
+        </div>
+
+        <div class="load_more_bcsp">
+            <span>@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_UploadedTip")<a href="javascript:void(0);" class="btnOpenEdit">@LanguageUtil.Translate("web_Client_Views_Upload_load2_UploadRight_UpdateVideoInfoLink")</a></span>
+        </div>
+    </div>
+
+
+</form>
+
+<script src="@ServerHelper.RootPath/Content/tags/infotag.js" type="text/javascript"></script>
+<script type="text/javascript">
+    uploadMain.videoList['@ViewBag.fileId'].initData();
+    $("#@ViewBag.fileId [name='about']").on('keydown keyup keypress paste change', function () {
+        var spChar = $(this).val().length;
+        spChar = spChar < 0 ? 0 : spChar;
+        $('#@ViewBag.fileId .aboutCountLable').text(spChar +'/150');
+    });
+</script>

@@ -1,0 +1,132 @@
+/* CSS Document */
+
+.mail{width:1200px; margin:0 auto;}
+.mail_left_titel{font-size:30px; width:960px;}
+.mail_right_titel{font-size:22px; width:260px;}
+
+
+/* mail_left   */
+.mail_left{width:960px; float:left;}
+
+.left_img{font-size:14px; float:left;margin: 26px 20px 0 0; width:362px;}
+.left_img a{text-decoration:none;}
+.left_img a:hover{color:#059ff7;}
+.img_01{ width:362px; height:342px !important;}
+.img_01 span{width:362px; display:block; padding-top:8px;}
+
+.center_img{margin: 26px 0px 0 0 ; font-size:14px; float:left; width:575px;}
+.center_img ul{list-style:none;}
+.center_img li{display:block; width:170px; margin-right:20px; float:left; white-space:normal; height:178px;}
+.center_img a{text-decoration:none;}
+.center_img a:hover{color:#059ff7;}
+
+.mail_text{ padding-top:8px;display:block; width:170px; font-size:14px;}
+
+
+/* mail_right    */
+.mail_right{width:240px; float:right; padding-top:10px;}
+.right_img{margin-top:25px;} 
+.right_img ul{ width:100%; font-size:14px; display:block;  background-color:#f1f1f1;}
+.right_img li {list-style:none;  width:240px;}
+.right_img a{text-decoration:none;}
+.right_img a:hover{color:#059ff7;}
+.right_li_01{  position:relative;}
+.right_li_02{ width:240px; margin-top:24px; padding-left:10px;}
+.right_li_01 a{ color:#ffffff; }
+.right_img_title{ position:absolute; top:15px;; left:8px; z-index:999;}
+.right_img_title02{ width:230px;}
+
+/* paihang */
+.right_smart_img01{ float:left;}
+.right_smart_img01 span{ padding:1px 0 0px 0px; width:24px; height:20px; text-align:center;  color:#ffffff; background-color:#eb3d51; border-radius: 2px; display:inline-block;}
+.right_smart_img02{float:left; margin-top:3px;  font-size:10px;}
+.right_smart_img02 span{ padding:1px 0 1px 0px; width:18px; height:16px; text-align:center;   color:#ffffff; background-color:#eb3d51; border-radius: 2px; display:inline-block;}
+.right_smart_img03{ float:left; font-size:10px; }
+.right_smart_img03 span{ padding:1px 0 1px 0px; width:18px; height:16px; text-align:center;   color:#ffffff;  background-color:#68a3eb; border-radius: 2px;display:inline-block;}
+
+/* bofangliang  */
+.right_title{ margin-left:5px; width:140px; overflow:hidden; float:left;}
+.right_dj{float:right; width:62px; display:block;}
+.right_bo01{ background:url(../images/5BVV_move12_18.png) no-repeat; padding-left:22px; width:40px; height:20px;}
+.right_dj span{color:#ffffff;}
+.right_bo{ background:url(../images/5BVV_move13_21.png) no-repeat; padding-left:22px; width:40px; height:20px;}
+
+/* weishiping */
+.mail_wei{ margin-top:64px;  padding:0px;}
+
+/* top,title */
+.wei_top{width:960px; margin-bottom:10px;}
+.wei_01{font-size:30px; width:120px; float:left;}
+.wei_title{width:840px; margin-left:120px;}
+.wei_title ul{list-style:none; width:759px; font-size:18px; padding-top:8px; float:left;}
+.wei_title li{display:inline; width:70px; margin-right:22px;}
+.wei_title a{text-decoration:none;}
+.wei_title a:hover{color:#059ff7;}
+/*  */
+.wei_more{width:66px; font-size:18px; float:left; padding-top:8px;}
+/* wei left */
+.wei_left{width:960px; float:left;}
+.wei_left ul{list-style:none;}
+.wei_left li{display:inline; width:170px; margin-right:20px; float:left; height:178px;}
+.wei_left a{text-decoration:none;}
+.wei_left a:hover{color:#059ff7;}
+
+/* wei right */
+.wei_right{width:240px; float:left;}
+.wei_bg{width:240px; height:48px; background-color:#b0afaf; position:relative;}
+.wei_bg span{color:#ffffff; font-size:20px; position:absolute; top:10px; left:8px; z-index:999;}
+.wei_bg_title{height:270px; background-color:#f1f1f1;}
+
+/* dianying  top */
+.mail_dy{ margin-top:64px; padding:0px;}
+.dy_left{width:960px; float:left;}
+.dy_top{width:960px; margin-bottom:10px;}
+.dy_01{font-size:30px; float:left;}
+.dy_top_title{width:840px; margin-left:120px;}
+.dy_top_title ul{width:759px; font-size:18px; padding-top:8px; float:left;}
+.dy_top_title li{ list-style:none; width:50px; margin-right:22px; float:left;}
+.dy_top_title a{text-decoration:none;}
+.dy_top_title a:hover{color:#059ff7;}
+.dy_more{width:66px; font-size:18px; float:left; padding-top:8px;}
+/* dianying  left */
+.dy_center ul{width:960px;}
+.dy_center li{list-style:none; display:inline; width:160px; margin-right:30px; float:left; height:299px; position:relative;}
+.dy_center a{text-decoration:none;}
+.dy_center a:hover{color:#059ff7;}
+.dy_title{font-size:14px; color:#ffffff; position:absolute; left:5px; bottom:45px; z-index:999;}
+.dy_detail{font-size:12px; color:#ffffff; position:absolute; left:5px; bottom:25px; z-index:999;}
+
+/* dianying  right */
+.dy_right{width:240px; float:left; margin:0 auto; padding-top:0px;}
+.dy_right_titel{font-size:22px;}
+
+.dy_right_img{margin:0 auto; padding:0px;}
+.dy_img01{margin-top:20px;}
+.dy_right_img ul{ width:240px; display:block; height:auto; padding:4px 0 10px 0; font-size:14px;  background-color:#f1f1f1;}
+.dy_right_img li { width:230px;  }
+.dy_right_img a{text-decoration:none;}
+.dy_right_img a:hover{color:#059ff7;}
+
+.dy_right_li_02{ display:block; width:230px; margin-top:24px; padding-left:10px;}
+.dy_right_li_01 a{ color:#ffffff; }
+.dy_right_img_title{position:absolute; top:15px; left:8px; z-index:999;}
+.dy_right_img_title02{ position:absolute;}
+.right_smart_img04{font-size:10px; float:left;}
+.right_smart_img04 span{ padding:1px 0px 1px 0px;background-color:#68a3eb; width:18px; height:16px; border-radius: 2px; display:inline-block; text-align:center; color:#ffffff; }
+
+/*  dianshiju */
+.dsj_img01{margin-top:20px; position:relative; width:240px;}
+.dsj_i_wz {position:absolute; left:10px; bottom:8px;}
+.dsj_i_wz p { float:left; width:170px; text-align:left; color:#e9dd18;}
+.dsj_i_i_xbz{ float:right; padding-left:18px; width:40px;  background: url(../images/5BVV_move17_08.png) no-repeat center left;}
+.dsj_i_i_xbz span { color:#FFFFFF; width:40px; font-size:14px;}
+.dsj_i_i{background: url(../images/5BVV_move18_14.png) no-repeat center left;}
+
+/* dongman */
+.dy_right_img .d_r_wbg { padding:0; background:#FFFFFF;}
+.dm_right{width:240px;}
+.dm_i_text{font-size:14px; padding-top: 3px;}
+.dm_r_left_01{float:left; margin-right:6px;}
+.dm_r_right_01 { float:right;}
+.dm_i_i{background: url(../images/5BVV_move18_14.png) no-repeat center left; padding-left:22px; width:124px; font-size:12px;}
+.dm_i_p{font-size:12px;}

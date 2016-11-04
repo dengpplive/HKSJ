@@ -1,0 +1,291 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Extender.LinqExtender
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" rel="stylesheet" type="text/css" />
+    <script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+</head>
+<body class="page-header-fixed" style="background-color: #FFF !important;">
+    <!--begin 导航-->
+    <div class="no-bottom-space">
+        <ul class="breadcrumb">
+            <li>
+                <span><strong>@LanguageUtil.Translate("admin_Views_HotWord_index_Manage")</strong></span>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="@Url.Content("~/HotWord")">@LanguageUtil.Translate("admin_Views_HotWord_index_hotWordsManage")</a></li>
+        </ul>
+    </div>
+    <!--end 导航-->
+    <!--begin搜索条件-->
+    <div class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_HotWord_index_hotWords"): </label>
+            <div class="controls">
+                <input type="text" placeholder=@LanguageUtil.Translate("admin_Views_HotWord_index_hotWords") class="m-wrap medium" id="keyword" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">@LanguageUtil.Translate("admin_Views_HotWord_index_theLastTimeTheSearchTime"): </label>
+            <input id="datastr" value="@ViewBag.dataformat" type="hidden" />
+            <div class="controls">
+                <select name="" id="selectDay" onchange="selectDate(this.value)" class="form-control">
+                    <option value="1">@LanguageUtil.Translate("admin_Views_HotWord_index_thisWeek")</option>
+                    <option value="2">@LanguageUtil.Translate("admin_Views_HotWord_index_lastWeek")</option>
+                    <option value="3">@LanguageUtil.Translate("admin_Views_HotWord_index_thisMonth")</option>
+                    <option value="4">@LanguageUtil.Translate("admin_Views_HotWord_index_lastMonth")</option>
+                    <option value="5">@LanguageUtil.Translate("admin_Views_HotWord_index_thisYear")</option>
+                    <option value="0" selected="selected">@LanguageUtil.Translate("admin_Views_HotWord_index_all")</option>
+                </select>
+                <input type="text" value="" id="beginTime" name="beginTime" onclick="WdatePicker({maxDate:'@DateTime.Now.ToString("yyyy-MM-dd") '});" class="inp-t ml30" style=" width:118px"><i class="mlr20">@LanguageUtil.Translate("admin_Views_HotWord_index_To") </i>
+                <input type="text" value="" id="endTime" name="endTime" onclick="WdatePicker({maxDate:'@DateTime.Now.ToString("yyyy-MM-dd") '});" class="inp-t" style=" width:118px">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="btn blue" onclick="javascript: SearchData();">@LanguageUtil.Translate("admin_Views_HotWord_index_search")</button>
+        </div>
+
+    </div>
+    <!--end搜索条件-->
+    <div class="responsive" data-tablet="fix-offset" id="content">
+        <div class="container-fluid">
+
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-table">@LanguageUtil.Translate("admin_Views_HotWord_index_list")</i>
+                    </div>
+                    <div class="actions">
+                        <a href="javascript:openadd();" class="btn blue"><i class="icon-pencil"></i> Add</a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    @Html.Partial("_List")
+                    @Html.Partial("_Page")
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<input type="hidden" id="videoPath" />
+<script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+<script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="@Url.Content("~/Content/bootstrap/js/excanvas.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/respond.min.js")" type="text/javascript"></script>
+    <![endif]-->
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.uniform.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.blockui.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/knockout-2.2.0.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/pageCommon.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    viewModel.userId = "@WebContext.Manage.Id";
+    viewModel.listUrl = api + "KeyWord/GetKeyWordsPageResult";
+
+    // viewModel.init();
+</script>
+@Html.Partial("_Alert")
+@Html.Partial("_Confirm")
+@Html.Partial("_Edit")
+@Html.Partial("_Add")
+<script>
+
+    //搜索
+    function SearchData() {
+        var keyword = $("#keyword").val();
+        var beginTime = $("#beginTime").val();
+        var endTime = $("#endTime").val();
+
+        var conditions = [];
+        if (keyword != "") {
+            conditions.push({
+                FiledName: "Keyword",
+                FiledValue: keyword,
+                ExpressionType: 9,
+                ExpressionLogic: 2
+            });
+        }
+        if (beginTime != "") {
+            conditions.push({
+                FiledName: "SearchTime",
+                FiledValue: beginTime,
+                ExpressionType: 4,
+                ExpressionLogic: 2
+            });
+        }
+        if (endTime != "") {
+            conditions.push({
+                FiledName: "SearchTime",
+                FiledValue: endTime + " 23:59:59",
+                ExpressionType: 6,
+                ExpressionLogic: 2
+            });
+        }
+
+        var ordercondtions = [];
+        ordercondtions.push({
+            FiledName: "SearchNum",
+            IsDesc: "true"
+        });
+        viewModel.ordercondtions(ordercondtions);
+        viewModel.condtions(conditions);
+        viewModel.initData();
+    }
+    ;
+
+    //选择日期
+    function selectDate(obj) {
+        var j = (parseInt(obj) * 2) - 2;
+        var i = (parseInt(obj) * 2) - 1;
+        if (obj == 0) {
+            $("#beginTime").val("");
+            $("#endTime").val("");
+            return;
+        } else {
+            var datastr = $("#datastr").val();
+
+            if (typeof (datastr) != "undefined") {
+                var array = datastr.split(',');
+            }
+            $("#beginTime").val(array[j]);
+            $("#endTime").val(array[i]);
+        }
+    }
+
+
+    //打开编辑
+    function openedit(obj) {
+        $("#iframe").modal({ backdrop: 'static' }).css({
+            width: 500,
+            'margin-left': function () {
+                return -($(this).width() / 2);
+            },
+            height: 200,
+        });
+        var id = $(obj).attr("data_id");
+        $("#vid").val(id);
+        $.getJSON(api + "KeyWord/GetAKeyWordById?id=" + id, function (data) {
+            if (data.Success) {
+                if (data.Data != null) {
+                    $("#keywordedit").val(data.Data.Keyword);
+                    $("#searchnumedit").val(data.Data.SearchNum);
+                }
+            }
+        });
+    }
+
+    //编辑保存
+
+    function SaveData() {
+        var id = $("#vid").val();
+        var keyword = $("#keywordedit").val();
+        var dataPara = {
+            ID: id,
+            Keyword: keyword,
+            SearchNum: $("#searchnumedit").val()
+        };
+        var url = rootPath + '/HotWord/UpdateAKeyWord';
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {
+                dataModel: dataPara
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.Success) {
+                    $('#iframe').modal('hide');
+                    viewModel.initData();
+                }
+            }
+        });
+    }
+
+    //删除
+
+    function delKeyWord(id) {
+        var url = rootPath + '/HotWord/DelAKeyWord';
+        $.ajax(url, {
+            type: "post",
+            data: { id: id },
+            dataType: "json",
+            success: function (data) {
+                if (data.Success) {
+                    alert(Translate("admin_Views_HotWord_index_deleteSuccess"));
+                    viewModel.initData();
+                }
+            },
+            error: function (data) {
+                // alert(data.Success);
+            }
+        });
+    }
+
+
+    //打开新增
+    function openadd() {
+        $("#iframeadd").modal({ backdrop: 'static' }).css({
+            width: 500,
+            'margin-left': function () {
+                return -($(this).width() / 2);
+            },
+            height: 200,
+        });
+        $("#keywordadd").val("");
+        $("#searchnumadd").val("");
+    }
+
+    //新增保存
+    function AddData() {
+        var keyword = $("#keywordadd").val();
+        var dataPara = {
+            Keyword: keyword,
+            SearchNum: $("#searchnumadd").val()
+        };
+        var url = rootPath + '/HotWord/AddAKeyWord';
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {
+                dataModel: dataPara
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.Success) {
+                    $('#iframeadd').modal('hide');
+                    viewModel.initData();
+                }
+            }
+        });
+    }
+
+
+</script>

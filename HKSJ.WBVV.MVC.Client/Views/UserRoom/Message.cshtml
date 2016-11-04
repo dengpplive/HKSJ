@@ -1,0 +1,150 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@section Metas
+{
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+}
+
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/login.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/play.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/message.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/person_com.css" />
+
+}
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/js/roomMessage.js" type="text/javascript"></script>
+}
+<script type="text/html" id="data-template">
+    <div class="play_hf_list" data-bind="attr:{id:'replayList_'+$data.ParentComment.Id}">
+        <ul data-bind="attr:{id:'ul_'+$data.ParentComment.Id},foreach:{data:$data.ChildComments.Data,as:'child'}">
+            <!--模板-->
+            <div data-bind="template:{name:'data-template1',data:child}"></div>
+        </ul>
+        <!-- 查看更多回复 子集分页 -->
+        <div class="play_hf_list clearfloat" data-bind="visible:$data.isShowChildPagerBar()">
+            <span data-bind="visible:$data.showPrevPage()"><font style="font-family:'宋体';">&lt;&lt; </font><a href="javascript:void(0)" data-bind="click:function(){$data.prevPage()}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_PrevPage")</a></span>
+            <span data-bind="visible:$data.showNextPage()"><a href="javascript:void(0)" class="play_hf_more" data-bind="click:function(){$data.nextPage()}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_NextPage")<font style="font-family:'宋体';">&nbsp;&gt;&gt; </font></a></span>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="data-template1">
+    <li data-bind="attr:{id:'_'+child.Id,class:'clearfloat '+(($parents[1].dataLength()==($index()+1))&&$parents[1].isShowChildPagerBar()?'hf_list_li':'')}">
+        <div class="play_cen_touxiang02">
+            <a data-bind="click:function(){$root.goRoom(child.FromUser.Id);}" target="_blank" href="javascript:void(0)">
+                <img data-bind="attr:{src:$root.handUserPicture(child.FromUser.Picture)}" width="36" height="36" userimg="1" />
+            </a>
+        </div>
+        <div class="play_hf_text">
+            <a href="javascript:void(0)" target="_blank" data-bind="text:child.FromUser.NickName,click:function(){$root.goRoom(child.FromUser.Id);}">&nbsp;</a>
+            <span data-bind="text:child.CreateTime"></span><br>
+            <span>@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_ShowReplay")</span>
+            <a class="play_cen_a" href="javascript:void(0)" target="_blank" data-bind="text:child.ToUser.NickName,click:function(){$root.goRoom(child.ToUser.Id);}"></a>：
+            <!--ko if:child.State==-1 -->
+            <span style="width: 710px;word-wrap: break-word;word-break: break-all;" data-bind="attr:{cid:child.Id}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_MessageDeleted")</span>
+            <!--/ko-->
+            <!--ko if:child.State!=-1 -->
+            <span style="width: 710px;word-wrap: break-word;word-break: break-all;" data-bind="html:analyticEmotion(child.Content,33,30)"></span>
+            <p data-bind="visible:!$root.isOwnerMess(child.FromUser.Id)">
+                <a class="play_cen_a" data-bind="click:function(){$root.toggleReplay($element,child.Id)},attr:{uid:'link_'+child.Id}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_LinkReplay")</a><span>（<!--ko text:child.ReplyNum--><!--/ko-->）</span>
+            </p>
+            <!--/ko-->
+            @*< 添加回复输入框 11-05*@
+            <div id="nexthf_show" class="play_detail_huifu p_i_hf02 clearfloat" data-bind="attr:{name:'rpy_'+child.Id}">
+                <input class="play_input p_i_in02" type="text" name="" placeholder="@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_ReplayPlaceholder")" maxlength="140" data-bind="attr:{id:'emotion_'+child.Id},value:$root.replayData,valueUpdate:'afterkeydown'" />
+                @*表情*@
+                <em class="commentface" data-bind="attr:{id:'face_'+child.Id}"></em>
+                <div class="play_btn_right">
+                    <span data-bind="text:$root.showReplayInputText"></span>
+                    <input class="play_btn" type="button" value="@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_BtnReplay")" data-bind="click:function(){$root.replayMessage($element,$index(),child);}" style="cursor:pointer" />
+                </div>
+            </div>
+        </div>
+    </li>
+
+</script>
+
+<div class="wrap" id="msgCon">
+    <div class="m_ly play_center_02" data-bind="visible:!$root.isBrowserOwner()">
+        <div class="play_detail_text">
+            <textarea rows="8" cols="160" id="emotion" maxlength="140" placeholder="@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_AddMessagePlaceholder")" data-bind="value:$root.formData,valueUpdate:'afterkeydown'"></textarea>
+        </div>
+        <div>
+            <span class="commentface" id="face"></span>
+            <div class="play_d_r">
+                <span data-bind="text:$root.showInputText">0/140</span>
+                <input type="button" value="@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_LinkMessage")" data-bind="click:function(){$root.addMessage($element)}" />
+            </div>
+            <div class="clearfloat"></div>
+        </div>
+    </div>
+    <div>
+        <div class="play_center_03">
+            <div class="play_bianxian">
+                <div class="play_cen_title"><a href="javascript:void(0)">@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_ShowMessageTitle")</a>
+                <span class="m_l_num" id="mcount">（<!--ko text:totalcount--><!--/ko-->）</span></div>
+                <div class="play_cen_ul" loading="main" style="min-height:30px;">
+                    <ul data-bind="foreach:list">
+                        @*留言列表*@
+                        <li class="play_l_bx" data-bind="attr:{id:'_'+ParentComment.Id,loading:'li_'+ParentComment.Id}">
+                            <div class="play_c_li_bianxian">
+                                <div class="play_cen_touxiang">
+                                    <a data-bind="click:function(){$root.goRoom(ParentComment.FromUser.Id);}" target="_blank" href="javascript:void(0)">
+                                        <img data-bind="attr:{src:$root.handUserPicture(ParentComment.FromUser.Picture)}" width="48" height="48" userimg="1" />
+                                    </a>
+                                </div>
+                                <div class="paly_cen_detail">
+                                    <div class="clearfloat">
+                                        <a class="play_cen_a" href="javascript:void(0)" target="_blank" data-bind="text:ParentComment.FromUser.NickName,click:function(){$root.goRoom(ParentComment.FromUser.Id);}"></a>&nbsp;&nbsp;
+                                        <span data-bind="text:ParentComment.CreateTime"></span>
+                                        <a class="play_c_delete" href="javascript:void(0)" data-bind="visible:$root.isOwner(ParentComment.ToUser.Id),click:function(){$root.deleteMessage($element,ParentComment)}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_DelLinkBtn")</a>
+                                    </div>
+                                    <!--ko if:ParentComment.State!=-1 -->
+                                    <div class="play_cen_text">
+                                        <div class="play_c_t">
+                                            <span data-bind="html:analyticEmotion(ParentComment.Content,33,30)" style="word-wrap: break-word;word-break: break-all;"></span><br>
+                                            <span data-bind="visible:!$root.isOwnerMess(ParentComment.FromUser.Id)" id="huifu" class="play_cen_a"><a data-bind="click:function(){$root.toggleReplay($element,ParentComment.Id)},attr:{uid:'link_'+ParentComment.Id}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_LinkReplay")</a><span>(<!--ko text:ParentComment.ReplyNum--><!--/ko-->)</span></span>
+                                        </div>
+                                    </div>
+                                    @*回复评论*@
+                                    <div class="play_detail_huifu clearfloat" data-bind="attr:{name:'rpy_'+ParentComment.Id}" style="display:none;">
+                                        <input class="play_input" type="text" placeholder="@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_ReplayPlaceholder")" maxlength="140" data-bind="attr:{id:'emotion_'+ParentComment.Id},value:$root.replayData,valueUpdate:'afterkeydown'" />
+                                        @*表情*@
+                                        <em class="commentface" data-bind="attr:{id:'face_'+ParentComment.Id}"></em>
+                                        <div class="play_btn_right">
+                                            <span data-bind="text:$root.showReplayInputText">0/140</span>
+                                            <input class="play_btn" type="button" value="@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_BtnReplay")" data-bind="click:function(){$root.replayMessage($element,$index(),ParentComment);}" style="cursor:pointer" />
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
+                                    <!--ko if:ParentComment.State==-1 -->
+                                    <div class="play_cen_text">
+                                        <div class="play_c_t">
+                                            <span data-bind="attr:{cid:ParentComment.Id}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Message_MessageDeleted")</span><br>
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
+                                    @*模板*@
+                                    <div data-bind="template:{name:'data-template',data:$data}"></div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 分页 -->
+    <div class="v_fun_wz02 v_funney_wz" id="pager" data-bind="visible:$root.isShowPagerBar">
+    </div>
+</div>
+
+

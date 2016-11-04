@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script src="Content/js/common.js"></script>
+    <!--<script src="Content/js/moment.js"></script>-->
+    <script language="javascript" type="text/javascript">
+        //var curex = new Date().getTime() - new Date(1970, 1, 1).getTime();
+        var d = new Date(0, 0, 0, 8, 0, 0, 0);
+        d.setTime(60 * 60 * 5 * 1000 - 8 * 60 * 60 * 1000);
+
+        // var n = moment(d).format('h:mm:ss');
+        globalPromptBox.showGeneralMassage(0, d.format('hh:mm:ss'), 1000, false);
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

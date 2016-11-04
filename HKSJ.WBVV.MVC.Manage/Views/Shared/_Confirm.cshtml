@@ -1,0 +1,18 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+@*删除*@
+<div id="confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true" style="display: none;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h3 id="myModalLabel3" data-bind="text:title"></h3>
+    </div>
+    <div class="modal-body">
+        <p data-bind="text:content"></p>
+    </div>
+    <div class="modal-footer">
+        <button data-dismiss="modal" class="btn blue" data-bind="click:confirm">@LanguageUtil.Translate("admin_Views_Shared_Confirm_button_confirm")</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">@LanguageUtil.Translate("admin_Views_Shared_Confirm_button_cancle")</button>
+    </div>
+</div>

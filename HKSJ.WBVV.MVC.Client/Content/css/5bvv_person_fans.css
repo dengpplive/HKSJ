@@ -1,0 +1,88 @@
+
+/* CSS Document */
+
+
+
+/*  Person_fans  */
+
+
+.Person_fans{ width:1200px; margin:0px auto 0; }
+
+
+.Per_fans_biaoti { height:50px;}
+.Per_fans_biaoti ul {}
+.Per_fans_biaoti ul li{ float:left; margin-right:5px; text-align:center; width:136px;}
+.Per_fans_biaoti ul li a { background-color:#fff; color:#7e7e7e; padding:14px 0; display:block; border:1px solid #e1e1e1; border-top-left-radius:3px; border-top-right-radius:3px;}
+.Per_fans_biaoti ul li a:hover {background-color:#a09f9f; color:#fff;}
+.Per_fans_biaoti .Per_fans_nav {background-color:#a09f9f; color:#fff;}
+
+
+/*  内容区公共样式  */
+.Per_fans_bt_content { border:1px solid #e1e1e1; border-radius:2px; padding-top:60px; margin-bottom:50px;}
+
+.Per_fans_bt_con_fs { width:485px; height:150px; padding-left:114px; margin-bottom:50px; }
+
+.Per_fans_bt_con_fs_tx { float:left; width:80px; height:80px; margin-right:15px; border:1px solid #d7d7d7; overflow:hidden;}
+.Per_fans_bt_con_fs_tx img { width:80px; height:80px; }
+
+.Per_fans_bt_con_fs_text { float:left; width:210px; padding-top:4px;}
+.Per_fans_bt_con_fs_text h6 { font-weight:normal; font-size:16px; color:#333; margin-bottom:8px; width:200px; overflow: hidden; /*自动隐藏文字*/ text-overflow: ellipsis;/*文字隐藏后添加省略号*/  white-space: nowrap;/*强制不换行*/}
+.Per_fans_bt_con_fs_text div {}
+.Per_fans_bt_con_fs_text div .Per_fans_bt_con_wz{ float:left; font-size:12px; color:#a4a4a4; margin:3px 0px;}
+.Per_fans_bt_con_fs_text div .Per_fans_bt_con_bx { display:block; float:left; background-color:#9cb3cf; width:1px; height:15px; margin:4px 11px 4px 10px; padding:0px 0px;}
+.Per_fans_bt_con_fs_text div .Per_fans_bt_con_bx img { margin-top:0px; padding-top:0px;}
+
+
+.Per_fans_bt_con_fs_ding { float:left; margin-right:25px; position:relative; width:100px;}
+.Per_fans_bt_con_fs_ding a { font-size:14px; }
+
+.fans_add_ding { display:block; background: url(../images/icon_img/fans_jh2.png) no-repeat 25px center; background-color:#43bafd; width:55px; color:#fff; padding:5px 0px 5px 45px; border-radius:3px;}
+.fans_add_ding:hover { background-color:#059ff7; color:#fff; }
+
+
+.fans_add_ding_zt { display:block; background: url(../images/icon_img/fans_dh.png) no-repeat 15px center; width:60px; background-color:#f4464d; color:#fff; padding:5px 0px 5px 40px; border-radius:3px;}
+.fans_add_ding_zt:hover { color:#fff; }
+
+.Per_fans_bt_con_fs_qxding { position:absolute; display:none; background-color:#a09f9f; color:#fff; top:0px; padding:5px 22px 5px 22px; text-align:center; border-radius:3px;}
+.Per_fans_bt_con_fs_qxding:hover { color:#fff;}
+
+.fans_sixin { display:block; background: url(../images/icon_img/fans_sixin.png) no-repeat 3px 9px; color:#7e7e7e; padding:7px 5px 5px 33px; border-radius:3px; margin-top:2px; font-size:14px;}
+.fans_sixin:hover{ color:#059ff7;}
+
+/*  内容单独样式1  */
+.Per_fans_bt_content1 {}
+.Per_fans_bt_content1 .Per_fans_bt_con_fs { float:left;}
+
+/*  内容单独样式2  */
+.Per_fans_bt_content2 { margin-bottom:50px; height:auto;}
+.Per_fans_bt_c_com { margin:0 auto 20px; width:1200px;}
+
+.Per_fans_bt_con_left { }
+
+.Per_fans_bt_con_fsding { float:left; width:260px; height:120px; padding-left:70px; margin-bottom:50px; }
+
+.Per_fans_bt_con_fsding_tx { float:left; width:80px; height:80px; margin-right:15px; overflow:hidden;}
+.Per_fans_bt_con_fsding_tx img { width:80px; height:80px; }
+
+.Per_fans_bt_con_fsding_text { float:left; width:120px;}
+.Per_fans_bt_con_fsding_text h6 { font-weight:normal; font-size:16px; color:#333; margin-bottom:6px; width:120px; overflow: hidden; /*自动隐藏文字*/ text-overflow: ellipsis;/*文字隐藏后添加省略号*/  white-space: nowrap;/*强制不换行*/}
+.Per_fans_bt_con_fsding_text div {}
+.Per_fans_bt_con_fsding_text div .Per_fans_bt_con_wz{ float:left; font-size:12px; color:#a4a4a4; margin:3px 0px;}
+.Per_fans_bt_con_fsding_text div .Per_fans_bt_con_bx { display:block; float:left; background-color:#9cb3cf; width:1px; height:15px; margin:4px 10px; padding:0px 0px;}
+.Per_fans_bt_con_fsding_text div .Per_fans_bt_con_bx img { margin-top:0px; padding-top:0px;}
+
+.Per_fans_bt_con_fsding_more { margin-bottom:7px;}
+.Per_fans_bt_con_fsding_more a { font-size:14px; padding:0 0 3px 1px; display:block; color:#a4a4a4;}
+
+.Per_fans_bt_con_ding_qxding { position:absolute; display:none; background-color:#a09f9f; color:#fff; top:0px; padding:5px 22px 5px 22px; text-align:center; border-radius:3px;}
+.Per_fans_bt_con_ding_qxding:hover { color:#fff;}
+
+.Per_fans_bt_con_right { float:left; width:868px; margin:0px auto;}
+.Per_fans_bt_con_right ul {width:868px;  height:auto;}
+.Per_fans_bt_con_right ul li{ float:left; width:176px; margin-right:40px; height:220px;}
+.Per_fans_bt_con_right img { width:176px; height:132px;}
+
+.per_f_v_text { color:#333;  font-size:14px; margin-top:3px;}
+.per_f_v_text p { font-size:14px; width:176px; color:#7e7e7e; padding-top:1px;overflow: hidden; /*自动隐藏文字*/ text-overflow: ellipsis;/*文字隐藏后添加省略号*/  white-space: nowrap;/*强制不换行*/}
+.per_f_v_text p a { color:#333; font-size:15px;}
+.per_f_v_text p a:hover { color:#059ff7;}

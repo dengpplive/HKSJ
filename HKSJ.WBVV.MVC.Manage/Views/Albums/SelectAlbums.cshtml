@@ -1,0 +1,172 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Language 
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" rel="stylesheet" type="text/css" />
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+</head>
+<body class="page-header-fixed" style="background-color: #FFF !important;">
+    <!--begin 导航-->
+    <div class="no-bottom-space">
+        <ul class="breadcrumb">
+            <li>
+                <span><strong>@LanguageUtil.Translate("admin_views_albums_selectAlbums_albumManage")</strong></span>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="@Url.Content("~/Albums")">@LanguageUtil.Translate("admin_views_albums_selectAlbums_recommendAlbumMagene")</a><i class="icon-angle-right"></i></li>
+            <li><a href="@Url.Content("~/Albums/SelectAlbums")">@LanguageUtil.Translate("admin_views_albums_selectAlbums_addAlbumMagene")</a></li>
+        </ul>
+    </div>
+    <!--end 导航-->
+    <!--begin搜索条件-->
+    <div class="form-horizontal">
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="control-group">
+                    <label class="control-label">@LanguageUtil.Translate("admin_views_albums_selectAlbums_albumName") : </label>
+                    <div class="controls">
+                        <input type="text" placeholder=@LanguageUtil.Translate("admin_views_albums_selectAlbums_albumName") class="m-wrap span11" id="txtAlbumName" />
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="control-group">
+                    <label class="control-label">@LanguageUtil.Translate("admin_views_albums_selectAlbums_albumIntro") : </label>
+                    <div class="controls">
+                        <input type="text" placeholder=@LanguageUtil.Translate("admin_views_albums_selectAlbums_albumIntro") class="m-wrap span11" id="txtAlbumRemark" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="pull-right span2">
+                <button type="button" class="btn blue" onclick="javascript: page.SearchData();">@LanguageUtil.Translate("admin_views_albums_selectAlbums_search")</button>
+                <button type="button" class="btn " onclick="javascript: page.ClearData();">@LanguageUtil.Translate("admin_views_albums_selectAlbums_clear")</button>
+            </div>
+        </div>
+        <br />
+    </div>
+    <!--end搜索条件-->
+    <div class="responsive" data-tablet="fix-offset" id="content">
+        <div class="container-fluid">
+            <div class="row-fluid text-right margin-bottom-10">
+                <a class="btn blue" href="javascript:page.addAblums();"><i class="icon-plus"></i>@LanguageUtil.Translate("admin_views_albums_selectAlbums_confirmAdd")</a>
+                <a class="btn" href="javascript:history.go(-1);"><i class="icon-chevron-left"></i>@LanguageUtil.Translate("admin_views_albums_selectAlbums_cancel")</a>
+            </div>
+            <div class="portlet box light-grey">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-table">@LanguageUtil.Translate("admin_views_albums_selectAlbums_list")</i>
+                    </div>
+                </div>
+                <div class="portlet-body">
+
+                    @Html.Partial("_AddList")
+                    @Html.Partial("_Page")
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="@Url.Content("~/Content/bootstrap/js/excanvas.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/respond.min.js")" type="text/javascript"></script>
+    <![endif]-->
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.uniform.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.blockui.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/knockout-2.2.0.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/pageCommon.js")" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+    viewModel.listUrl = api + "UserSpecial/GetRecommendAlbumsPageResult";
+    //viewModel.initData();
+
+
+    var page = {
+        addAblums: function () {
+            var checkedId = "";
+            $("input[name='cbxList']").each(function () {
+                if ($(this).attr("checked") == "checked")
+                    checkedId += $(this).val() + ",";
+
+            });
+            checkedId = checkedId.substr(0, checkedId.length - 1);
+            if (checkedId == "") {
+                alert(Translate("admin_views_albums_selectAlbums_pleaseSelectANeedToAddTheAlbum"));
+                return;
+            }
+            var url = rootPath + "/Albums/AddRecommendAlbums";
+            var data = { albumIds: checkedId };
+            $.post(url, data, function (data) {
+                if (data.Success == true)
+                    window.location = "../Albums";
+                else
+                    alert(Translate("admin_Views_Albums_selectAlbums_error").Format(data.ExceptionMessage));
+            });
+        },
+        SearchData: function () {
+            var txtAlbumName = $("#txtAlbumName").val();
+            var txtAlbumRemark = $("#txtAlbumRemark").val();
+
+            var conditions = [];
+            if (txtAlbumName != "") {
+                conditions.push({
+                    FiledName: "Title",
+                    FiledValue: txtAlbumName,
+                    ExpressionType: 9,
+                    ExpressionLogic: 2
+                });
+            }
+            if (txtAlbumRemark != "") {
+                conditions.push({
+                    FiledName: "Remark",
+                    FiledValue: txtAlbumRemark,
+                    ExpressionType: 9,
+                    ExpressionLogic: 2
+                });
+            }
+            var ordercondtions = [];
+            //ordercondtions.push({
+            //    FiledName: "SearchNum",
+            //    IsDesc: "true"
+            //});
+            viewModel.ordercondtions(ordercondtions);
+            viewModel.condtions(conditions);
+            viewModel.initData();
+        },
+        ClearData: function () {
+            $("#txtAlbumName").val("");
+            $("#txtAlbumRemark").val("");
+        }
+
+    }
+
+
+</script>

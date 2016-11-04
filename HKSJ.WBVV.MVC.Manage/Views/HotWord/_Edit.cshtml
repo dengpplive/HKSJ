@@ -1,0 +1,43 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<style>
+    .modaleditcss {
+    position: relative;
+    max-height: 800px;
+    padding: 15px;
+    overflow-y: initial;
+    background-color: #ffffff;
+    /* background: #ffffff; */
+    }
+</style>
+<div id="iframe" class="modal hide fade" tabindex="-1" data-replace="true" aria-hidden="true" style="display: none; margin-top: 0px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h3>@LanguageUtil.Translate("admin_Views_HotWord_edit_editHotWords")</h3>
+    </div>
+    <div class="modal-body modaleditcss">
+        <form action="#" class="form-horizontal form-bordered" id="form1">
+            <div class="row-fluid margin-bottom-10">
+                <label class="control-label">@LanguageUtil.Translate("admin_Views_HotWord_edit_hotWords") :</label>
+                <div class="controls">
+                    <input type="text" placeholder=@LanguageUtil.Translate("admin_Views_HotWord_edit_hotWords") id="keywordedit" class="m-wrap" />
+                </div>
+            </div>
+            <div class="row-fluid margin-bottom-10">
+                <label class="control-label">@LanguageUtil.Translate("admin_Views_HotWord_edit_searchNum") :</label>
+                <div class="controls">
+                    <input type="text" placeholder=@LanguageUtil.Translate("admin_Views_HotWord_edit_searchNum") id="searchnumedit" class="m-wrap" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn blue" onclick="SaveData();"><i class="icon-ok"></i>@LanguageUtil.Translate("admin_Views_HotWord_edit_save") </button>
+        <button type="button" data-dismiss="modal" class="btn">@LanguageUtil.Translate("admin_Views_HotWord_edit_cancel") </button>
+    </div>
+</div>
+<input type="hidden" value="0" id="vid" />
+
+

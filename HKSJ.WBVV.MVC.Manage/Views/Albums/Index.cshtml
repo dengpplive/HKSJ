@@ -1,0 +1,180 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" rel="stylesheet" type="text/css" />
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+</head>
+<body class="page-header-fixed" style="background-color: #FFF !important;">
+    <!--begin 导航-->
+    <div class="no-bottom-space">
+        <ul class="breadcrumb">
+            <li>
+                <span><strong>@LanguageUtil.Translate("admin_views_albums_index_albumMagener")</strong></span>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="@Url.Content("~/Albums")">@LanguageUtil.Translate("admin_views_albums_index_recommendAlbumMagener")</a></li>
+        </ul>
+    </div>
+    <!--end 导航-->
+
+    <div class="responsive" data-tablet="fix-offset" id="content">
+        <div class="container-fluid">
+            <div class="row-fluid text-right margin-bottom-10">
+                <a class="btn blue" href="@Url.Content("~/Albums/SelectAlbums")"><i class="icon-plus"></i>@LanguageUtil.Translate("admin_views_albums_index_add")</a>
+                <a class="btn blue" href="javascript:page.savaSort();"><i class="icon-save"></i>@LanguageUtil.Translate("admin_views_albums_index_saveSort")</a>
+                <a class="btn red" href="javascript:page.removeAblums();"><i class="icon-trash"></i>@LanguageUtil.Translate("admin_views_albums_index_delete")</a>
+            </div>
+            <div class="portlet box light-grey">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-table">@LanguageUtil.Translate("admin_views_albums_index_list")</i>
+                    </div>
+                </div>
+                <div class="portlet-body">
+
+                    @Html.Partial("_List")
+                    @*@Html.Partial("_Page")*@
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="@Url.Content("~/Content/bootstrap/js/excanvas.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/respond.min.js")" type="text/javascript"></script>
+    <![endif]-->
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.uniform.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.blockui.min.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/knockout-2.2.0.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function () {
+        page.inti();
+
+        var url = api + "UserSpecial/GetRecommendAlbumsViews?pageIndex=1&pageSize=3&v=" + Math.random();
+        $.getJSON(url, function (data) {
+            vmalbums.doListData(data.SpecialVideoList)
+        });
+    });
+
+
+    var vm_albums = function () {
+        var self = this;
+        //专辑集合
+        self.SpecialVideoList = ko.observableArray();
+        //加载数据
+        self.doListData = function (data) {
+            self.SpecialVideoList(data);
+        }
+        //删除推荐专辑
+        self.doDelete = function (albumId) {
+            var url = rootPath + "/Albums/RemoveRecommendAlbums";
+            var data = { albumIds: albumId };
+            $.post(url, data, function (data) {
+                if (data.Success == true)
+                    location.reload();
+                else
+                    alert(Translate("admin_Views_Albums_index_error").Format(data.ExceptionMessage));
+            });
+        }
+    }
+
+    var vmalbums = new vm_albums();
+    //绑定ko的数据
+    ko.applyBindings(vmalbums, document.getElementById('divAlbumsList'));
+
+    //全选
+    var page = {
+        inti: function () {
+            $('#cbxAll').click(function () {
+                page.checkedAll();
+            });
+        },
+        checkedAll: function () {
+            $("input[name='cbxList']").each(function () {
+                if ($("#cbxAll").attr("checked") == "checked")
+                    $(this).attr("checked", "checked");
+                else
+                    $(this).removeAttr("checked");
+            });
+        },
+        removeAblums: function () {
+            var checkedId = "";
+            $("input[name='cbxList']").each(function () {
+                if ($(this).attr("checked") == "checked")
+                    checkedId += $(this).val() + ",";
+
+            });
+            checkedId = checkedId.substr(0, checkedId.length - 1);
+            if (checkedId == "") {
+                alert(Translate("admin_views_albums_index_pleaseSelectDeleteTheAlbum"));
+                return;
+            }
+            var url = rootPath + "/Albums/RemoveRecommendAlbums";
+            var data = { albumIds: checkedId };
+            $.post(url, data, function (data) {
+                if (data.Success == true)
+                    location.reload();
+                else
+                    alert(Translate("admin_Views_Albums_index_error").Format(data.ExceptionMessage));
+            });
+        },
+        savaSort: function () {
+            var albumIds = "";
+            var sortNums = "";
+            $("input[name='cbxList']").each(function () {
+                albumIds += $(this).val() + ",";
+
+            });
+            $("input[name='txtSortNum']").each(function () {
+                sortNums += $(this).val() + ",";
+            });
+
+            albumIds = albumIds.substr(0, albumIds.length - 1);
+            sortNums = sortNums.substr(0, sortNums.length - 1);
+            if (albumIds == "" || sortNums == "") {
+                alert(Translate("admin_views_albums_index_parametersReadError"));
+                return;
+            }
+            
+            var url = rootPath + "/Albums/SavaRecommendAlbumsSort";
+            var data = { albumIds: albumIds, sortNums: sortNums };
+            $.post(url, data, function (data) {
+                if (data.Success == true)
+                    location.reload();
+                else
+                    alert(Translate("admin_Views_Albums_index_error").Format(data.ExceptionMessage));
+            });
+        }
+
+
+
+    }
+</script>

@@ -1,0 +1,15 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+
+<!--搜索索引-->
+<div class="search_c_sou" id="divQuantity">
+    <div class="search_c_01" data-bind="visible:quantity()>0">
+        <span onclick="javascript: doOrderList('2');"><input id="btnHot" type="checkbox" name="rem">@LanguageUtil.Translate("web_Views_Search_SearchIndex_hot")</span>
+        <span onclick="javascript: doOrderList('1');"><input id="btnTime" type="checkbox" name="time">@LanguageUtil.Translate("web_Views_Search_SearchIndex_updateTime")</span>
+    </div>
+    <div class="search_c_02">@LanguageUtil.Translate("web_Views_Search_SearchIndex_search")<span data-bind="text:searchText"></span>@LanguageUtil.Translate("web_Views_Search_SearchIndex_turnUp")<span data-bind="text:quantity"></span>@LanguageUtil.Translate("web_Views_Search_SearchIndex_videos")</div>
+    <div class="clear"></div>
+</div>
+

@@ -1,0 +1,340 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Manage.Common
+@using HKSJ.WBVV.Common.Extender.LinqExtender
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/tags/infotag.css" rel="stylesheet" />
+    <script src="~/Content/My97DatePicker/WdatePicker.js"></script>
+    <script src="~/Content/videoplayer/flash/swfobject.js"></script>
+    <script src="~/Content/videoplayer/javascript/common.js"></script>
+    <script src="~/Content/videoplayer/javascript/video.js"></script>
+    <script src="~/Content/videoplayer/javascript/videoPlayerInit.js"></script>
+    <script src="~/Content/tags/infotag.js"></script>
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+    <style>
+        #divTab ul li {
+            list-style-type: none;
+            float: left;
+            margin-right: 10px;
+            margin-top: 10px;
+            color: #5E5E5E;
+            padding: 5px 10px 5px 10px;
+            cursor: pointer;
+        }
+
+        #divTab {
+            border: solid 1px #C9C9C9;
+            margin: 0px 20px 5px 20px;
+            height: 50px;
+        }
+
+        .selectedA {
+            color:#E02222;
+        }
+    </style>
+</head>
+<body class="page-header-fixed" style="background-color: #FFF !important;">
+    <!--begin 导航-->
+    <div class="no-bottom-space">
+        <ul class="breadcrumb">
+            <li>
+                <span><strong>管理</strong></span>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a>视频审核管理</a></li>
+        </ul>
+    </div>
+    <!--end 导航-->
+    <!--begin搜索条件-->
+    <div class="form-horizontal">
+        <div id="divTab">
+            <ul>
+                <li><a value="-1">全部</a></li>
+                <li><a class="selectedA" value="2">待审核</a></li>
+                <li><a value="3">已审核</a></li>
+                <li><a value="0">转码中</a></li>
+                <li><a value="1">转码失败</a></li>
+                <li style="margin-top:5px;">
+                    <input type="text" value="" id="beginTime" name="beginTime" onclick="WdatePicker({ maxDate: '@DateTime.Now.ToString("yyyy-MM-dd") ' });" placeholder="请选择日期" class="inp-t ml30" style="width: 118px"><i class="mlr20">&nbsp;-</i>
+                    <input type="text" value="" id="endTime" name="endTime" onclick="WdatePicker({ maxDate: '@DateTime.Now.ToString("yyyy-MM-dd") ' });" placeholder="请选择日期" class="inp-t" style="width: 118px">
+                </li>
+                <li style="margin-top:5px;"><input type="text" placeholder="标题/昵称/ID" class="m-wrap medium" id="titlesearch"><button type="button" class="btn blue" onclick="SearchData()">搜索</button>&nbsp;<button type="button" class="btn green" onclick="dataClear()">清除</button></li>
+            </ul>
+        </div>
+    </div>
+    <!--end搜索条件-->
+    <div class="responsive" data-tablet="fix-offset" id="content">
+        <div class="container-fluid">
+
+            <div class="portlet box grey">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-table">列表</i>
+                    </div>
+                </div>
+                <div class="portlet-body">
+
+                    @Html.Partial("_List")
+                    @Html.Partial("_Page")
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<input type="hidden" id="videoPath" />
+<script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="@Url.Content("~/Content/bootstrap/js/excanvas.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/respond.min.js")" type="text/javascript"></script>
+    <![endif]-->
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.uniform.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/jquery.blockui.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/knockout-2.2.0.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/pageCommon.js")" type="text/javascript"></script>
+
+<script src="@Url.Content("~/Scripts/jBox/jquery.jBox-2.3.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jBox/i18n/jquery.jBox-zh-CN.js")"></script>
+<link href="@Url.Content("~/Scripts/jBox/Skins/Green/jbox.css")" rel="stylesheet" />
+
+<script type="text/javascript">
+    viewModel.userId = "@WebContext.Manage.Id";
+    viewModel.listUrl = api + "Video/GetVideosPageResult";
+    viewModel.editUrl = api + "Video/GetAVideoById";
+
+
+     //viewModel.init();
+</script>
+
+<script>
+    $(function () {
+        $("#divTab ul li a").bind("click", function () {
+            $("#divTab ul li a").removeAttr("class");
+            $(this).attr("class", "selectedA");
+            SearchData();
+        });
+        loadCategory();
+        SearchData();
+    });
+
+    //搜索
+    function SearchData() {
+        var title = $.trim($("#titlesearch").val());
+        var updateManageId = $("#updateManageId").val();
+        var beginTime = $("#beginTime").val();
+        var endTime = $("#endTime").val();
+        var categoryId = $("#category").val();
+        var videoState = $(".selectedA").attr("value");
+        var videoSource = $("#videoSource").val();
+        var conditions = [];
+
+        if (beginTime!="" && endTime!="" && beginTime > endTime) {
+            alert("结束日期不能大于开始日期！");
+            return;
+        }
+
+        conditions.push(condition("Title", "", 2, 2));//过虑标题为空的视频 (在前端用户上传完视频后会产生一条记录，由于没有保存所以导致该视频数据不完整)
+
+        if (updateManageId != "" && updateManageId > 0) {
+            conditions.push(condition("CreateManageId", updateManageId, 1, 2));
+        }
+        if (beginTime != "") {
+            conditions.push(condition("CreateTime", beginTime, 4, 2));
+        }
+        if (endTime != "") {
+            conditions.push(condition("CreateTime", endTime + " 23:59:59", 6, 2));
+        }
+        if (categoryId > 0) {
+            conditions.push(condition("CategoryId", categoryId, 1, 2));
+        }
+        if (videoState > -1) {
+            if (videoState == 3) {
+                conditions.push(condition("VideoState", videoState, 4, 2));
+                conditions.push(condition("VideoState", 4, 6, 2));
+            } else {
+                conditions.push(condition("VideoState", videoState, 1, 2));
+            }
+        }
+        if (videoSource > -1) {
+            conditions.push(condition("VideoSource", videoSource == 0 ? "false" : "true", 1, 2));
+        }
+        if (title != "") {
+            conditions.push(condition("Title", title, 9, 2));
+            conditions.push(condition("Account", title, 9, 1));
+            conditions.push(condition("CreateManageName", title, 9, 1));
+        }
+        var ordercondtions = [];
+        ordercondtions.push({ FiledName: "CreateTime", IsDesc: "false" });
+        viewModel.ordercondtions(ordercondtions);
+        viewModel.condtions(conditions);
+        viewModel.pageindex(1);
+        viewModel.pagesize(20);
+        viewModel.initData();
+    }
+
+    //清楚搜索
+    function dataClear() {
+        $("#divTab ul li a").removeAttr("class");
+        $("#divTab ul li:eq(1)").find("a").attr("class", "selectedA");
+        $("#beginTime").val("");
+        $("#endTime").val("");
+        $("#titlesearch").val("");
+        SearchData();
+    }
+
+    var categoryObj = [];
+    //加载分类集合
+    function loadCategory() {
+        var url = api + "Category/GetOneCategoryViewList?v=" + Math.random();
+        $.ajax({
+            type: "get", url: url, data: {}, async: false, dataType: "json", success: function (data) {
+                categoryObj = data;
+            }, error: function (err) { }
+        });
+    }
+
+    //获取一级分类名称
+    function getCategoryName(parentId) {
+        if (parentId <= 0) {
+            return "";
+        }
+        var o = getDataObj(categoryObj, { key: "id", value: parentId });
+        if (o != undefined) {
+            return o[0].name + " > ";
+        }
+        return "";
+    }
+
+    //筛选对象
+    function getDataObj(o, p) {
+        var obj = [];
+        $(o).each(function (i, oo) {
+            if (p.key == "id" && p.value == oo.id) {
+                obj.push(oo);
+            }
+        });
+        return obj;
+    }
+
+    //获取搜索条件对象
+    function condition(filedName, filedValue, expressionType, expressionLogic) {
+        return { FiledName: filedName, FiledValue: filedValue, ExpressionType: expressionType, ExpressionLogic: expressionLogic };
+    }
+
+    //操作方案提示
+    function getStateStr(state) {
+        var str = "";
+        if (state == 0) {//转码中
+            str = "重新转码";
+        }
+        else if (state == 1) {//审核失败
+            str = "重新转码";
+        }
+        else if (state == 2) {//审核中
+            str = "审核";
+        }
+        else if (state == 3 || state == 4) {//审核通过/审核不通过
+            str = "重新审核";
+        }
+        return str;
+    }
+
+
+    //选择日期
+    function selectDate(obj) {
+        var j = (parseInt(obj) * 2) - 2;
+        var i = (parseInt(obj) * 2) - 1;
+        if (obj == 0) {
+            $("#beginTime").val("");
+            $("#endTime").val("");
+            return;
+        } else {
+            var datastr = $("#datastr").val();
+
+            if (typeof (datastr) != "undefined") {
+                var array = datastr.split(',');
+            }
+            $("#beginTime").val(array[j]);
+            $("#endTime").val(array[i]);
+        }
+    }
+
+    //打开审核
+    function ApproveOpens(vid, videoState, approveContent) {
+        var stateStr = getStateStr(videoState);
+        if (stateStr == "重新转码") {
+            reCodeing(vid);
+        }
+        else {
+            window.open('@ServerHelper.RootPath' + '/AuditVideo/Approve?vid=' + vid + '&videoState=' + videoState + '&approveContent=' + approveContent, "审核视频", 'height=700,width=880,top=100,left=500, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+            //openDialog(vid, videoState, approveContent);
+        }
+    }
+    
+    //打开子窗体
+    function openDialog(vid, videoState, approveContent) {
+         var url = '@ServerHelper.RootPath' + '/AuditVideo/Approve?vid=' + vid + '&videoState=' + videoState + '&approveContent=' + approveContent;
+        $.jBox("iframe:"+url, {
+            title: "审核视频",
+            top:50,
+            width: 900,
+            height: 745,
+            //buttons:{"确定":true},
+            submit: function (v, h, f) {
+            }
+        });
+        $("#jbox-iframe").css({height:"98%"});
+    }
+
+    //重新转码
+    function reCodeing(vid) {
+        var url = api + "QiniuUpload/VideoTranscode";
+        $.ajax({
+            type: "post", url: url, data: { vid: vid }, async: false, dataType: "json", success: function (data) {
+            }, error: function (err) { }
+        });
+        SearchData();
+    }
+
+    //---------------------------------------------begin 调用播放器--------------------------------//
+    //页面数据初始化完毕会加载该函数
+    function playVedio(videoDetailData) {
+        var videoInfo = function () {
+            self = this;
+            self.id = "divFlashPlayer";
+            self.videoPathInfo = "0" + "," + "0" + "," + "" + "," + videoDetailData.VideoPath;
+            //self.advertPathInfo = "http://7xliow.com2.z0.glb.qiniucdn.com/1441172688325_600x480.mp4" + "," + "10" + "," + "http://1.178pb.com" + "#";
+            self.advertPathInfo = "" + "," + "10" + "," + "http://1.178pb.com" + "#";
+            self.fWidth = 900;
+            self.fHeight = 510;
+        };
+        doInit(new videoInfo());
+    }
+    //---------------------------------------------end 调用播放器--------------------------------//
+
+</script>

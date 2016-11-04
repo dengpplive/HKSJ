@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+@using HKSJ.WBVV.Common.Http
+<div class="wrap">
+    <div class="class" id="areaCaterogy" style="display:@(ViewBag.Visible?"block":"none")">
+        @foreach (var item in Model)
+        {
+            <div class="class_pub">
+                <div class="c_p_center_sj"><img src="@ServerHelper.RootPath/Content/images/icon_img/5bvv-move_03.png" alt="sanjiao" /></div>
+                <div class="class_pub_left" style="@(item.Key.Length > 3 ? "line-height:30px":"")">
+                    <a href="javascript:void(0);">@(item.Key)</a>
+                </div>
+                <div class="class_pub_right">
+                    <ul>
+                        @foreach (var item1 in item.DictionaryItems)
+                        {
+                            <li><a href="@ServerHelper.RootPath/Filter/Index?curId=@(ViewBag.curr)&filter=g@(item1.GroupType)@(item1.DictionaryId)c@(item1.Id)r">@(item1.Name)</a></li>
+                        }
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        }
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>

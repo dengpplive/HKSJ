@@ -1,0 +1,23 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+@*分页*@
+<!--ko if:totalindex()>1-->
+<div class="row-fluid">
+    <div class="span5">
+        <div class="dataTables_info" id="sample_1_info">@LanguageUtil.Translate("admin_Views_Shared_Page_NowPage")<span style="color: red" data-bind="text:pageindex"></span>@LanguageUtil.Translate("admin_Views_Shared_Page_PageshowCount")<span style="color: red" data-bind="text:pagesize"></span>@LanguageUtil.Translate("admin_Views_Shared_Page_PageshowCount2")@LanguageUtil.Translate("admin_Views_Shared_Page_Total")<span style="color: red" data-bind="text:totalcount"></span>@LanguageUtil.Translate("admin_Views_Shared_Page_Totaltiao")</div>
+    </div>
+    <div class="span7">
+        <div class="pagination no-margin text-right">
+            <ul>
+                <li data-bind="css:{disabled:pageindex()<=1}"><a data-bind="click:pre" style="cursor:pointer">← <span class="hidden-480">@LanguageUtil.Translate("admin_Views_Shared_Page_PreviousPage")</span></a></li>
+                <!--ko foreach:page()-->
+                <li data-bind="css:{active:active}"><a data-bind="text:text,click:goPage" style="cursor:pointer"></a></li>
+                <!--/ko-->
+                <li data-bind="css:{disabled:pageindex()>=totalindex()}"><a data-bind="click:next" style="cursor:pointer"><span class="hidden-480">@LanguageUtil.Translate("admin_Views_Shared_Page_NextPage")</span> → </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--/ko-->

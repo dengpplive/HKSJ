@@ -1,0 +1,73 @@
+﻿@using HKSJ.WBVV.Common.Language
+@{
+    Layout = null;
+}
+<div class="page-sidebar nav-collapse collapse" id="menu"></div>
+<script type="text/javascript">
+    $(function () {
+        $("#menu").html(GetMenu());
+        App.init();
+    });
+    function GetMenu() {
+        var data = [
+          { Id: 1, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_Home")', Pid: 0, Url: "@Url.Content("~/Home/Main")" },
+          { Id: 2, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_Manage")', Pid: 0, Url: "" },
+           { Id: 21, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_UserManage")', Pid: 2, Url: "@Url.Content("~/User/Index")" },
+           { Id: 22, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_CategoryManage")', Pid: 2, Url: "@Url.Content("~/Manage/ClassifyManage")" },
+           { Id: 22, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_CategoryTagsManage")', Pid: 2, Url: "@Url.Content("~/Tags/Index")" },
+           { Id: 23, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_PropertyDataManage")', Pid: 2, Url: "@Url.Content("~/Manage/PropertyDataManagement")" },
+           @*{ Id: 24, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_BBEventManage")', Pid: 2, Url: "@Url.Content("~/BBEvent")" },*@
+           { Id: 25, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_PlateManage")', Pid: 2, Url: "@Url.Content("~/Plate/PlateManage")" },
+           { Id: 26, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_PlateVideoManage")', Pid: 2, Url: "@Url.Content("~/PlateVideo/PlateVideoManage")" },
+           { Id: 27, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_BannerManage")', Pid: 2, Url: "@Url.Content("~/Banner/BannerVideoManage")" },
+           { Id: 28, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_VideoManage")', Pid: 2, Url: "@Url.Content("~/Video/Index")" },
+           { Id: 31, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_auditVideoManage")', Pid: 2, Url: "@Url.Content("~/AuditVideo/Index")" },
+           { Id: 29, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_HotWordManage")', Pid: 2, Url: "@Url.Content("~/HotWord/Index")" },
+    { Id: 30, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_SystemMessageManage")', Pid: 2, Url: "@Url.Content("~/SystemMessage/Index")" },
+    { Id: 3, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_AlbumManage")', Pid: 0, Url: "" },
+    { Id: 21, Name: '@LanguageUtil.Translate("admin_Views_Shared_Left_Nav_RecAlbumManage")', Pid: 3, Url: "@Url.Content("~/Albums")" }
+        ];
+        var ul = "<ul class='page-sidebar-menu'>";
+        ul += "<li>";
+        ul += "<div class='sidebar-toggler hidden-phone'></div>";
+        ul += "</li>";
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].Pid == 0) {
+                if (data[i].Id == 1) {
+                    ul += "<li class='start active'>";
+                    ul += "<a href='javascript:;' url='" + data[i].Url + "'>";
+                    ul += "<i class='icon-home'></i><span class='title'>" + data[i].Name + "</span><span class='selected'></span>";
+                    ul += "</a>";
+                    ul += GetMenuChild(data, data[i].Id);
+                    ul += "</li>";
+                } else {
+                    ul += "<li>";
+                    ul += "<a href='javascript:;'>";
+                    ul += "<i class='icon-home'></i><span class='title'>" + data[i].Name + "</span><span class='selected'></span><span class='arrow'></span>";
+                    ul += "</a>";
+                    ul += GetMenuChild(data, data[i].Id);
+                    ul += "</li>";
+                }
+            }
+        }
+        ul += "</ul>";
+        return ul;
+    }
+    function GetMenuChild(data, pid) {
+        var ul = "";
+        if (pid != 1) {
+            ul = "<ul class='sub-menu'>";
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].Pid == pid) {
+                    ul += "<li>";
+                    ul += "<a href='javascript:' url='" + data[i].Url + "'>" + data[i].Name + "</a>";
+                    ul += GetMenuChild(data, data[i].Id);
+                    ul += "</li>";
+                }
+            }
+            ul += "</ul>";
+        }
+        return ul;
+    }
+
+</script>

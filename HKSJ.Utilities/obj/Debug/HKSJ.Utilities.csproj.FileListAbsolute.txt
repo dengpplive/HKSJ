@@ -1,0 +1,14 @@
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\HKSJ.Utilities.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\HKSJ.Utilities.pdb
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\AutoMapper.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\ICSharpCode.SharpZipLib.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\log4net.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\Newtonsoft.Json.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\System.Net.Http.Formatting.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\AutoMapper.xml
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\log4net.xml
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\Newtonsoft.Json.xml
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\bin\Debug\System.Net.Http.Formatting.xml
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\obj\Debug\HKSJ.Utilities.dll
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\obj\Debug\HKSJ.Utilities.pdb
+E:\project\2015-12-19\web\trunk\HKSJ.Utilities\obj\Debug\HKSJ.Utilities.csprojResolveAssemblyReference.cache

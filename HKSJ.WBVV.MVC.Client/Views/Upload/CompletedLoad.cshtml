@@ -1,0 +1,36 @@
+﻿@using System.Configuration
+@using System.Security.AccessControl
+@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Common
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.Common.Config
+@{
+    ViewBag.Title = (!string.IsNullOrEmpty(GlobalMemberInfo.NickName) ? GlobalMemberInfo.NickName + "-" + LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_PageTitle") : LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_UploadCompleted"));
+}
+<div class="l_l_border">
+    <div class="load3_l_loading">@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_UploadSuccessCoding")</div>
+    <p class="load3_l_p">@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_youLookaccess")
+    <a href="@ServerHelper.RootPath/UserCenter/UserVideo">@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_myVideo")
+</a>@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_videoAuditInfo")</p>
+    <div class="load3_l_btn" id="btnUpload"><a href="javascript:void(0);">@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_ContinueUpload")</a></div>
+    <div class="l_l_text clearfloat">
+        <div class="l_l_text_left">
+            <p><h4>@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_VideoFormat")</h4></p>
+            <p>@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_Protocol1")</p>
+            <p>@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_Protocol2")</p>
+        </div>
+        <span class="l_l_text_cen"></span>
+        <div class="l_l_text_right">
+            <p><h4>@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_VideoConTitle")</h4></p>
+            <p>@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_ConProtocol1")</p>
+            <p>@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_ConProtocol2")<a href="@ServerHelper.RootPath/Content/agreement/@WebConfig.ActiveLanguage/videoagreement.html" target="_blank">@LanguageUtil.Translate("web_Client_Views_Upload_CompletedLoad_VideoConProtocol")</a></p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#btnUpload").click(function () {
+            $("#btnload").click();
+        });
+
+    </script>

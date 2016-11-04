@@ -1,0 +1,52 @@
+﻿@using HKSJ.WBVV.Common.Http
+@*@using Beyondsoft.MVC.Common*@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-metro.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/style-responsive.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap/css/default.css")" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="@Url.Content("~/Content/bootstrap/css/uniform.default.css")" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/select2_metro.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap/css/DT_bootstrap.css")" />
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery-1.10.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery-migrate-1.2.1.min.js")" type="text/javascript"></script>
+    <!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery-ui-1.10.1.custom.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/bootstrap.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery.blockui.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@string.Format("{0}/api/GlobalJsConstant", ServerHelper.RootPath)" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+        <script src="@Url.Content("~/Content/bootstrap/js/excanvas.min.js")" type="text/javascript"></script>
+        <script src="@Url.Content("~/Content/bootstrap/js/respond.min.js")" type="text/javascript"></script>
+    <![endif]-->
+    <script src="@Url.Content("~/Content/bootstrap/js/app.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/mainFrame.js")" type="text/javascript"></script>
+</head>
+<body class="page-header-fixed">
+    @Html.Partial("_Header")
+    <div class="page-container">
+        @Html.Partial("_Left")
+        <div class=" page-content">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>
+@Html.Partial("_ChangePwd")

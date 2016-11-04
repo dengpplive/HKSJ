@@ -1,0 +1,72 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.MVC.Common
+@using HKSJ.WBVV.Common.Language
+@Html.Action("_Header", "Home")
+<div id="csslink"></div>
+<script type="text/javascript">
+    //皮肤数据
+    skinData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.skins));
+    function v(){
+        return;
+    }
+</script>
+<!-- 微视频搜索 开始  -->
+<div class="person_box wrap" loadMask="header">
+    <div></div>
+    <div id="page_options" class="wrap_bg clearfix">
+        <div class="wrap_Per_hf" id="corediv" title="@LanguageUtil.Translate("web_Views_Shared_UserHeader_page_options_corediv_title")"></div>
+        <div id="Sright" class="page_pifu">
+            <p><a class="P_pifu_nav" href="javascript:void(0)" id="savebtn">@LanguageUtil.Translate("web_Views_Shared_UserHeader_page_options_savebtn")</a>@LanguageUtil.Translate("web_Views_Shared_UserHeader_page_options_savebtn_p")</p>
+            <div class="page_pifu_tup clearfix" id="ulink">
+            </div>
+        </div>
+    </div>
+    <div class="wrap_con_box" id="roomHeader" data-bind="foreach:$root.userRoomInfo">
+        <!--ko if:$index()==0-->
+        <div class="shadow_box">
+            <img data-bind="attr:{src:Picture}" width="160" height="155">
+        </div>
+        <div class="content_box">
+            <div class="wrap_c_b_name">
+                <h5><!--ko text:NickName--><!--/ko--></h5>
+                <div class="wrap_c_b_n_img"><img src="@ServerHelper.RootPath/Content/images/icon_img/vip_01.png" width="32" height="26"></div>
+                <!--ko if:!$root.isMyRoom()-->
+                <div class="wrap_c_b_n_ann" data-bind="visible:!$root.IsSubed()"><a href="javascript:void(0)" data-bind="click:function(){$root.SubscribeUser()}">@LanguageUtil.Translate("web_Views_Shared_UserHeader_roomHeader_SubscribeUser")</a></div>
+                <div class="wrap_c_b_n_an" data-bind="visible:$root.IsSubed()" onmouseover="document.getElementById('Ann_qux').style.display='block';" onmouseout="document.getElementById('Ann_qux').style.display='none';">
+                    <div class="wrap_c_b_n_ann2">
+                        <a href="javascript:void(0)">@LanguageUtil.Translate("web_Views_Shared_UserHeader_roomHeader_alreadySubscribed")</a>
+                    </div>
+                    <div id="Ann_qux" class="wrap_c_b_n_ann3">
+                        <a href="javascript:void(0)" data-bind="click:function(){$root.SubscribeUser()}">@LanguageUtil.Translate("web_Views_Shared_UserHeader_roomHeader_unsubscribe")</a>
+                    </div>
+                </div>
+                <!--/ko-->
+                <div class="clear"></div>
+            </div>
+            <div class="wrap_c_b_text">
+                <ul>
+                    <li>@LanguageUtil.Translate("web_Views_Shared_UserHeader_roomHeader_wrap_c_b_text_playNumber")<!--ko text:PlayCount--><!--/ko--></li>
+                    <li>@LanguageUtil.Translate("web_Views_Shared_UserHeader_roomHeader_wrap_c_b_text_Fans")<!--ko text:FansCount--><!--/ko--></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div>
+                <div class="wrap_c_b_i_wz" id="e_Bardian" data-bind="visible:!$root.isEditIng(),text:$root.showBardian"></div>
+                <input id="bd" type="text" style="width:250px;" maxlength="30" data-bind="visible:$root.isEditIng(),value:$root.Bardian,valueUpdate:'afterkeydown'" />
+                <a data-bind="visible:$root.isEditManage(),click:function(){$root.getBardian($data);}">
+                    <img id="editimg" src="@ServerHelper.RootPath/Content/images/icon_img/Per_sx.png" width="25" height="25">
+                </a><br />
+                <span data-bind="text: $root.showMsg" style="color:red;"></span>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="wrap_box_ann" data-bind="visible:$root.loginUserId()>0">
+            <a class="wrap_b_a_ann_01" data-bind="visible:$root.isMyRoom()&&!$root.isEditManage(),attr:{href:$root.getHref(1)}">@LanguageUtil.Translate("web_Views_Shared_UserHeader_roomHeader_wrap_box_ann_Settings")</a>
+            <a data-bind="visible:(!$root.isMyRoom()&&!$root.isEditManage())||($root.isMyRoom()&&$root.isEditManage()),attr:{href:$root.getHref(0)}">@LanguageUtil.Translate("web_Views_Shared_UserHeader_roomHeader_wrap_box_ann_Browse")</a>
+        </div>
+        <div class="clear"></div>
+        <!--/ko-->
+    </div>
+</div>
+<!-- 微视频搜索 开始  -->

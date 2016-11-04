@@ -1,0 +1,121 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@section Metas
+{
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Language" content="zh-CN" />
+}
+
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/person_com.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/5bvv_person_fans.css" />
+}
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/roomFans.js" type="text/javascript"></script>
+}
+<div id="dialog_1"></div>
+<!-- 原创视频集 开始  -->
+<div class="Person_fans wrap" id="fans">
+    <div class="Per_fans_biaoti" id="menuTab">
+        <ul>
+            <li><a href="javascript:void(0)" itemid="1" class="Per_fans_nav">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFans")</a></li>
+            <li><a href="javascript:void(0)" itemid="2">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MySubscribe")</a></li>
+        </ul>
+        <div class="clear"></div>
+    </div>   
+   
+    <div class="Per_fans_bt_content Per_fans_bt_content1" id="con_news_1" style="display:block;min-height:100px;">
+        <div loading="main1" style="min-height:30px;"></div>
+        <div>
+            <!--ko foreach:list-->
+            <div class="Per_fans_bt_con_fs">
+                <div class="Per_fans_bt_con_fs_tx"><a data-bind="attr:{href:$root.more(UserView.Id)}"><img userimg="1" data-bind="attr:{src:$root.handUserPicture(UserView.Picture)}"></a></div>
+                <div class="Per_fans_bt_con_fs_text">
+                    <h6><a data-bind="text:UserView.NickName,attr:{href:$root.more(UserView.Id)}"></a></h6>
+                    <div>
+                        <span class="Per_fans_bt_con_wz">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansVideoCount") <!--ko text:VideoCount--><!--/ko--></span>
+                        <span class="Per_fans_bt_con_bx"></span>
+                        <span class="Per_fans_bt_con_wz">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansDynamicCount") <!--ko text:DynamicCount--><!--/ko--> </span>
+                        <span class="Per_fans_bt_con_bx"></span>
+                        <span class="Per_fans_bt_con_wz">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansFansCount")  <!--ko text:FansCount--><!--/ko--> </span>
+                        <span class="Per_fans_bt_con_bx"></span>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="Per_fans_bt_con_fs_ding">
+                    <div data-bind="event:{mouseover:function(){if(State())$('#Ann_quxiao'+UserView.Id).show();},mouseout:function(){if(State())$('#Ann_quxiao'+UserView.Id).hide();}}">
+                        <a class="fans_add_ding" href="javascript:void(0)" data-bind="visible:!State(),click:function(){if(!State())$root.subUser(0,$data);}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansStateText")</a>
+                        <a class="fans_add_ding_zt" href="javascript:void(0)" data-bind="visible:State()">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansStateTextSubscribed")</a>
+                        <a class="Per_fans_bt_con_fs_qxding" href="javascript:void(0)" data-bind="visible:State(),attr:{id:'Ann_quxiao'+UserView.Id},click:function(){ if(State())$root.confirmSub(0,$data);}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansStateTextCancelSubscribe")</a>
+                    </div>
+                    <a class="fans_sixin" href="javascript:void(0)" data-bind="visible:!$root.isCurrUser(UserView.Id),click:function(){ $root.gotoMessage(UserView.Id)}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansToMessage")</a>
+                </div>
+                <div></div>
+
+                <div class="clear"></div>
+            </div>
+            <!--/ko-->
+            <div class="clear"></div>
+        </div>
+        <!--分页-->
+        <div class="v_fun_wz02" id="pager" data-bind="visible:($root.isShowPagerToolbar()>0&&$root.list().length>0)">
+        </div>
+    </div>
+   
+    <div class="Per_fans_bt_content" style="display:none;min-height:100px;" id="con_news_2">
+        <div loading="main2" style="min-height:30px;"></div>
+        <div class="Per_fans_bt_content2" data-bind="foreach:list" >
+            <div class="Per_fans_bt_c_com clearfloat">
+                <div class="Per_fans_bt_con_fsding">
+                    <div class="Per_fans_bt_con_fs_tx">
+                        <a data-bind="attr:{href:$root.more(UserView.Id)}">
+                            <img userimg="1" data-bind="attr:{src:$root.handUserPicture(UserView.Picture)}">
+                        </a>
+                    </div>
+
+                    <div class="Per_fans_bt_con_fsding_text">
+                        <h6><a data-bind="text:UserView.NickName,attr:{href:$root.more(UserView.Id)}"> </a></h6>
+                        <a class="fans_add_ding" href="javascript:void(0)" data-bind="visible:!State(),click:function(){$root.subUser(0,$data);}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansStateText")</a>
+                        <div class="Per_fans_bt_con_fs_ding" data-bind="visible:State(),event:{mouseover:function(){$('#cancel'+UserView.Id).show();},mouseout:function(){$('#cancel'+UserView.Id).hide();}}">
+                            <a class="fans_add_ding_zt" href="javascript:void(0)">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansStateTextSubscribed")</a>
+                            <a class="Per_fans_bt_con_ding_qxding" href="javascript:void(0)" data-bind="visible:!State(),attr:{id:'cancel'+UserView.Id},click:function(){$root.confirmSub(0,$data,1);}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MyFansStateTextCancelSubscribe")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="Per_fans_bt_con_right">
+                    <!--ko if:(Videos!=null&&Videos.length>0)-->
+                    <ul data-bind="foreach:Videos">
+                        <!--ko if: $index() < 4 -->
+                        <li data-bind="attr:{title:Title}">
+                            <a data-bind="attr:{href:$root.goPlayer(Id)}" target="_blank">
+                                <div class="play_img" wth="176" hht="132"><i></i><img data-bind="attr:{src:SmallPicturePath}"></div>
+                            </a>
+                            <div class="per_f_v_text">
+                                <p>
+                                    <a data-bind="text:Title,title:Title,attr:{href:$root.goPlayer(Id)}" target="_blank"></a>
+                                </p>
+                                <p>@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MySubscribePublishVideoTime")<!--ko text:ShowTimeSpan--><!--/ko--></p>
+                                <p>@LanguageUtil.Translate("web_Client_Views_UserRoom_Fans_MySubscribePublishVideoPlayCount")<!--ko text:FormatPlayCount--><!--/ko--></p>
+                            </div>
+                        </li>
+                        <!--/ko-->
+                    </ul>
+                    <!--/ko-->
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <!--分页-->
+        <div class="v_fun_wz02" id="pager1" data-bind="visible:($root.isShowPagerToolbar()>0&&$root.list().length>0)">
+        </div>
+    </div>
+</div>
+<!-- 原创视频集 结束  -->

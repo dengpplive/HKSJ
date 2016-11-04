@@ -1,0 +1,306 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@using HKSJ.WBVV.MVC.Common
+@using HKSJ.WBVV.Common.Language
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/tags/infotag.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/header.css" />
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/left.css" />
+<link href="@ServerHelper.RootPath/Content/css/person_com.css" rel="stylesheet" />
+<link href="@ServerHelper.RootPath/Content/css/5bvv_person_Account.css" rel="stylesheet" />
+<link rel="stylesheet" href="@ServerHelper.RootPath/Content/css/reveal.css">
+<link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/cropper.css" />
+<script type="text/javascript" src="@ServerHelper.RootPath/Content/js/jquery.reveal.js"></script>
+<script src="@ServerHelper.RootPath/Scripts/plupload.full.min.js"></script>
+<script src="@ServerHelper.RootPath/Scripts/qiniu.min.js"></script>
+<script src="@ServerHelper.RootPath/Scripts/Cropper/cropper.js"></script>
+<script type="text/javascript">
+    document.title ='@GlobalMemberInfo.NickName' + "-"+Translate("web_Client_Views_UserCenter_UserVideoEdit_Title")+" " + companyTitle;
+    var userId = "@GlobalMemberInfo.UserId";
+    var menuId = 2;
+    var vId=@ViewBag.vId;
+    var page=@ViewBag.page;
+    var mysearchKey='@ViewBag.searchKey';
+</script>
+
+<div class="person_Account_box wrap">
+    <div style="margin-right:10px;" align="left" height="740px" width="250px">
+        @Html.Partial("_UserMenu")
+    </div>
+    <div class="person_Account_right">
+
+        <div class="per_Acc_r_title"><a class="per_vip_add_video" href="@Url.Action("Index", "Upload")" target="_blank">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_UploadVideoTitle")</a>
+        <span>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoTitle")</span><div class="clear"></div></div>
+
+        <div class="per_Acc_r_nr">
+
+            <div class="per_Acc_r_nr_video_add">
+                <input type="hidden" name="SmallPicturePath" />
+                <input type="hidden" name="BigPicturePath" />
+                <div class="per_feng_fmian"><a href="javascript:void(0);" class="big-link"  onclick="openWin(this)"><img id="coverImg" src="@ServerHelper.RootPath/Content/images/icon_img/5bvv_img_mo.png"><div class="per_feng_fmian_tishi">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditCover")</div></a></div>
+
+                <div class="per_Acc_r_nr_video_a_bt clearfloat">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditCoverVideoStatus")<strong id="videoState"></strong></div>
+
+                <div class="per_Acc_r_nr_video_a_nr per_Acc_r_nr_video_a_nr2 clearfloat">
+                    <div class="per_n_v_a_nr_center clearfloat">
+                        <div class="per_r_n_v_a_nr_left2"><span class="p_a_a_n_l_liaer">*</span>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_VideoTitle")</div>
+                        <div class="per_r_n_v_a_nr_right2">
+                            <input class="per_r_n_v_a_nr_l_titile" name="" type="text" id="title" placeholder="@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_Placeholder_PleaseEnterTheTitle")" data-style="error">
+                        </div>
+
+                    </div>
+                    <div class="per_n_v_a_nr_center per_n_v_a_nr_center2 clearfloat">
+                        <div class="per_r_n_v_a_nr_left3"><span class="p_a_a_n_l_liaer">*</span>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoType")</div>
+                        <div class="per_r_n_v_a_nr_right3 per_r_n_v_a_nr_rann">
+                            <select class="per_r_n_v_a_nr_l_sort" style="float: left" id="category" data-style="error">
+                                <option value="-1">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoSelectCategory")</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="per_Acc_r_nr_video_a_nr clearfloat">
+                    <div class="per_r_n_v_a_nr_left">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoAbout")</div>
+                    <div class="per_r_n_v_a_nr_right nr_bri">
+                        <textarea class="per_r_n_v_a_nr_l_brief" placeholder="@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_Placeholder_PleaseEnterTheAbout")" id="about" maxlength="150"></textarea>
+                        <div class="nr_bri_tishi" id="aboutnum">0/150</div>
+                    </div>
+                </div>
+
+                <div class="per_Acc_r_nr_video_a_nr clearfloat">
+                    <div class="per_r_n_v_a_nr_left"><span class="p_a_a_n_l_liaer">*</span>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoTags")</div>
+                    <div class="per_r_n_v_a_nr_right">
+                        <div id="info-box"></div>
+                        <div id="divLabelMassage" style="color:red;display:none;"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="per_Acc_r_nr_video_a_nr clearfloat">
+                    <div class="per_r_n_v_a_nr_left"><span class="p_a_a_n_l_liaer">*</span>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoCopyRight")</div>
+                    <div class="per_r_n_v_a_nr_right per_r_n_nr_lab clearfloat">
+                        <span class="lab_input_xz"><input name="copyright" type="radio" value="1" checked></span>
+                        <span class="lab_input_wz">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoOriginal")</span>
+                        <span class="lab_input_xz"><input name="copyright" type="radio" value="2"></span>
+                        <span class="lab_input_wz">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoReprint")</span>
+                    </div>
+                </div>
+
+                <div class="per_Acc_r_nr_video_a_nr clearfloat">
+                    <div class="per_r_n_v_a_nr_left"><span class="p_a_a_n_l_liaer">*</span>@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoPrivacy")</div>
+                    <div class="per_r_n_v_a_nr_right per_r_n_nr_lab clearfloat">
+                        <span class="lab_input_xz"><input class="" name="isPublic" type="radio" value="1" checked></span><span class="lab_input_wz">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideoAllCanSee")</span>                        
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="per_ann clearfloat">
+                <a href="javascript:close();">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideo_CancelLink")</a>
+                <a class="sure" href="javascript:SaveData();">@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_EditVideo_ConfirmLink")</a>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="clear"></div>
+</div>
+@Html.Partial("_CoverCropper")
+
+<script src="@ServerHelper.RootPath/Content/tags/infotag.js" type="text/javascript"></script>
+<script type="text/javascript">
+    
+    
+    prtImg.initData(function (res) {
+        
+        var bigKey = res.bigKey;
+        var smallKey = res.smallKey;
+        $('[name="SmallPicturePath"]').val(res.smallKey);
+        $('[name="BigPicturePath"]').val(res.bigKey);
+        var imgPath = HeaderBase.GetImgUrlPath(res.smallKey); 
+        $(".ss:first").click();
+        setTimeout(function () {
+            $("#coverImg").attr("src",imgPath);
+        }, 1500);
+
+    }, 'cover', 400);
+    
+    function openWin(obj) {
+        var imgSrc = $("#coverImg").attr("src");
+        prtImg.OpenPrtWindow(obj,imgSrc);
+    }
+
+    var adviceData = [
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_Life")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_BrotherlyLove")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_Love")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_Classic")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_Youth")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_Dubbed")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_Reminiscence")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_Originality")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_Comedy")" },
+         { "content": "@LanguageUtil.Translate("web_Client_Views_UserCenter_UserVideoEdit_JsTags_School")" }
+    ];
+
+    //判断标题输入不能超过25个字
+    $('#title').on('keydown keyup keypress paste change', function () {
+        changeText($(this), 50);
+    });
+    
+    var oldData;
+    var SaveTags;
+    $(function() {
+        loadData();
+        $('#category').change(function(){
+           var value= $('#category').val();
+           if(value!=-1){
+               SaveTags=new Infotag({
+                   id:"info-box",
+                   adviceData:"",
+                   oldData:oldData,
+                   minChar:2,
+                   maxChar:6,
+                   AllTag:10,
+                   isHasTitle:false,
+                   url:api + "Tags/GetTagsOfWebByCategoryId?id="+ value
+               });
+           }
+           else{
+               $('.info-recom-tag').hide();
+           }
+        });
+    });
+    
+    //编辑
+    function loadData() {
+        $.getJSON(api + "Category/GetOneCategoryViewList", function(data) {
+            $("#category").html("");
+            $("#category").append('<option value="-1">'+Translate("web_Client_Views_UserCenter_UserVideoEdit_JsSelectCategory")+'</option>');
+            for (var i = 0; i < data.length; i++) {
+                addSelectOption($("#category"), data[i]);
+            }
+            $.getJSON(api + "Video/GetVideoById?id=" + vId + "&v=" + Math.random(), function(data) {
+                if (data.Success) {
+                    if (data.Data != null) {
+                        $("#title").val(data.Data.Title);
+                        //changeText($.trim($("#title").val()), 50, $(".titleTip"));
+                        $("#about").val(data.Data.About);
+                        var spChar = $("#about").val().length;
+                        spChar = spChar < 0 ? 0 : spChar;
+                        $('#aboutnum').text(spChar +'/150');
+                        var GetParentInfoUrl = api + "Category/GetParentId";
+                        var sdata = { cid: data.Data.CategoryId };
+                        $.ajax({
+                            type: "get",
+                            url: GetParentInfoUrl,
+                            data: sdata,
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+                                $("#category").val(data.Data);
+                            },
+                        });
+                        oldData = data.Data.Tags;
+                        SaveTags = new Infotag({
+                            id:"info-box",
+                            adviceData:"",
+                            oldData:oldData,
+                            minChar:2,
+                            maxChar:6,
+                            AllTag:10,
+                            isHasTitle:false,
+                            url:api + "Tags/GetTagsOfWebByCategoryId?id="+$("#category").val()
+                        });
+                        if( $("#category").val()=='-1'){ $('.info-recom-tag').hide();}
+                    
+                        $('input[name="copyright"][value="' + data.Data.Copyright + '"]').attr("checked", true);
+                        //var ispublic = data.Data.IsPublic == true ? 1 : 0;
+                        //$('input[name="isPublic"][value="' +ispublic+ '"]').attr("checked", true);
+                        $("#videoState").text(data.Data.VideoStateStr);
+                        $("#coverImg").attr("src",data.Data.SmallPicturePath);
+                    }
+                }
+            });
+        });
+    }
+
+    function addSelectOption($selector, obj) {
+          $selector.append("<option value = \'" + obj.id + "\' >" + obj.name + "</option>");
+    }
+    
+    function SaveData() {
+        checkinput();
+        var categoryId = $("#category").val();
+        var title = $("#title").val().trim();
+        if (title == "" || title == undefined) {
+            //globalPromptBox.showGeneralMassage(1, "标题不能为空", 2000, false);
+            return;
+        }
+        var titlelen = title.len();
+        if (titlelen < 4 || titlelen > 50) {
+            $("#title").addClass('error_style');
+            return;
+        } else {
+            $("#title").removeClass('error_style');
+        }
+        var about = $("#about").val();
+        if (about.length > 150) {
+            globalPromptBox.showGeneralMassage(1, Translate("web_Client_Views_UserCenter_UserVideoEdit_JsAboutLenLimit"), 2000, false);
+            return;
+        }
+        var tags = SaveTags.returnString();
+        if (tags == "" || tags == undefined) {
+            //globalPromptBox.showGeneralMassage(1, "标签不能为空", 2000, false);
+            return;
+        }
+        if (categoryId== -1) {
+            // globalPromptBox.showGeneralMassage(1, "请选择视频分类", 2000, false);
+            return;
+        }
+        var smallKey = $('[name="SmallPicturePath"]').val();
+        var bigKey = $('[name="BigPicturePath"]').val();
+        // startSave = true;
+        var dataPara = {
+            Id: vId,
+            Title: title,
+            About: about,
+            Copyright: $('input[name="copyright"]:checked').val(),
+            IsPublic: parseInt($('input[name="isPublic"]:checked').val()),
+            CategoryId: categoryId,
+            Tags: tags,
+            SmallPicturePath:smallKey,
+            BigPicturePath:bigKey
+        };
+        var url = api + 'Video/UpdateAVideo';
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {
+                dataModel: JSON.stringify(dataPara)
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.Success) {
+                    globalPromptBox.showGeneralMassage(0, Translate("web_Client_Views_UserCenter_UserVideoEdit_JsSaveSuccess"), 1000, false);
+                    window.location.href = '@ServerHelper.RootPath' + "/UserCenter/UserVideo?page="+page+"&mysearchKey="+mysearchKey+"&v=" + Math.random();
+                }
+            },
+            error: function(data) {
+
+            }
+        });
+    }
+
+    function close() {
+        window.location.href = '@ServerHelper.RootPath' + "/UserCenter/UserVideo?page="+page+"&mysearchKey="+mysearchKey+"&v=" + Math.random();
+    }
+
+    $("#about").on('keydown keyup keypress paste change', function () {
+        var spChar = $(this).val().length;
+        spChar = spChar < 0 ? 0 : spChar;
+        $('#aboutnum').text(spChar +'/150');
+    });
+</script>

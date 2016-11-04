@@ -1,0 +1,165 @@
+﻿@using HKSJ.WBVV.Common.Http
+@using HKSJ.WBVV.Common.Language
+@using HKSJ.WBVV.MVC.Client.GlobalVariable
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@section Metas
+{
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Language" content="zh-CN" />
+}
+@section Styles
+{
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/person_com.css" />
+    <link type="text/css" rel="stylesheet" href="@ServerHelper.RootPath/Content/css/5bvv_person.css" />
+}
+@section Scripts
+{
+    <script src="@ServerHelper.RootPath/Content/js/playerease.js" type="text/javascript"></script>
+    <script src="@ServerHelper.RootPath/Content/js/roomIndex.js" type="text/javascript"></script>
+}
+<!-- 原创视频集 开始  -->
+<div class="Person_home wrap" id="main_index">
+    <div class="Person_home_left">
+        <div class="Person_home_l_video1 Person_home_l_video">
+            <div class="Person_home_l_title">
+                <h7>@LanguageUtil.Translate("web_Client_Views_UserRoom_Index_HotVideo")</h7>
+                <span class="Person_home_l_i_text" id="vdCount">（<!--ko text:OwnerData.HotVideos().length--><!--/ko-->）</span>
+                <div class="Person_home_l_t_ann2"><a data-bind="attr:{href:$root.goVideo()}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Index_MoreVideo")</a></div>
+                <div class="clear"></div>
+            </div>
+            <div loading="vedio" style="min-height:30px;">
+                <div class="per_acc_chang">
+                    <ul data-bind="foreach:OwnerData.HotVideos">
+                        <li data-bind="attr:{title:Title}">
+                            <div class="Person_home_l_v_img">
+                                <a data-bind="attr:{href:$root.goPlayer($data.Id)}" target="_blank">
+                                    <div class="play_img" wth="176" hht="132">
+                                        <i></i>
+                                        <img data-bind="attr:{src:SmallPicturePath,alt:Title,sid:Id}" width="176" height="132">
+                                    </div>
+                                </a>
+                                <div class="Person_home_l_v_time">@*03:15*@</div>
+                            </div>
+                            <div class="per_f_v_text">
+                                <p><a data-bind="text:Title,attr:{href:$root.goPlayer($data.Id),title:Title}" target="_blank"></a></p>
+                            </div>
+                            <div class="Person_home_l_v_shul">
+                                <span class="Per_h_l_v_s_bfang"><!--ko text:PlayCount--><!--/ko--></span>
+                                <span class="Per_h_l_v_s_xx"><!--ko text:CommentCount--><!--/ko--></span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Person_home_l_video1 Person_home_l_video">
+            <div class="Person_home_l_title">
+                <h7>@LanguageUtil.Translate("web_Client_Views_UserRoom_Index_AlbumRecommend")</h7>
+                <span class="Person_home_l_i_text" id="bmCount">（<!--ko text:OwnerData.AlbumVideosLength--><!--/ko-->）</span>
+                <div class="Person_home_l_t_ann2"><a data-bind="attr:{href:$root.goAlbum()}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Index_MoreAlbum")</a></div>
+                <div class="clear"></div>
+            </div>
+            <div loading="album" style="min-height:30px;" data-bind="foreach:OwnerData.AlbumVideos">
+                <div class="Person_home_l_v_title">
+                    <h5 class="clearfloat">
+                        <a class="Person_home_l_v_t_more" data-bind="attr:{href:$root.goSonAlbum(Category.Id)}">@LanguageUtil.Translate("web_Client_Views_UserRoom_Index_MoreSonAlbum")</a>
+                        <a data-bind="attr:{href:$root.goSonAlbum(Category.Id)},text:$root.showSonAlbumName(Category.Name)"></a>
+                        <span class="Person_home_l_i_text">(<!--ko text:AlbumVideo().length --><!--/ko-->)</span>
+                    </h5>
+                    <div class="per_acc_chang">
+                        <ul data-bind="foreach:AlbumVideo">
+                            <li data-bind="attr:{title:Title}">
+                                <div class="Person_home_l_v_img">
+                                    <a data-bind="attr:{href:$root.goPlayer($data.Id)}" target="_blank">
+                                        <div class="play_img" wth="176" hht="132">
+                                            <i></i>
+                                            <img data-bind="attr:{src:SmallPicturePath,alt:Title,sid:Id}" width="176" height="132">
+                                        </div>
+
+                                    </a>
+                                    <div class="Person_home_l_v_time">@*03:15*@</div>
+                                </div>
+
+                                <div class="per_f_v_text">
+                                    <p><a data-bind="text:Title,attr:{href:$root.goPlayer($data.Id),title:Title}" target="_blank"></a></p>
+                                </div>
+                                <div class="Person_home_l_v_shul">
+                                    <a class="Per_h_l_v_s_bfang"></a><span><!--ko text:PlayCount--><!--/ko--></span>
+                                    <a class="Per_h_l_v_s_xx"></a><span><!--ko text:CommentCount--><!--/ko--></span>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Person_home_right">
+
+        <div class="Person_home_r_img Person_home_r_fs">
+            <div class="Person_home_r_title">
+                <h6 class="Person_home_r_t_biti">@LanguageUtil.Translate("web_Client_Views_UserRoom_Index_FansTitle")</h6>
+                <div class="clear"></div>
+            </div>
+            <div class="per_fks" loading="fensi" style="min-height:30px;">
+                <ul data-bind="foreach:OwnerData.Fans">
+                    <li data-bind="attr:{title:UserView.NickName}">
+                        <a data-bind="attr:{href:$root.getVisitLogUserRoomUrl($data)}"><img userimg="1" data-bind="attr:{src:$root.handUserPicture(UserView.Picture)}" width="52" height="52"></a>
+                        <p><a data-bind="text:UserView.NickName,attr:{href:$root.getVisitLogUserRoomUrl($data)}"></a></p>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="Person_home_r_img Person_home_r_fk">
+            <div class="Person_home_r_title">
+                <h6>@LanguageUtil.Translate("web_Client_Views_UserRoom_Index_HistoryVisitors")</h6>
+            </div>
+            <div class="per_fks" loading="fangke" style="min-height:30px;">
+                <ul data-bind="foreach:OwnerData.HistoryVisitors">
+                    @*  <!--ko if:$root.browserUserId()!=UserView.Id -->*@
+                    <li data-bind="attr:{title:UserView.NickName}">
+                        <a data-bind="attr:{href:$root.getVisitLogUserRoomUrl($data)}"><img userimg="1" data-bind="attr:{src:$root.handUserPicture(UserView.Picture)}" width="52" height="52"></a>
+                        <p><a data-bind="text:UserView.NickName,attr:{href:$root.getVisitLogUserRoomUrl($data)}"></a></p>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="Person_home_r_tj">
+            <div class="Person_home_r_title">
+                <h6>@LanguageUtil.Translate("web_Client_Views_UserRoom_Index_ForYouReCommend")</h6>
+            </div>
+            <div class="Person_home_r_t_nr" loading="foryoutj" style="min-height:30px;">
+                <ul data-bind="foreach:OwnerData.ForYouRecomments">
+                    <!--ko if:!$root.isCurrLogin(UserView.Id)-->
+                    <li data-bind="attr:{title:UserView.NickName}">
+                        <div class="Person_home_r_t_img">
+                            <a data-bind="attr:{href:$root.getVisitLogUserRoomUrl($data)}">
+                                <img userimg="1" data-bind="attr:{src:$root.handUserPicture(UserView.Picture)}" width="52" height="52">
+                            </a>
+                        </div>
+                        <div class="Person_home_r_t_wz">
+                            <p>
+                                <a href="#" data-bind="text:UserView.NickName,attr:{href:$root.getVisitLogUserRoomUrl($data)}"></a>
+                            </p>
+                            <div class="Person_home_r_t_w_nr"><img src="@ServerHelper.RootPath/Content/images/icon_img/vip_01.png" /><span>积分</span></div>
+                        </div>
+                        <div class="Person_home_r_ann"><a href="#" data-bind="click:function(){if(!State()){$root.subUser($data);}}">订阅</a></div>
+                        <div class="clear"></div>
+                    </li>
+                    <!--/ko-->
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<!-- 原创视频集 结束  -->

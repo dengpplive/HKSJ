@@ -1,0 +1,15 @@
+
+/* CSS Document */
+
+/* 返回顶部 */
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+/*main css*/
+
+/*.bottom_tools{position: fixed;z-index:1070; bottom:80px;}*/
+.bottom_tools{z-index:10; position:fixed; left:0; bottom:40px;}
+.bottom_tools>*{display:block;margin-top:5px;color:transparent;border:0;background-color:transparent;text-shadow:none;}
+#scrollUp{width:45px;height:45px;background-image:url(../images/icon_img/go-top.png);background-position:0 -148px;opacity:0;}
+#scrollUp:hover{background-image: url(../images/icon_img/go-top.png);background-position:0 148px}
+#feedback{width:45px;height:45px;background-image: url(../images/icon_img/go-top.png);background-position:0 -100px;}
+#feedback:hover{background-image: url(../images/icon_img/go-top.png);background-position:0 95px}
